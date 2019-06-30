@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="description">
+    <meta name="keywords"  content="Mobile">
+    <meta name="theme-color" content="#000000">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="[Java] Class.forName()에 대해서 - Jongmin's Blog">
+    
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="1. 들어가며
+
+">
+    
+    <meta property="article:published_time" content="2019-06-29T00:00:00Z">
+    
+    
+    <meta property="article:author" content="JongMin-Lee">
+    
+    
+    <meta property="article:tag" content="Java">
+    
+    <meta property="article:tag" content="Servlet">
+    
+    <meta property="article:tag" content="Class">
+    
+    
+    <meta property="og:image" content="http://localhost:4000">
+    <meta property="og:url" content="http://localhost:4000/2019/06/29/reflection/">
+    <meta property="og:site_name" content="Jongmin's Blog">
+    
+    <title>[Java] Class.forName()에 대해서 - Jongmin's Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2019/06/29/reflection/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Jongmin's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="/archive/">Archive</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/blog_1.jpeg" width="0" height="0"> -->
+
+<!-- Post Header -->
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/blog_1.jpeg');
+        background: ;
+    }
+
+    
+    header.intro-header .header-mask{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(0,0,0, 0.3);
+    }
+    
+</style>
+
+<header class="intro-header style-text" >
+
+    <div class="header-mask"></div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/archive/?tag=Java" title="Java">Java</a>
+                        
+                        <a class="tag" href="/archive/?tag=Servlet" title="Servlet">Servlet</a>
+                        
+                        <a class="tag" href="/archive/?tag=Class" title="Class">Class</a>
+                        
+                    </div>
+                    <h1>[Java] Class.forName()에 대해서</h1>
+                    
+                    <h2 class="subheading"> About Class.forName() of java Reflection</h2>
+                    <span class="meta">Posted by JongMin-Lee on June 29, 2019</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<h2 id="1-들어가며">1. 들어가며</h2>
+
+<p>Java pattern을 공부하며 source code 중에서 이해가 안됬던 부분이 있었습니다. 바로 아래의 부분입니다.<br /></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="n">command</span> <span class="o">=</span> <span class="o">(</span><span class="n">Command</span><span class="o">)</span><span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">cmdClass</span><span class="o">).</span><span class="na">newInstance</span><span class="o">();</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>Class.forName을 처음 보는 것은 아닙니다. 바로 JDBC에서 봤었습니다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"oracle.jdbc.driver.OracleDriver"</span><span class="o">);</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>이 부분이다!
+사실 기존에 이 코드를 작성할 때는 정해진 관례처럼 사용했었습니다. 그러다가 이번에 공부를하며 다시 등장하여 혼란스럽게 만든 것 입니다. 그렇다면 이 Class.forName이 무엇인지 알아보자!!</p>
+
+<p><br /></p>
+
+<h2 id="2-java-reflection">2. Java Reflection</h2>
+<p>Class.forName()은 사실 자바 리플렉션 API(Java Reflection API)의 일부입니다. 자바 리플렉션 API란 간단히 말해서
+<strong>구체적인 클래스의 타입을 알지 못해도 클래스의 변수 및 메소드 등에 접근하게 해주는 API</strong>입니다.(동적 바인딩)</p>
+
+<p>Reflection은 실행중인 자바프로그램 내부를 검사하고 내부의 속성을 수정할 수 있도록 해줍니다.
+그런데 여기에서 한가지드는 의문점이 있습니다. 구체적인 클래스 타입을 알지 못하는데 어떻게 접근할 수 있을까요?</p>
+
+<p>그 이유는 자바의 클래스파일들은 바이트코드로 컴파일되어 static과 함께 method영역에 저장되어 집니다. 때문에 클래스 이름만 알면 클래스의 정보를 찾을 수 있는 것이다.</p>
+
+<p>자바 리플렉션은 동적 바인딩 이라고도 하는데 Runtime에 타입이 정해진다는 말입니다. 그렇다면 어떻게 사용하는지 코드를 통해 알아봅시다.</p>
+
+<h2 id="3-example">3. Example</h2>
+
+<p>예시에서는 Command pattern에서 사용한 코드의 일부분을 이용하겠습니다!<br />
+(Java pattern글을 안보고 오셨다면 여기로! (<a href="https://jongminlee0.github.io/2019/06/27/command/">Jave EE 패턴</a>)</p>
+
+<p><strong>FrontController.java</strong></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre>    <span class="kd">private</span> <span class="n">Properties</span> <span class="n">cmdMapping</span><span class="o">;</span>
+
+     <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doGet</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">req</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">resp</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span><span class="o">{</span>
+        <span class="n">String</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"cmd"</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">cmdClass</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">cmdMapping</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">cmd</span><span class="o">);</span>
+        <span class="n">Command</span> <span class="n">command</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+        <span class="k">try</span><span class="o">{</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="o">(</span><span class="n">Command</span><span class="o">)</span><span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">cmdClass</span><span class="o">).</span><span class="na">newInstance</span><span class="o">();</span>
+        <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">ClassNotFoundException</span> <span class="o">|</span> <span class="n">IllegalAccessException</span> <span class="o">|</span> <span class="n">InstantiationException</span> <span class="n">ex</span><span class="o">){</span>
+            <span class="n">getServletContext</span><span class="o">().</span><span class="na">log</span><span class="o">(</span><span class="s">"Class not found"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">command</span><span class="o">.</span><span class="na">setReq</span><span class="o">(</span><span class="n">req</span><span class="o">);</span>
+        <span class="n">command</span><span class="o">.</span><span class="na">setRes</span><span class="o">(</span><span class="n">resp</span><span class="o">);</span>
+        <span class="n">command</span><span class="o">.</span><span class="na">setServletContext</span><span class="o">(</span><span class="n">getServletContext</span><span class="o">());</span>
+        <span class="n">command</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+    <span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>여기서 <strong>try</strong>문 내부를 보게 되면 동적바인딩이 사용된 것을 볼 수 있습니다.<br />
+Class.forName(cmdClass)에서 cmd클래스는 mapping에서 어떠한 것을 가져오고 있습니다. cmdMppaing 객체는 Properties파일에 저장된 url경로를 가져오는 역할을 합니다. 그렇다면 왜 사용되었는지 어느정도 짐작이 가실 겁니다. Client로 부터 오는 요청 url은 한개만 존재하는 것이 아니라 여러개가 존재합니다. 우리가 모든 요청에 대해서
+응답할 수 있도록 모든 경우를 코드로 작성한다면 정말 비효율적일 것입니다. 또한 추후에 유지보수에 어려움이 따를 것 입니다.</p>
+
+<p>그러나 동적방인딩을 이용한다면 각각의 url에 대해서 직접 대응하지 않고, runtime시 결정된 클래스에 대응하게 만든다면 효율적이고 유지보수가 쉬운 코드를 작성할 수 있을 것 입니다.</p>
+
+<h2 id="4-글을-마치며">4. 글을 마치며</h2>
+
+<p>사실 Java Reflection에는 Class.forName()말고도 만은 메서드가 존재합니다. 그러나 이번 글에서는 저의 궁금점인 Class.forName()에 대해서만 다루었습니다.
+나중에 기회가 된다면 Java Reflection에 대해 더 자세히 알아보겠습니다. 감사합니다!!</p>
+
+<h2 id="5-reference">5. Reference</h2>
+
+<ul>
+  <li>https://kmongcom.wordpress.com/2014/03/15/자바-리플렉션에-대한-오해와-진실/</li>
+  <li>https://kaspyx.tistory.com/80</li>
+  <li>https://gyrfalcon.tistory.com/entry/Java-Reflection</li>
+</ul>
+
+
+
+                <hr style="visibility: hidden;">
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/06/27/command/" data-toggle="tooltip" data-placement="top" title="[Servlet] Jave EE 패턴">
+                        Previous<br>
+                        <span>[Servlet] Jave EE 패턴</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <hr style="visibility: hidden;">
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+
+<section>
+    
+        <hr class="hidden-sm hidden-xs">
+    
+    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+        
+        
+        </a>
+        
+        
+                <a data-sort="0000" 
+                    href="/archive/?tag=Java"
+                    title="Java"
+                    rel="5">Java</a>
+        
+                <a data-sort="0003" 
+                    href="/archive/?tag=Servlet"
+                    title="Servlet"
+                    rel="2">Servlet</a>
+        
+                <a data-sort="0003" 
+                    href="/archive/?tag=Static"
+                    title="Static"
+                    rel="2">Static
+    </div>
+</section>
+
+
+                <!-- Friends Blog -->
+                
+<hr>
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+  
+  <li><a href="https://dydtjr1128.github.io">dydtjr1128</a></li>
+  
+  <li><a href="https://seongmun-hong.github.io/">SeongMun-Hong</a></li>
+  
+  <li><a href="https://Junghun0.github.io/">JungHun-Park</a></li>
+  
+</ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- add support for mathjax by voleking-->
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jongminlee0-github-io";
+    var disqus_identifier = "/2019/06/29/reflection";
+    var disqus_url = "http://localhost:4000/2019/06/29/reflection/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <!-- SNS Link -->
+                
+
+
+<ul class="list-inline text-center">
+
+
+  
+  
+  
+  
+  
+  
+  <li>
+    <a target="_blank" href="https://github.com/JongMinLee0">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+                <p class="copyright text-muted">
+                    All Contents Copyright &copy; Jongmin's Blog 2019
+                    <br>
+                    Powered by <a href="http://JongMinLee0.github.io">JongMin's Blog</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=JongMinLee0&repo=JongMinLee0.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+
+
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-142180092-1';
+    var _gaDomain = '';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+
+        // interop with multilangual 
+        if ('' == 'true') {
+            _containerSelector = 'div.post-container.active'
+        } else {
+            _containerSelector = 'div.post-container'
+        }
+
+        // init
+        var P = $(_containerSelector),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        // clean
+        $(selector).html('')
+
+        // appending
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
