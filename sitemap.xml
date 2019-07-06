@@ -1,20 +1,77 @@
----
----
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    {% for post in site.posts %}
-    <url>
-        <loc>{{ site.url }}{{ post.url | remove: 'index.html' }}</loc>
-    </url>
-    {% endfor %}
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
-    {% for page in site.pages %}
-    {% if page.layout != nil %}
-    {% if page.layout != 'feed' %}
-    <url>
-        <loc>{{ site.url }}{{ page.url | remove: 'index.html' }}</loc>
-    </url>
-    {% endif %}
-    {% endif %}
-    {% endfor %}
+
+<url>
+  <loc>https://jongminlee0.github.io/</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/about/</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/archive/</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/portfolio/</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/2019/06/29/reflection/</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/2019/06/27/command/</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/2019/06/15/static2/</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/2019/06/15/static1/</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/2019/06/13/jvm/</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/archive/?tag=Java</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/archive/?tag=Servlet</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/archive/?tag=Static</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://jongminlee0.github.io/archive/?tag=Class</loc>
+  <lastmod>2019-07-03T07:17:25+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
 </urlset>
