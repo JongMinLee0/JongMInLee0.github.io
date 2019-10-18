@@ -5,9 +5,197 @@
     <description>description</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 30 Jun 2019 16:08:04 +0900</pubDate>
-    <lastBuildDate>Sun, 30 Jun 2019 16:08:04 +0900</lastBuildDate>
+    <pubDate>Sat, 19 Oct 2019 00:30:02 +0900</pubDate>
+    <lastBuildDate>Sat, 19 Oct 2019 00:30:02 +0900</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>[WEB] HTTP / HTTPS</title>
+        <description>&lt;h1 id=&quot;1-http&quot;&gt;1. HTTP&lt;/h1&gt;
+
+&lt;p&gt;HTTP란 Hyper Text Transfer Protocol의 약자이다. 대부분 알고 있듯이 인터넷에서 데이터를 주고 받을 수 있는 통신 규약이다.
+1989년 Tim Berners Lee에 의해 개발 되었다. HTTP가 개발 전과 개발 후에는 어떤 차이점이 있을까?&lt;/p&gt;
+
+&lt;p&gt;HTTP 개발 전은 HT(Hyper Text)라고 할 수 있다. 말 그대로 Hyper Text이다. 단지 Terminal을 통해 문자만을 주고 받을 수 있었다.
+여기에 TP(Transfer Protocol)이 추가 되었다. HTTP의 대전제는 &lt;code class=&quot;highlighter-rouge&quot;&gt;URL 및 부가정보를 통해 사용자가 원하는 페이지를 서버에 요청한다. 그리고 서버는 해당요청에
+응답한다&lt;/code&gt;이다. 여기서 주의 깊게 바야할 점은 사용자가 요청한 뒤 서버가 요청한다는 것이다. 이점은 뒤에서 보기로 하자.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;1-1-http의-특징&quot;&gt;1-1. HTTP의 특징&lt;/h2&gt;
+&lt;h3 id=&quot;1-비연결성contectionless&quot;&gt;1) 비연결성(Contectionless)&lt;/h3&gt;
+
+&lt;p&gt;HTTP는 Client가 요청을 보내고 Server가 응답을 맞치면 연결을 끊어버린다. 그 이유는 무엇일까? 만약 다수의 Client와 연결을 유지한다면 많은 리소스가 발생할 것이다.
+따라서 연결을 유지하기 위한 리소스를 줄이면 더 많은 연결을 할 수 있으므로 비연결적인 특징을 갖는다.&lt;/p&gt;
+
+&lt;p&gt;물론 이 비연결성이 장점만을 갖는 것이 아니다. 서버는 클라이언트를 기억하고 있지 않으므로 동일한 클라이언트의 모든 요청에 대해, 매번 새로운 연결을 시도/해제의 과정을 거쳐야하므로 연결/해제에 대한 오베헤드가 발생한다는 단점이 있다.&lt;/p&gt;
+
+&lt;p&gt;이에 대한 대책으로는 &lt;strong&gt;KeepAlive&lt;/strong&gt; 속성이 있다. KeepAlive는 지정된 시간동안 서버와 클라이언트 사이에서 패킷 교환이 없을 경우, 상대방의 안부를 묻기 위해 패킷을 주기적으로 보내는 것을 말한다. 이 때 패킷의 반응이 없으면 접속을 끊게 된다. 주기적으로 Client의 상태를 체크한다는 것은 완벽한 해결책이라 할 수 없다. 상태를 유지하기 위한 메모리가 많이 사용될 수 있기 때문이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;2-무상태stateless&quot;&gt;2) 무상태(Stateless)&lt;/h3&gt;
+
+&lt;p&gt;Connectionless로 인해 서버는 Client를 식별할 수가 없는데, 이를 무상태(Stateless)라고 한다.&lt;/p&gt;
+
+&lt;p&gt;이 Connectionless로 인해 Client를 식별할 수 없는 경우 매번 새로운 인증을 해야하는 번거로움이 발생한다. 그말은 즉, 페이지 접속 -&amp;gt; 로그인 -&amp;gt; 상품 주문 -&amp;gt; 로그인… 의 무한 반복이다. 이를 해결하기 위해서 쿠키, 세션, 토큰(OAuth, JWT) 등을 사용한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;3-응답-상태코드&quot;&gt;3) 응답 상태코드&lt;/h3&gt;
+
+&lt;p&gt;Client가 서버에 요청을 보내면 서버는 요청에 대한 처리상태를 숫자로 반환한다.&lt;/p&gt;
+
+&lt;p&gt;먼저 간단히 표현하면 다음과 같다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;100 ~ 109 : 메시지 정보&lt;/li&gt;
+  &lt;li&gt;200 ~ 206 : 요청 성공&lt;/li&gt;
+  &lt;li&gt;300 ~ 305 : Redirection&lt;/li&gt;
+  &lt;li&gt;400 ~ 415 : Client Error&lt;/li&gt;
+  &lt;li&gt;500 ~ 505 : Server Error
+    &lt;blockquote&gt;
+      &lt;p&gt;가장 많이 보는 코드는 다음과 같다. &lt;br /&gt;&lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;200(Ok) : 요청 정상 처리 &lt;br /&gt;&lt;/li&gt;
+        &lt;li&gt;400(Bad Request) : Client의 요청 구문이 잘못됨(브라우저는 200과 동일하게 취급)&lt;br /&gt;&lt;/li&gt;
+        &lt;li&gt;403(Forbidden) : 접근 금지 응답 &lt;br /&gt;&lt;/li&gt;
+        &lt;li&gt;404(Not found) : Client가 요청한 리소스가 서버에 없음 &lt;br /&gt;&lt;/li&gt;
+        &lt;li&gt;500(Internal Server Error) : Server에서 Client요청을 처리 중에 에러가 발생&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;4-http-method&quot;&gt;4) HTTP Method&lt;/h3&gt;
+
+&lt;p&gt;HTTP Method는 Client와 Server사이에 이루어지는 Request와 Response 데이터를 전송하는 방식을 말한다.&lt;/p&gt;
+
+&lt;h4 id=&quot;get&quot;&gt;GET&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;URL에 해당하는 정보의 전송요청&lt;/li&gt;
+  &lt;li&gt;데이터가 URL에 노출&lt;/li&gt;
+  &lt;li&gt;Encoding/Decoding 과정이 없기 때문에 POST보다 빠르다.&lt;/li&gt;
+  &lt;li&gt;URL의 길이 제약으로 많은 데이터 전송은 무리&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;post&quot;&gt;POST&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;FORM에서 POST 지정하는 경우&lt;/li&gt;
+  &lt;li&gt;데이터는 HTTP Bodt에 숨겨서 Server로 전송&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;put&quot;&gt;PUT&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;URI로 지정한 서버에 있는 파일을 대치한다.&lt;/li&gt;
+  &lt;li&gt;URI로 지정한 파일이 없는 경우는 파일을 새로 작성한다.&lt;/li&gt;
+  &lt;li&gt;보안적으로 위험, 비활성화 시킨다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;head&quot;&gt;HEAD&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;GET과 동일하나 HTTP Header 정보만 요청&lt;/li&gt;
+  &lt;li&gt;네트워크 대역을 절약, 리소스의 크기 확인시 사용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;delete&quot;&gt;DELETE&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;URI로 지정한 서버에 있는 파일을 삭제한다.&lt;/li&gt;
+  &lt;li&gt;보안적으로 위험, 비활성화&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;options&quot;&gt;OPTIONS&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;어떤 HTTP Method를 지원하는지 검사&lt;/li&gt;
+  &lt;li&gt;요청한 URL에 어떤 메소드 요청이 가능한지 확인&lt;/li&gt;
+  &lt;li&gt;보안적으로 위험, 해커들에게 중요한 정보를 제공&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;trace&quot;&gt;TRACE&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Server측에서 받은 Requst Line과 Header를 그대로 Client로 반송한다.&lt;/li&gt;
+  &lt;li&gt;Proxy Server등을 쓰는 혼경에서 Request가 바뀌어도 써지는 모양을 살펴볼 떄 사용&lt;/li&gt;
+  &lt;li&gt;Request의 Loopback 테스트용으로 사용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;connect&quot;&gt;CONNECT&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;터널링의 목적으로 연결요청&lt;/li&gt;
+  &lt;li&gt;Forward Proxy에 HTTP TLS(Transport Layer Security) 터널링(Tunneling)을 요청할 떄 사용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;1-2-http의-구조&quot;&gt;1-2. HTTP의 구조&lt;/h2&gt;
+
+&lt;p&gt;HTTP의 구조는 request / response로 나누어서 볼 수 있다.&lt;/p&gt;
+
+&lt;h4 id=&quot;http-request-structure&quot;&gt;HTTP Request Structure&lt;/h4&gt;
+&lt;h5 id=&quot;start-line&quot;&gt;Start Line&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTTP 요청의 시작줄&lt;/li&gt;
+  &lt;li&gt;구성요소 : HTTP Method / Request target / HTTP version&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;header&quot;&gt;Header&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTTP 요청 그 자체에 대한 정보를 담고 있다.
+자주 사용되는 Header&lt;/li&gt;
+  &lt;li&gt;HOST : 요청이 전송되는 target의 호스트 URL 주소&lt;/li&gt;
+  &lt;li&gt;User-Agent : Client의 정보&lt;/li&gt;
+  &lt;li&gt;Accept : 해당 요청이 받을 수 있는 response body data type&lt;/li&gt;
+  &lt;li&gt;Content-Type : Message Body의 Type을 알려주며 Accept Header와 마찬가지고 MIME type 사용&lt;/li&gt;
+  &lt;li&gt;Content-Length : Request가 보내는 Message Body의 총 사이즈&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;body&quot;&gt;Body&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTTP Request가 전송하는 데이터를 담고 있는 부분&lt;/li&gt;
+  &lt;li&gt;전송하는 데이터가 없으면 Body는 비어 있다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;http-response-structure&quot;&gt;HTTP Response Structure&lt;/h4&gt;
+&lt;h5 id=&quot;status-line&quot;&gt;Status Line&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTTP Reponse Message 상태를 간략히 요약해주는 부분&lt;/li&gt;
+  &lt;li&gt;HTTP version, Status Code, Status Text로 나타남&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;header-1&quot;&gt;Header&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTTP Request Header와 동일&lt;/li&gt;
+  &lt;li&gt;단, Response시에는 User-Agent 대신 Server가 사용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;body-1&quot;&gt;Body&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTTP Request Message Body와 동일&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;2-https&quot;&gt;2. HTTPS&lt;/h1&gt;
+&lt;p&gt;위에서는 HTTP에 대해서 알아봤습니다. 그러면 HTTPS는 무엇일까요? HTTP에서 S만 추가된 HTTPS에 대해 보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;HTTPS는 Hyper Text Transfer Protocol Secure의 약자이다. HTTP에서 Secure이 추가된 형태이다. 그렇다면 보안이 강화된 HTTP라는 느낌이 온다. HTTP는 암호화되지 않은 방법으로 데이터를 전송하기 때문에 서버와 클라이언트가 주고 받는 메시지를 감청하는 것이 매우 쉬운데 이를 보안한 것이 HTTPS이다.&lt;/p&gt;
+
+&lt;p&gt;HTTPS는 HTTP 계층 아래의 SSL 서브 계층에서 사용자 페이지 요청 인증과 공개키와 비밀키에 기반한 암호화를 위해 Netscape Communications 에서 개발했다.&lt;/p&gt;
+
+&lt;p&gt;HTTP에 중점을 두려 했기때문에 HTTPS는 여기까지만 보겠다. 다음부터는 HTTP의 비연결성은 해결해주는 WebSocket에 대해 보겠습니다.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 17 Oct 2019 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2019/10/17/http/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/10/17/http/</guid>
+        
+        <category>WEB</category>
+        
+        <category>HTTP</category>
+        
+        
+      </item>
     
       <item>
         <title>[Java] Class.forName()에 대해서</title>
