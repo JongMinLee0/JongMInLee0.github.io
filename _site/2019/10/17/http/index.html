@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="H19-YRRp-wb2YS7vX2kI-D95Wb3Aa0Y7o1yqAoAAkXY" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="description">
+    <meta name="keywords"  content="Mobile">
+    <meta name="theme-color" content="#000000">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="[WEB] HTTP / HTTPS - Jongmin's Blog">
+    
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="1. HTTP
+
+">
+    
+    <meta property="article:published_time" content="2019-10-17T00:00:00Z">
+    
+    
+    <meta property="article:author" content="JongMin-Lee">
+    
+    
+    <meta property="article:tag" content="WEB">
+    
+    <meta property="article:tag" content="HTTP">
+    
+    
+    <meta property="og:image" content="http://localhost:4000">
+    <meta property="og:url" content="http://localhost:4000/2019/10/17/http/">
+    <meta property="og:site_name" content="Jongmin's Blog">
+    
+    <title>[WEB] HTTP / HTTPS - Jongmin's Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2019/10/17/http/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Jongmin's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="/archive/">Archive</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/blog_1.jpeg" width="0" height="0"> -->
+
+<!-- Post Header -->
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/blog_1.jpeg');
+        background: ;
+    }
+
+    
+    header.intro-header .header-mask{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(0,0,0, 0.3);
+    }
+    
+</style>
+
+<header class="intro-header style-text" >
+
+    <div class="header-mask"></div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/archive/?tag=WEB" title="WEB">WEB</a>
+                        
+                        <a class="tag" href="/archive/?tag=HTTP" title="HTTP">HTTP</a>
+                        
+                    </div>
+                    <h1>[WEB] HTTP / HTTPS</h1>
+                    
+                    <h2 class="subheading"> About HTTP and HTTPS</h2>
+                    <span class="meta">Posted by JongMin-Lee on October 17, 2019</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<h1 id="1-http">1. HTTP</h1>
+
+<p>HTTP란 Hyper Text Transfer Protocol의 약자이다. 대부분 알고 있듯이 인터넷에서 데이터를 주고 받을 수 있는 통신 규약이다.
+1989년 Tim Berners Lee에 의해 개발 되었다. HTTP가 개발 전과 개발 후에는 어떤 차이점이 있을까?</p>
+
+<p>HTTP 개발 전은 HT(Hyper Text)라고 할 수 있다. 말 그대로 Hyper Text이다. 단지 Terminal을 통해 문자만을 주고 받을 수 있었다.
+여기에 TP(Transfer Protocol)이 추가 되었다. HTTP의 대전제는 <code class="highlighter-rouge">URL 및 부가정보를 통해 사용자가 원하는 페이지를 서버에 요청한다. 그리고 서버는 해당요청에
+응답한다</code>이다. 여기서 주의 깊게 바야할 점은 사용자가 요청한 뒤 서버가 요청한다는 것이다. 이점은 뒤에서 보기로 하자.</p>
+
+<p><br /></p>
+
+<h2 id="1-1-http의-특징">1-1. HTTP의 특징</h2>
+<h3 id="1-비연결성contectionless">1) 비연결성(Contectionless)</h3>
+
+<p>HTTP는 Client가 요청을 보내고 Server가 응답을 맞치면 연결을 끊어버린다. 그 이유는 무엇일까? 만약 다수의 Client와 연결을 유지한다면 많은 리소스가 발생할 것이다.
+따라서 연결을 유지하기 위한 리소스를 줄이면 더 많은 연결을 할 수 있으므로 비연결적인 특징을 갖는다.</p>
+
+<p>물론 이 비연결성이 장점만을 갖는 것이 아니다. 서버는 클라이언트를 기억하고 있지 않으므로 동일한 클라이언트의 모든 요청에 대해, 매번 새로운 연결을 시도/해제의 과정을 거쳐야하므로 연결/해제에 대한 오베헤드가 발생한다는 단점이 있다.</p>
+
+<p>이에 대한 대책으로는 <strong>KeepAlive</strong> 속성이 있다. KeepAlive는 지정된 시간동안 서버와 클라이언트 사이에서 패킷 교환이 없을 경우, 상대방의 안부를 묻기 위해 패킷을 주기적으로 보내는 것을 말한다. 이 때 패킷의 반응이 없으면 접속을 끊게 된다. 주기적으로 Client의 상태를 체크한다는 것은 완벽한 해결책이라 할 수 없다. 상태를 유지하기 위한 메모리가 많이 사용될 수 있기 때문이다.</p>
+
+<p><br /></p>
+
+<h3 id="2-무상태stateless">2) 무상태(Stateless)</h3>
+
+<p>Connectionless로 인해 서버는 Client를 식별할 수가 없는데, 이를 무상태(Stateless)라고 한다.</p>
+
+<p>이 Connectionless로 인해 Client를 식별할 수 없는 경우 매번 새로운 인증을 해야하는 번거로움이 발생한다. 그말은 즉, 페이지 접속 -&gt; 로그인 -&gt; 상품 주문 -&gt; 로그인… 의 무한 반복이다. 이를 해결하기 위해서 쿠키, 세션, 토큰(OAuth, JWT) 등을 사용한다.</p>
+
+<p><br /></p>
+
+<h3 id="3-응답-상태코드">3) 응답 상태코드</h3>
+
+<p>Client가 서버에 요청을 보내면 서버는 요청에 대한 처리상태를 숫자로 반환한다.</p>
+
+<p>먼저 간단히 표현하면 다음과 같다.</p>
+<ul>
+  <li>100 ~ 109 : 메시지 정보</li>
+  <li>200 ~ 206 : 요청 성공</li>
+  <li>300 ~ 305 : Redirection</li>
+  <li>400 ~ 415 : Client Error</li>
+  <li>500 ~ 505 : Server Error
+    <blockquote>
+      <p>가장 많이 보는 코드는 다음과 같다. <br /></p>
+      <ul>
+        <li>200(Ok) : 요청 정상 처리 <br /></li>
+        <li>400(Bad Request) : Client의 요청 구문이 잘못됨(브라우저는 200과 동일하게 취급)<br /></li>
+        <li>403(Forbidden) : 접근 금지 응답 <br /></li>
+        <li>404(Not found) : Client가 요청한 리소스가 서버에 없음 <br /></li>
+        <li>500(Internal Server Error) : Server에서 Client요청을 처리 중에 에러가 발생</li>
+      </ul>
+    </blockquote>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="4-http-method">4) HTTP Method</h3>
+
+<p>HTTP Method는 Client와 Server사이에 이루어지는 Request와 Response 데이터를 전송하는 방식을 말한다.</p>
+
+<h4 id="get">GET</h4>
+<ul>
+  <li>URL에 해당하는 정보의 전송요청</li>
+  <li>데이터가 URL에 노출</li>
+  <li>Encoding/Decoding 과정이 없기 때문에 POST보다 빠르다.</li>
+  <li>URL의 길이 제약으로 많은 데이터 전송은 무리</li>
+</ul>
+
+<h4 id="post">POST</h4>
+<ul>
+  <li>FORM에서 POST 지정하는 경우</li>
+  <li>데이터는 HTTP Bodt에 숨겨서 Server로 전송</li>
+</ul>
+
+<h4 id="put">PUT</h4>
+<ul>
+  <li>URI로 지정한 서버에 있는 파일을 대치한다.</li>
+  <li>URI로 지정한 파일이 없는 경우는 파일을 새로 작성한다.</li>
+  <li>보안적으로 위험, 비활성화 시킨다.</li>
+</ul>
+
+<h4 id="head">HEAD</h4>
+<ul>
+  <li>GET과 동일하나 HTTP Header 정보만 요청</li>
+  <li>네트워크 대역을 절약, 리소스의 크기 확인시 사용</li>
+</ul>
+
+<h4 id="delete">DELETE</h4>
+<ul>
+  <li>URI로 지정한 서버에 있는 파일을 삭제한다.</li>
+  <li>보안적으로 위험, 비활성화</li>
+</ul>
+
+<h4 id="options">OPTIONS</h4>
+<ul>
+  <li>어떤 HTTP Method를 지원하는지 검사</li>
+  <li>요청한 URL에 어떤 메소드 요청이 가능한지 확인</li>
+  <li>보안적으로 위험, 해커들에게 중요한 정보를 제공</li>
+</ul>
+
+<h4 id="trace">TRACE</h4>
+<ul>
+  <li>Server측에서 받은 Requst Line과 Header를 그대로 Client로 반송한다.</li>
+  <li>Proxy Server등을 쓰는 혼경에서 Request가 바뀌어도 써지는 모양을 살펴볼 떄 사용</li>
+  <li>Request의 Loopback 테스트용으로 사용</li>
+</ul>
+
+<h4 id="connect">CONNECT</h4>
+<ul>
+  <li>터널링의 목적으로 연결요청</li>
+  <li>Forward Proxy에 HTTP TLS(Transport Layer Security) 터널링(Tunneling)을 요청할 떄 사용</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="1-2-http의-구조">1-2. HTTP의 구조</h2>
+
+<p>HTTP의 구조는 request / response로 나누어서 볼 수 있다.</p>
+
+<h4 id="http-request-structure">HTTP Request Structure</h4>
+<h5 id="start-line">Start Line</h5>
+<ul>
+  <li>HTTP 요청의 시작줄</li>
+  <li>구성요소 : HTTP Method / Request target / HTTP version</li>
+</ul>
+
+<h5 id="header">Header</h5>
+<ul>
+  <li>HTTP 요청 그 자체에 대한 정보를 담고 있다.
+자주 사용되는 Header</li>
+  <li>HOST : 요청이 전송되는 target의 호스트 URL 주소</li>
+  <li>User-Agent : Client의 정보</li>
+  <li>Accept : 해당 요청이 받을 수 있는 response body data type</li>
+  <li>Content-Type : Message Body의 Type을 알려주며 Accept Header와 마찬가지고 MIME type 사용</li>
+  <li>Content-Length : Request가 보내는 Message Body의 총 사이즈</li>
+</ul>
+
+<h5 id="body">Body</h5>
+<ul>
+  <li>HTTP Request가 전송하는 데이터를 담고 있는 부분</li>
+  <li>전송하는 데이터가 없으면 Body는 비어 있다.</li>
+</ul>
+
+<p><br /></p>
+
+<h4 id="http-response-structure">HTTP Response Structure</h4>
+<h5 id="status-line">Status Line</h5>
+<ul>
+  <li>HTTP Reponse Message 상태를 간략히 요약해주는 부분</li>
+  <li>HTTP version, Status Code, Status Text로 나타남</li>
+</ul>
+
+<h5 id="header-1">Header</h5>
+<ul>
+  <li>HTTP Request Header와 동일</li>
+  <li>단, Response시에는 User-Agent 대신 Server가 사용</li>
+</ul>
+
+<h5 id="body-1">Body</h5>
+<ul>
+  <li>HTTP Request Message Body와 동일</li>
+</ul>
+
+<p><br /></p>
+
+<h1 id="2-https">2. HTTPS</h1>
+<p>위에서는 HTTP에 대해서 알아봤습니다. 그러면 HTTPS는 무엇일까요? HTTP에서 S만 추가된 HTTPS에 대해 보겠습니다.</p>
+
+<p>HTTPS는 Hyper Text Transfer Protocol Secure의 약자이다. HTTP에서 Secure이 추가된 형태이다. 그렇다면 보안이 강화된 HTTP라는 느낌이 온다. HTTP는 암호화되지 않은 방법으로 데이터를 전송하기 때문에 서버와 클라이언트가 주고 받는 메시지를 감청하는 것이 매우 쉬운데 이를 보안한 것이 HTTPS이다.</p>
+
+<p>HTTPS는 HTTP 계층 아래의 SSL 서브 계층에서 사용자 페이지 요청 인증과 공개키와 비밀키에 기반한 암호화를 위해 Netscape Communications 에서 개발했다.</p>
+
+<p>HTTP에 중점을 두려 했기때문에 HTTPS는 여기까지만 보겠다. 다음부터는 HTTP의 비연결성은 해결해주는 WebSocket에 대해 보겠습니다.</p>
+
+
+                <hr style="visibility: hidden;">
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/06/29/reflection/" data-toggle="tooltip" data-placement="top" title="[Java] Class.forName()에 대해서">
+                        Previous<br>
+                        <span>[Java] Class.forName()에 대해서</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <hr style="visibility: hidden;">
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+
+<section>
+    
+        <hr class="hidden-sm hidden-xs">
+    
+    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+        
+        
+        </a>
+        
+        
+                <a data-sort="0001" 
+                    href="/archive/?tag=Java"
+                    title="Java"
+                    rel="5">Java</a>
+        
+                <a data-sort="0004" 
+                    href="/archive/?tag=Servlet"
+                    title="Servlet"
+                    rel="2">Servlet</a>
+        
+                <a data-sort="0004" 
+                    href="/archive/?tag=Static"
+                    title="Static"
+                    rel="2">Static
+    </div>
+</section>
+
+
+                <!-- Friends Blog -->
+                
+<hr>
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+  
+  <li><a href="https://dydtjr1128.github.io">dydtjr1128</a></li>
+  
+  <li><a href="https://seongmun-hong.github.io/">SeongMun-Hong</a></li>
+  
+  <li><a href="https://Junghun0.github.io/">JungHun-Park</a></li>
+  
+</ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- add support for mathjax by voleking-->
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "jongminlee0-github-io";
+    var disqus_identifier = "/2019/10/17/http";
+    var disqus_url = "http://localhost:4000/2019/10/17/http/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: ''
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <!-- SNS Link -->
+                
+
+
+<ul class="list-inline text-center">
+
+
+  
+  
+  
+  
+  
+  
+  <li>
+    <a target="_blank" href="https://github.com/JongMinLee0">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+                <p class="copyright text-muted">
+                    All Contents Copyright &copy; Jongmin's Blog 2019
+                    <br>
+                    Powered by <a href="http://JongMinLee0.github.io">JongMin's Blog</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=JongMinLee0&repo=JongMinLee0.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+
+
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-142180092-1';
+    var _gaDomain = '';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+
+        // interop with multilangual 
+        if ('' == 'true') {
+            _containerSelector = 'div.post-container.active'
+        } else {
+            _containerSelector = 'div.post-container'
+        }
+
+        // init
+        var P = $(_containerSelector),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        // clean
+        $(selector).html('')
+
+        // appending
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
