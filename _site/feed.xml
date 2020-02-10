@@ -5,12 +5,296 @@
     <description>description</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 10 Feb 2020 00:33:40 +0900</pubDate>
-    <lastBuildDate>Mon, 10 Feb 2020 00:33:40 +0900</lastBuildDate>
+    <pubDate>Mon, 10 Feb 2020 14:53:13 +0900</pubDate>
+    <lastBuildDate>Mon, 10 Feb 2020 14:53:13 +0900</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
-        <title>[Spring] JPA 기본설정 및 객체생성(2) </title>
+        <title>[JAVA] JPA 어노테이션 및 트랜잭션(3)</title>
+        <description>&lt;p&gt;이전 시간에 Member와 Club객체를 생성했습니다. 이 두 객체를 이용해서 JPA에 대해 좀더 알아 보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;실습은 TEST Code로 진행할 수 있지만 &lt;strong&gt;h2-console&lt;/strong&gt;을 활용하기 위해서 main applicaion에서 진행하였습니다.&lt;br /&gt;
+&lt;strong&gt;main Apllication&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nd&quot;&gt;@SpringBootApplication&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DemoApplication&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;SpringApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DemoApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;EntityManagerFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManagerFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Persistence&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createEntityManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jongmin&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;EntityManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createEntityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;EntityTransaction&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;// 트랜잭션 시작&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;member&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jongmin&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setAge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;persist&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 영구저장&lt;/span&gt;
+
+            &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 커밋&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;rollback&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;entityManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;EntityManagerFactory&lt;/strong&gt;를 이용하여 persistence.xml에서 지정한 설정을 가지고 옵니다.
+  이 전에 지정한 persistence.xml설정에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;persistence-unit name=&quot;jongmin&quot;&amp;gt;&lt;/code&gt;에 지정한 name으로 설정을 가지고 옵니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;EntityManager&lt;/strong&gt;를 생성하고 &lt;strong&gt;Transaction&lt;/strong&gt;을 얻습니다.&lt;/li&gt;
+  &lt;li&gt;트랜잭션을 시작하고 Member객체를 만들어 값을 넣은 후 &lt;strong&gt;persist&lt;/strong&gt;를 통해서 값을 넣어줍니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;commit()&lt;/strong&gt;해주어 값을 물리적으로 데이터베이스에 넣어주고 &lt;strong&gt;close&lt;/strong&gt;해줍니다.(에러시 rollback)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;EntityManagerFactory는 애플리케이션 전체에서 하나만 생성하여 공유해야합니다. EntityManagerFactory를 생성할 때마다 DB와의 연결이 발생함으로 성능상에 문제가 발생할 수 있기 때문입니다.&lt;br /&gt;
+(DB와의 연결을 해주는 인터페이스라고 생각합니다.)&lt;br /&gt;
+EntityManager는 EntityManagerFactory의 구현체입니다. EntityManager를 통해서 DB와 데이터를 주고 받을 수 있습니다. 모든 Transaction이 끝나면 close()를 사용해서 자원을 해제합니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;주의사항&quot;&gt;주의사항&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;모든 변화(update, delete, save)는 Transaction안에서 일어나야 합니다.&lt;/li&gt;
+  &lt;li&gt;EntityManagerFactory는 애플리케이션 전체에 하나만 생성하여 공유해야 합니다.&lt;/li&gt;
+  &lt;li&gt;Transaction이 끝나면 close()를 통해서 자원을 해제시켜야 합니다.&lt;/li&gt;
+  &lt;li&gt;EntityManager는 쓰레드간에 공유해서는 안된다.(사용하고 버린다.)
+    &lt;blockquote&gt;
+      &lt;p&gt;참고&lt;br /&gt;
+persist()를 수행했다고 데이터베이스에 값이 완전히 들어가는 것이 아닙니다!!&lt;br /&gt;
+commit()을 해야 물리적으로 데이터페이스에 들어가며 이부분은 뒤에서 다루겠습니다.&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;main 메소드를 수행한 후 결과를 확인해 보겠습니다. 먼저 console창 입니다.
+&lt;strong&gt;console&lt;/strong&gt;
+&lt;img src=&quot;/img/in-post/jpa3/console1.png&quot; /&gt;
+&lt;img src=&quot;/img/in-post/jpa3/console2.png&quot; /&gt;
+다른 특별한 작업을 하지 않았음에도 불구하고 &lt;code class=&quot;highlighter-rouge&quot;&gt;create table&lt;/code&gt;을 통해서 테이블을 생성하는 것을 알 수 있습니다. 이것이 persistence.xml에 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;property name=&quot;hibernate.hbm2ddl.auto&quot; value=&quot;create&quot; /&amp;gt;&lt;/code&gt;를 지정했기 때문입니다.&lt;br /&gt;
+여기서는 캡쳐하지 않았지만 테이블을 생성하기 전에 &lt;code class=&quot;highlighter-rouge&quot;&gt;drop table Member if exists&lt;/code&gt;을 먼저 수행하는 것을 콘솔에서 확인하실 수 있을 것입니다. 그 다음 &lt;strong&gt;persist&lt;/strong&gt;를 통해서 데이터베이스에 값을 넣어주어 &lt;strong&gt;insert&lt;/strong&gt;쿼리가 자동으로 날라가는 것을 볼 수 있습니다.&lt;br /&gt;
+&lt;img src=&quot;/img/in-post/jpa3/h2-member.png&quot; style=&quot;width:600px; height:400px&quot; /&gt;
+h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으로 들어간 것을 볼 수 있습니다. 여기서 ID는 값을 따로 넣어주지 않았지만 &lt;em&gt;1&lt;/em&gt;값이 들어가 있습니다. 저희가 Member객체를 만들때 &lt;code class=&quot;highlighter-rouge&quot;&gt;@GeneratedValue&lt;/code&gt;를 지정했기 때문에 H2데이터베이스에서 자체적으로 만들어 주었기 때문입니다.&lt;/p&gt;
+
+&lt;p&gt;이제 추가적인 어노테이션에대해 알아보겠습니다.&lt;/p&gt;
+&lt;h5 id=&quot;column&quot;&gt;@Column&lt;/h5&gt;
+&lt;p&gt;가장 많이 사용하는 어노테이션입니다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;name : 데이터베이스의 Column이름 지정&lt;/li&gt;
+  &lt;li&gt;insertable, updateble : 읽기 전용여부&lt;/li&gt;
+  &lt;li&gt;nullable : null 허용 여부, DDL 생성시 사용&lt;/li&gt;
+  &lt;li&gt;unique : 유니크 제약조건, DDL 생성시 사용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;enumerated&quot;&gt;@Enumerated&lt;/h5&gt;
+&lt;p&gt;열거형 매핑으로 Enum 타입과 관련하여 매핑해줍니다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EnumType.STRING : String 타입으로 열거형 이름그대로 저장해줍니다.&lt;/li&gt;
+  &lt;li&gt;EnumType.ORDINAL : 순서를 저장해줍니다.(default)&lt;/li&gt;
+  &lt;li&gt;실제로 사용할 때는 EnumType.STRING을 사용해 줍시다.
+    &lt;blockquote&gt;
+      &lt;p&gt;Enum Type이 추가되서 순서가 변경되면 ORDINAL이 무의미 해지기 때문에 STRING을 사용을 권장.&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;lob&quot;&gt;@Lob&lt;/h5&gt;
+&lt;p&gt;컨텐츠의 길이가 길경우 사용합니다.(CLOB, BLOB)&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;CLOB : String, char[], java.sql.CLOB&lt;/li&gt;
+  &lt;li&gt;BLOB : byte[], java.sql.BLOB&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;transient&quot;&gt;@Transient&lt;/h5&gt;
+&lt;p&gt;Transient어노테이션이 추가된 필드는 매핑하지 않습니다. 데이터베이스에서는 사용하지 않지만 Class에 추가하고 싶은 경우 사용합니다.&lt;/p&gt;
+
+&lt;h5 id=&quot;temporal&quot;&gt;@Temporal&lt;/h5&gt;
+&lt;p&gt;시간에 관련된 어노테이션 입니다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Date(java.sql.Date)&lt;/li&gt;
+  &lt;li&gt;Time(java.sql.Time)&lt;/li&gt;
+  &lt;li&gt;TimeStamp(java.sql.TimeStamp)
+    &lt;blockquote&gt;
+      &lt;p&gt;그러나 LocalDateTime이 있으므로 잘 사용하지 않게 되는 어노테이션입니다.&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;embedded&quot;&gt;@Embedded&lt;/h5&gt;
+&lt;p&gt;그 다음 @Embeddable, @Embedded, @AttributeOverrides, @AttributeOverride 등이 있습니다.
+이 4개의 어노테이션은 한번에 살펴보겠습니다.(아래의 예시가 적절하지 않을 수도 있습니다…)&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Getter&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@Setter&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Member&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Id&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@GeneratedValue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strategy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GenerationType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;AUTO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Enumerated&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EnumType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RoleType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;roleType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friendName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friendPhone&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Member 객체가 위와 같이 구성되어 있다고 하겠습니다.(Getter, Setter는 Lombok을 이용해서 처리했습니다.)
+아래의 friend(친구)와 관련된 컬럼이 있다고 할 때 이 컬럼을 따로 관리하고 싶습니다. 테이블에서는 분리하지 않고 객체(클래스)만을 분리해서 사용하고 싶을 때 위의 어노테이션들을 사용할 수 있습니다.&lt;br /&gt;
+먼저 분리시킬 &lt;strong&gt;Friend&lt;/strong&gt;클래스를 생성해줍니다.&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nd&quot;&gt;@Embeddable&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Getter&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@Setter&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Friend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;phoneNumber&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;분리시킨 Friend클래스에 &lt;strong&gt;@Embeddable&lt;/strong&gt;어노테이션을 추가해줍니다. 그 다음 &lt;strong&gt;Member&lt;/strong&gt;클래스를 바꿔 보겠습니다.&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nd&quot;&gt;@Entity&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@Getter&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@Setter&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Member&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Id&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@GeneratedValue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strategy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GenerationType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;AUTO&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Enumerated&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EnumType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RoleType&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;roleType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Embedded&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Friend&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;위와 같이 &lt;strong&gt;@Embedded&lt;/strong&gt; 어노테이션을 사용하여 분리시킨 &lt;strong&gt;Friend&lt;/strong&gt;클래스를 불러올 수 있습니다.&lt;br /&gt;
+이대로 사용할 수 있지만 에러가 발생합니다. 그 이유는 &lt;code class=&quot;highlighter-rouge&quot;&gt;name컬럼이 중복되기 때문입니다.&lt;/code&gt; 기존에는 &lt;strong&gt;friendName&lt;/strong&gt;을 사용했지만 분리시키면서 &lt;strong&gt;name&lt;/strong&gt;으로 변경 시켰습니다. 이 경우 &lt;strong&gt;@AttributeOverrides&lt;/strong&gt;을 사용하여 분리한 클래스의 매핑명을 지정해 줄 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nd&quot;&gt;@Embedded&lt;/span&gt;
+&lt;span class=&quot;nd&quot;&gt;@AttributeOverrides&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@AttributeOverride&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;column&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;friendNsame&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)),&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@AttributeOverride&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;phoneNumber&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;column&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nd&quot;&gt;@Column&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;friendPhsne&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Friend&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friends&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;다음과 같이 지정하므로써 매핑할 컬럼명을 바꿔줄 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;여기까지 &lt;strong&gt;Transaction과 기타 어노테이션&lt;/strong&gt;에 대해 알아봤습니다.&lt;br /&gt;
+다음 시간에는 가장 중요한 &lt;strong&gt;연관관계&lt;/strong&gt;에 대해 알아보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;전체 코드는 &lt;a href=&quot;https://github.com/JongMinLee0/java-persistence-api&quot;&gt;Github&lt;/a&gt;에서 확인해보실수 있습니다.&lt;/p&gt;
+
+&lt;h5 id=&quot;참고&quot;&gt;참고&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;objectdb (https://www.objectdb.com/java/jpa/persistence/overview)&lt;/li&gt;
+  &lt;li&gt;Baeldung (https://www.baeldung.com/hibernate-date-time)&lt;/li&gt;
+  &lt;li&gt;SKplanet Academy (https://www.youtube.com/channel/UCtV98yyffjUORQRGTuLHomw)&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 10 Feb 2020 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2020/02/10/jpa3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/02/10/jpa3/</guid>
+        
+        <category>JPA</category>
+        
+        <category>JAVA</category>
+        
+        <category>Spring Boot</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>[JAVA] JPA 기본설정 및 객체생성(2) </title>
         <description>&lt;h1 id=&quot;1-시작하기환경설정&quot;&gt;1. 시작하기(환경설정)&lt;/h1&gt;
 &lt;p&gt;이번 시간부터 실습을 통해서 JPA에 대해 알아보겠습니다.&lt;br /&gt;
 실습환경은 다음과 같습니다.&lt;/p&gt;
@@ -184,7 +468,7 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 &lt;str
   &lt;/ul&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;설정은 여기에서 맞치고 객체를 만들도록 하겠습니다.&lt;/p&gt;
+&lt;p&gt;설정은 여기에서 마치고 객체를 만들도록 하겠습니다.&lt;/p&gt;
 
 &lt;h1 id=&quot;2-객체-생성entity&quot;&gt;2. 객체 생성(Entity)&lt;/h1&gt;
 &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
@@ -255,8 +539,28 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 &lt;str
   &lt;li&gt;AUTO : DIALECT에 따라 자동 지정된다.(Default)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;참고
-https://howtodoinjava.com/spring-boot2/h2-database-example/&lt;/p&gt;
+&lt;p&gt;보통 &lt;strong&gt;기본키(PK)&lt;/strong&gt;라고 하면 &lt;strong&gt;USER_ID&lt;/strong&gt;나 &lt;strong&gt;PRODUCT_NUMBER&lt;/strong&gt;등 객체와 관련된 컬럼을 생각합니다. 물론 저도 그렇고요..ㅎㅎ 그런데 JPA에서는 이러한 &lt;strong&gt;자동생성 전략&lt;/strong&gt;을 지원해 줍니다. 그 이유는 무엇일까요?&lt;br /&gt;
+바로 &lt;code class=&quot;highlighter-rouge&quot;&gt;기본키는 바뀔 수 있기 때문입니다.&lt;/code&gt; 물론 사용자의 ID나 상품 번호등을 기본키로 기정하는 이유는 거의(대부분) 바뀔 일이 없기 때문입니다. 그러나 혹시라도 그럴 경우를 대비해서 Long을 이용한 숫자의 자동생성을 통해서 방지하는 것입니다.&lt;br /&gt;
+또 자동생성전략에 &lt;code class=&quot;highlighter-rouge&quot;&gt;int가 아닌 Long을 사용하는 이유는 자료형 크기 때문입니다.&lt;/code&gt; int보다는 Long이 크기때문에 보다 널널한? 데이터를 담을 수 있습니다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;권장하는 식별자 전략&lt;/strong&gt;&lt;br /&gt;
+기본키 제약조건 : null 아님, 유일, 변하면 안된다.&lt;br /&gt;
+미래까지 이 조건을 만족하는 자연키는 찾기 어렵다. 대리키(대체키)를 사용하자.&lt;br /&gt;
+예를 들어 주민등록번호도 기본키로 적절하지 않다.&lt;br /&gt;
+권장 : Long + 대체키 + 키 생성전략사용&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;지금까지의 설정과 객체를 가지고 Transaction을 이용하여 객체를 다뤄보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;전체 코드는 &lt;a href=&quot;https://github.com/JongMinLee0/java-persistence-api&quot;&gt;Github&lt;/a&gt;에서 확인해보실수 있습니다.&lt;/p&gt;
+
+&lt;h5 id=&quot;참고&quot;&gt;참고&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;HowtodoInJava (https://howtodoinjava.com/spring-boot2/h2-database-example/)&lt;/li&gt;
+  &lt;li&gt;Baeldung (https://www.baeldung.com/spring-boot-h2-database)&lt;/li&gt;
+  &lt;li&gt;SKplanet Academy (https://www.youtube.com/channel/UCtV98yyffjUORQRGTuLHomw)&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         <pubDate>Sun, 09 Feb 2020 00:00:00 +0900</pubDate>
         <link>http://localhost:4000/2020/02/09/jpa2/</link>
@@ -266,13 +570,13 @@ https://howtodoinjava.com/spring-boot2/h2-database-example/&lt;/p&gt;
         
         <category>JAVA</category>
         
-        <category>Spring</category>
+        <category>Spring Boot</category>
         
         
       </item>
     
       <item>
-        <title>[Spring] JPA(Java Persistence API)란?(1) </title>
+        <title>[JAVA] JPA(Java Persistence API)란?(1) </title>
         <description>&lt;h2 id=&quot;1-ormobject-relational-mapping&quot;&gt;1. ORM(Object-relational-mapping)&lt;/h2&gt;
 
 &lt;p&gt;JPA에 앞서 먼저 ORM에 대해 알아 보겠습니다. ORM은 Object-relational-mapping(객체 관계 매핑)의 약자 입니다. 말그대로 객체를 이용하여 매핑하는 것 입니다…. 사실 어떤 건지는 알겠는데.. ~란?했을때 딱 떨어지게 말을 못하겠습니다.. 제가 부족해서 그런거겠죠?.&lt;/p&gt;
@@ -282,7 +586,7 @@ https://howtodoinjava.com/spring-boot2/h2-database-example/&lt;/p&gt;
 &lt;p&gt;더 자세한 사항은 JPA를 알아보며 보겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;2-jpajava-persistence-api&quot;&gt;2. JPA(Java Persistence API)&lt;/h2&gt;
-&lt;p&gt;JPA가 나온 배경은 기본 &lt;strong&gt;관계형 데이터베이스(RDBMS)&lt;/strong&gt;와 &lt;strong&gt;객체지향형 프로그래밍(OOP)&lt;/strong&gt;의 간격을 좁히기 위해 나온 자바 진영의 ORM 표준 기준 입니다.&lt;/p&gt;
+&lt;p&gt;JPA가 나온 배경은 기본 &lt;strong&gt;관계형 데이터베이스(RDBMS)&lt;/strong&gt; 와 &lt;strong&gt;객체지향형 프로그래밍(OOP)&lt;/strong&gt; 의 간격을 좁히기 위해 나온 자바 진영의 ORM 표준 기준 입니다.&lt;/p&gt;
 &lt;blockquote&gt;
   &lt;p&gt;간격을 예시를 통해 쉽게 말해보자면 프로젝트를 진행하며 Java에서 객체(Object, POJO 등..)에 집중하며 개발하기 보다 각 테이블과 테이블 간의 관계, 즉 DB에 더 집중해 개발을한다는 것을 의미 한다고 생각합니다.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -412,6 +716,17 @@ DB에서는 상속관계를 거의 사용하지 않습니다.&lt;/p&gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;두 클래스의 필드를 모두 가지고 있는 MemberSuperClass를 이용하면 많은 매핑작업을 생략하고 값을 받아 올 수 있습니다. 위와 같은 일이 빈번하기 때문에 객체지향적인 개발과 거리가 멀어진다고 생각합니다.&lt;/p&gt;
+
+&lt;p&gt;물론 이렇게 말하니깐.. RDBMS가 안좋게 느껴질 수 있지만 RDBMS도 정말 중요합니다. RDBMS를 알아야 JPA도 잘 이해할 수 있기 때문입니다.&lt;/p&gt;
+
+&lt;p&gt;앞으로 JPA를 살펴보며 자세한 내용을 다루겠습니다.&lt;/p&gt;
+
+&lt;h5 id=&quot;참고&quot;&gt;참고&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;JavaWorld (https://www.javaworld.com/article/3379043/what-is-jpa-introduction-to-the-java-persistence-api.html)&lt;/li&gt;
+  &lt;li&gt;hibernate (https://hibernate.org/orm/)&lt;/li&gt;
+  &lt;li&gt;SKplanet Academy (https://www.youtube.com/channel/UCtV98yyffjUORQRGTuLHomw)&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         <pubDate>Sun, 09 Feb 2020 00:00:00 +0900</pubDate>
         <link>http://localhost:4000/2020/02/09/jpa1/</link>
@@ -421,7 +736,7 @@ DB에서는 상속관계를 거의 사용하지 않습니다.&lt;/p&gt;
         
         <category>JAVA</category>
         
-        <category>Spring</category>
+        <category>Spring Boot</category>
         
         
       </item>

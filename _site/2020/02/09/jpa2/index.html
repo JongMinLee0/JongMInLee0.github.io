@@ -11,7 +11,7 @@
     <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="[Spring] JPA 기본설정 및 객체생성(2)  - Jongmin's Blog">
+    <meta property="og:title" content="[JAVA] JPA 기본설정 및 객체생성(2)  - Jongmin's Blog">
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="1. 시작하기(환경설정)
@@ -30,14 +30,14 @@
     
     <meta property="article:tag" content="JAVA">
     
-    <meta property="article:tag" content="Spring">
+    <meta property="article:tag" content="Spring Boot">
     
     
     <meta property="og:image" content="http://localhost:4000">
     <meta property="og:url" content="http://localhost:4000/2020/02/09/jpa2/">
     <meta property="og:site_name" content="Jongmin's Blog">
     
-    <title>[Spring] JPA 기본설정 및 객체생성(2)  - Jongmin's Blog</title>
+    <title>[JAVA] JPA 기본설정 및 객체생성(2)  - Jongmin's Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -225,10 +225,10 @@
                         
                         <a class="tag" href="/archive/?tag=JAVA" title="JAVA">JAVA</a>
                         
-                        <a class="tag" href="/archive/?tag=Spring" title="Spring">Spring</a>
+                        <a class="tag" href="/archive/?tag=Spring+Boot" title="Spring Boot">Spring Boot</a>
                         
                     </div>
-                    <h1>[Spring] JPA 기본설정 및 객체생성(2) </h1>
+                    <h1>[JAVA] JPA 기본설정 및 객체생성(2) </h1>
                     
                     <h2 class="subheading"> About JPA annotaion</h2>
                     <span class="meta">Posted by JongMin-Lee on February 9, 2020</span>
@@ -430,7 +430,7 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 <strong
   </ul>
 </blockquote>
 
-<p>설정은 여기에서 맞치고 객체를 만들도록 하겠습니다.</p>
+<p>설정은 여기에서 마치고 객체를 만들도록 하겠습니다.</p>
 
 <h1 id="2-객체-생성entity">2. 객체 생성(Entity)</h1>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -501,20 +501,47 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 <strong
   <li>AUTO : DIALECT에 따라 자동 지정된다.(Default)</li>
 </ul>
 
-<p>참고
-https://howtodoinjava.com/spring-boot2/h2-database-example/</p>
+<p>보통 <strong>기본키(PK)</strong>라고 하면 <strong>USER_ID</strong>나 <strong>PRODUCT_NUMBER</strong>등 객체와 관련된 컬럼을 생각합니다. 물론 저도 그렇고요..ㅎㅎ 그런데 JPA에서는 이러한 <strong>자동생성 전략</strong>을 지원해 줍니다. 그 이유는 무엇일까요?<br />
+바로 <code class="highlighter-rouge">기본키는 바뀔 수 있기 때문입니다.</code> 물론 사용자의 ID나 상품 번호등을 기본키로 기정하는 이유는 거의(대부분) 바뀔 일이 없기 때문입니다. 그러나 혹시라도 그럴 경우를 대비해서 Long을 이용한 숫자의 자동생성을 통해서 방지하는 것입니다.<br />
+또 자동생성전략에 <code class="highlighter-rouge">int가 아닌 Long을 사용하는 이유는 자료형 크기 때문입니다.</code> int보다는 Long이 크기때문에 보다 널널한? 데이터를 담을 수 있습니다.</p>
+
+<blockquote>
+  <p><strong>권장하는 식별자 전략</strong><br />
+기본키 제약조건 : null 아님, 유일, 변하면 안된다.<br />
+미래까지 이 조건을 만족하는 자연키는 찾기 어렵다. 대리키(대체키)를 사용하자.<br />
+예를 들어 주민등록번호도 기본키로 적절하지 않다.<br />
+권장 : Long + 대체키 + 키 생성전략사용</p>
+</blockquote>
+
+<p>지금까지의 설정과 객체를 가지고 Transaction을 이용하여 객체를 다뤄보겠습니다.</p>
+
+<p>전체 코드는 <a href="https://github.com/JongMinLee0/java-persistence-api">Github</a>에서 확인해보실수 있습니다.</p>
+
+<h5 id="참고">참고</h5>
+<ul>
+  <li>HowtodoInJava (https://howtodoinjava.com/spring-boot2/h2-database-example/)</li>
+  <li>Baeldung (https://www.baeldung.com/spring-boot-h2-database)</li>
+  <li>SKplanet Academy (https://www.youtube.com/channel/UCtV98yyffjUORQRGTuLHomw)</li>
+</ul>
 
 
                 <hr style="visibility: hidden;">
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2020/02/09/jpa1/" data-toggle="tooltip" data-placement="top" title="[Spring] JPA(Java Persistence API)란?(1) ">
+                        <a href="/2020/02/09/jpa1/" data-toggle="tooltip" data-placement="top" title="[JAVA] JPA(Java Persistence API)란?(1) ">
                         Previous<br>
-                        <span>[Spring] JPA(Java Persistence API)란?(1) </span>
+                        <span>[JAVA] JPA(Java Persistence API)란?(1) </span>
                         </a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/2020/02/10/jpa3/" data-toggle="tooltip" data-placement="top" title="[JAVA] JPA 어노테이션 및 트랜잭션(3)">
+                        Next<br>
+                        <span>[JAVA] JPA 어노테이션 및 트랜잭션(3)</span>
+                        </a>
+                    </li>
                     
                 </ul>
                 <hr style="visibility: hidden;">
@@ -569,7 +596,7 @@ https://howtodoinjava.com/spring-boot2/h2-database-example/</p>
         </a>
         
         
-                <a data-sort="0003" 
+                <a data-sort="0004" 
                     href="/archive/?tag=Java"
                     title="Java"
                     rel="5">Java</a>
@@ -577,24 +604,24 @@ https://howtodoinjava.com/spring-boot2/h2-database-example/</p>
                 <a data-sort="0006" 
                     href="/archive/?tag=JAVA"
                     title="JAVA"
-                    rel="2">JAVA</a>
+                    rel="3">JAVA</a>
         
                 <a data-sort="0006" 
                     href="/archive/?tag=JPA"
                     title="JPA"
-                    rel="2">JPA</a>
+                    rel="3">JPA</a>
         
                 <a data-sort="0006" 
+                    href="/archive/?tag=Spring+Boot"
+                    title="Spring Boot"
+                    rel="3">Spring Boot</a>
+        
+                <a data-sort="0007" 
                     href="/archive/?tag=Servlet"
                     title="Servlet"
                     rel="2">Servlet</a>
         
-                <a data-sort="0006" 
-                    href="/archive/?tag=Spring"
-                    title="Spring"
-                    rel="2">Spring</a>
-        
-                <a data-sort="0006" 
+                <a data-sort="0007" 
                     href="/archive/?tag=Static"
                     title="Static"
                     rel="2">Static
