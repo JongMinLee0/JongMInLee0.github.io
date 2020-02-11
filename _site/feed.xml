@@ -5,13 +5,263 @@
     <description>description</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 11 Feb 2020 19:19:16 +0900</pubDate>
-    <lastBuildDate>Tue, 11 Feb 2020 19:19:16 +0900</lastBuildDate>
+    <pubDate>Tue, 11 Feb 2020 22:34:54 +0900</pubDate>
+    <lastBuildDate>Tue, 11 Feb 2020 22:34:54 +0900</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
+        <title>[JAVA] JPA 영속성 컨텍스트(5)</title>
+        <description>&lt;h4 id=&quot;관련된-글&quot;&gt;관련된 글&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/09/jpa1&quot;&gt;[JAVA] JPA(Java Persistence API)란?(1)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/09/jpa2&quot;&gt;[JAVA] JPA 기본설정 및 객체생성(2)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/10/jpa3&quot;&gt;[JAVA] JPA 어노테이션 및 트랜잭션(3)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/10/jpa4&quot;&gt;[JAVA] JPA 연관관계(4)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/11/jpa5&quot;&gt;[JAVA] JPA 영속성 컨텍스트(5)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;마지막으로 JPA에서 가장중요하다고도 할 수 있는 &lt;code class=&quot;highlighter-rouge&quot;&gt;Persistence Context(영속성 컨텍스트)&lt;/code&gt;에 대해 알아보겠습니다.&lt;br /&gt;
+JPA를 이해하는데 가장 중요한 용어이며 &lt;code class=&quot;highlighter-rouge&quot;&gt;Entity를 영구 저장하는 환경&lt;/code&gt;이라는 뜻입니다. 이 영속성 컨텍스트는 눈에 보이지 않는 논리적인 개념입니다. &lt;strong&gt;EntityManager&lt;/strong&gt;를 통해서 접근이 가능합니다. 이 영속성 컨텍스트에 대해 알아보기 전에 &lt;strong&gt;Entity&lt;/strong&gt;의 생명주기를 먼저 보겠습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-entity의-생명주기&quot;&gt;1. Entity의 생명주기&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/img/in-post/jpa_orm/entity_rifecycle.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;1-비영속newtransient&quot;&gt;1. 비영속(new/transient)&lt;/h5&gt;
+&lt;p&gt;: 영속성 컨텍스트와 전혀 관계가 없는 상태&lt;/p&gt;
+&lt;h5 id=&quot;2-영속managed&quot;&gt;2. 영속(managed)&lt;/h5&gt;
+&lt;p&gt;: 영속성 컨텍스트에 저장된 상태&lt;/p&gt;
+&lt;h5 id=&quot;3-준영속detached&quot;&gt;3. 준영속(detached)&lt;/h5&gt;
+&lt;p&gt;: 영속성 컨텍스트에 저장되었다가 분리된 형태&lt;/p&gt;
+&lt;h5 id=&quot;4-삭제removed&quot;&gt;4. 삭제(removed)&lt;/h5&gt;
+&lt;p&gt;: 삭제된 상태&lt;/p&gt;
+
+&lt;p&gt;간단한 코드와 함께 알아보겠습니다!&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;SpringApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DemoApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;EntityManagerFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManagerFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Persistence&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createEntityManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jongmin&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;EntityManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createEntityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;EntityTransaction&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 트랜잭션 시작&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Club&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;club&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Club&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;baskball&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;persist&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;club&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;Friend&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Friend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;park&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;01022221111&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;member&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jongmin&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;friend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;club&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;persist&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;flush&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;clear&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findMember&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getMember_id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Club&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findClub&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findMember&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;members&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getMemberList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;member1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;members&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Member Name : &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;member1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;rollback&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;entityManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;이전에 사용했던 코드 입니다. 처음에 &lt;strong&gt;Entity&lt;/strong&gt;를 생성합니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;Club club = new Club(&quot;baskball&quot;);&lt;/code&gt; 이 상태는 비영속(new) 상태입니다. 왜냐하면 아직 영속성 컨텍스트에 의해 관리되고 있지 않기 때문이죠. &lt;code class=&quot;highlighter-rouge&quot;&gt;entityManager.persist(club)&lt;/code&gt;를 통해서 영속성 컨텍스트에 넣어줍니다.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;앞에서 &lt;strong&gt;persist()&lt;/strong&gt;는 물리적으로 데이터베이스에 값을 저장하는 것이 아니라고 한 부분이 이 이유 때문입니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;그림으로 보게 된다면 좀더 이해가 잘 될 것입니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/jpa_orm/db.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;flush()&lt;/strong&gt;와 &lt;strong&gt;commit()&lt;/strong&gt;을 아직 하지 않았기 때문에 데이터베이스에 저장된 상태가 아니라 &lt;strong&gt;Persistence Context&lt;/strong&gt;에 저장된 상태인 것 입니다. flush()에 대해 잠시 살펴보겠습니다.&lt;/p&gt;
+&lt;h5 id=&quot;flush&quot;&gt;flush()&lt;/h5&gt;
+&lt;p&gt;: 영속성 컨테이너의 변경 내용을 데이터베이스에 반영&lt;br /&gt;
+flush()발생은 &lt;code class=&quot;highlighter-rouge&quot;&gt;.flush()&lt;/code&gt;를 통해 직접 호출하거나 &lt;code class=&quot;highlighter-rouge&quot;&gt;commit()&lt;/code&gt;을 하는 경우 또는 JPQL쿼리를 실행하는 경우 flush가 자동 발생됩니다.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;flush() 주의사항&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;영속성 컨텍스트를 비우지 않습니다.&lt;/li&gt;
+    &lt;li&gt;영속성 컨텍스트의 변경내용을 데이터베이스에 동기화 합니다.&lt;/li&gt;
+    &lt;li&gt;트랜잭션이라는 작업단위가 중요합니다.&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;여러 실습을 통해서 눈치 채신분이 있을 수도 있지만 &lt;code class=&quot;highlighter-rouge&quot;&gt;clear()&lt;/code&gt;를 사용했을 때와 사용하지 않았을 때의 차이점이 있습니다. 콘솔을 통해 확인하실 수 있는데 바로 &lt;strong&gt;SELECT QUERY&lt;/strong&gt;입니다. 기존에 &lt;code class=&quot;highlighter-rouge&quot;&gt;clear()&lt;/code&gt;를 하지 않고 조회시에 콘솔창에 &lt;strong&gt;SELECT&lt;/strong&gt;문이 날라가지 않았지만 조회된 것을 보실 수 있습니다. 그 이유는 영속성 컨텍스트 내에 있는 데이터를 먼저 조회한 후 데이터베이스를 조회하기 때문입니다. 따라서 &lt;code class=&quot;highlighter-rouge&quot;&gt;clear()&lt;/code&gt;를 사용하여 영속성 컨텍스트를 비운 후 조회를 진행하면 &lt;strong&gt;SELECT&lt;/strong&gt;쿼리가 날라가는 것을 콘솔을 통해 확인 가능합니다.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;Hibernate: 
+    select
+        club0_.club_id as club_id1_0_0_,
+        club0_.clubName as clubName2_0_0_ 
+    from
+        Club club0_ 
+    where
+        club0_.club_id=?
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;다음 영속성 컨택스트의 특징을 보겠습니다. 바로 &lt;strong&gt;변경 감지(Dirty Checking)&lt;/strong&gt; 입니다.&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;SpringApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DemoApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;EntityManagerFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManagerFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Persistence&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createEntityManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jongmin&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;EntityManager&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createEntityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;EntityTransaction&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 트랜잭션 시작&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Club&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;club&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Club&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;baskball&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;persist&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;club&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;flush&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;clear&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;Club&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;club2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Club&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;club&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClub_id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Club Name1 : &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;club2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClubName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;club2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setClubName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;BASEBALL&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;rollback&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;entityManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;처음 &lt;strong&gt;clubName&lt;/strong&gt;을 &lt;strong&gt;baskball&lt;/strong&gt;로 만들어 &lt;strong&gt;flush()&lt;/strong&gt;해 데이터베이스에 값을 넣어 줬습니다. 그 다음 조회를 실행 한 후 엔터티의 &lt;strong&gt;clubName&lt;/strong&gt;값을 &lt;strong&gt;BASEBALL&lt;/strong&gt;로 바꾸기만 한 후 종료했습니다. 아래는 h2-console의 화면입니다.
+&lt;img src=&quot;/img/in-post/jpa_orm/h2.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;CLUBNAME&lt;/strong&gt;의 값이 &lt;strong&gt;BASEBALL&lt;/strong&gt;인 것을 확인 할 수 있습니다. 저는 다른 행동을 취하지 않았지만 영속성 컨텍스트가 변경을 감지하여 데이터베이스와 동기화 시켜준 것 입니다. 콘솔을 확인하면 더욱 확실해집니다.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;Club Name1 : baskball
+Hibernate: 
+    /* update
+        com.example.demo.entity.Club */ update
+            Club 
+        set
+            clubName=? 
+        where
+            club_id=?
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Club Name1&lt;/strong&gt;을 출력한 후 &lt;strong&gt;UPDATE&lt;/strong&gt; 쿼리가 날라가는 것을 보실 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;이러한 &lt;strong&gt;1차 캐시&lt;/strong&gt; 특성과 &lt;strong&gt;변경감지&lt;/strong&gt; 특성들을 활용한다면 더욱 편리하고 빠르게 JPA를 활용할 수 있을거라 믿습니다.&lt;br /&gt;
+이외에도 &lt;strong&gt;쓰기 지연(write-behind)&lt;/strong&gt; 또한 존재합니다. &lt;strong&gt;쓰기 지연&lt;/strong&gt;은 &lt;strong&gt;INSERT&lt;/strong&gt; 등을 수행할 때 쿼리를 모았다가 한번에 수행해줍니다. 기존에 DAO에서는 &lt;strong&gt;batch&lt;/strong&gt;를 사용해서 구현해야 했지만 JPA에서는 쉽게 지원해줍니다.&lt;br /&gt;
+JPA에서 중요한 것은 &lt;code class=&quot;highlighter-rouge&quot;&gt;Transaction&lt;/code&gt;이라고 생각합니다. JPA는 동일한 &lt;strong&gt;Transaction&lt;/strong&gt;에서 조회한 엔터티는 같음을 보장해주기 때문입니다.&lt;/p&gt;
+
+&lt;p&gt;사실 Spring Boot에서 &lt;strong&gt;Spring Data JPA&lt;/strong&gt;를 사용한다면 지금까지와의 실습과는 사용이 다릅니다. &lt;strong&gt;Spring Data JPA&lt;/strong&gt;에서는 지금까지 봐왔던 것을 알아서 처리해 주기 때문입니다. 그러나 이렇게 실습한 이유는 조금 더 JPA의 동작에 대해서 이해하기 위해 실습한 것 입니다. 다음에 &lt;strong&gt;Spring Data JPA&lt;/strong&gt;에 대해서도 다뤄보도록 하겠습니다. 부족한 내용이지만 읽어주셔서 감사드립니다!(잘못된 내용에 대해서 말씀해주시면 참고 후 수정하겠습니다..ㅎㅎ)&lt;/p&gt;
+
+&lt;p&gt;전체 코드는 &lt;a href=&quot;https://github.com/JongMinLee0/java-persistence-api&quot;&gt;Github&lt;/a&gt;에서 확인해보실수 있습니다.&lt;/p&gt;
+
+&lt;h5 id=&quot;참고&quot;&gt;참고&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;Baeldung (https://www.baeldung.com/jpa-hibernate-persistence-context)&lt;/li&gt;
+  &lt;li&gt;SKplanet Academy (https://www.youtube.com/channel/UCtV98yyffjUORQRGTuLHomw)&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Tue, 11 Feb 2020 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2020/02/11/jpa5/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/02/11/jpa5/</guid>
+        
+        <category>JPA</category>
+        
+        <category>JAVA</category>
+        
+        <category>Spring Boot</category>
+        
+        
+      </item>
+    
+      <item>
         <title>[JAVA] JPA 연관관계(4)</title>
-        <description>&lt;p&gt;이번에는 연관관계에 대해 보겠습니다.&lt;br /&gt;
+        <description>&lt;h4 id=&quot;관련된-글&quot;&gt;관련된 글&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/09/jpa1&quot;&gt;[JAVA] JPA(Java Persistence API)란?(1)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/09/jpa2&quot;&gt;[JAVA] JPA 기본설정 및 객체생성(2)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/10/jpa3&quot;&gt;[JAVA] JPA 어노테이션 및 트랜잭션(3)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/10/jpa4&quot;&gt;[JAVA] JPA 연관관계(4)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/11/jpa5&quot;&gt;[JAVA] JPA 영속성 컨텍스트(5)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;이번에는 연관관계에 대해 보겠습니다.&lt;br /&gt;
 연관관계에는 &lt;strong&gt;단방향&lt;/strong&gt;과 &lt;strong&gt;양방향&lt;/strong&gt;이 있습니다. 차례대로 살펴 보겠습니다.&lt;/p&gt;
 
 &lt;h2 id=&quot;1-단방향-매핑&quot;&gt;1. 단방향 매핑&lt;/h2&gt;
@@ -326,7 +576,7 @@ JPA에서의 양방향 매핑은 데이터베이스와는 다른 형태입니다
   &lt;li&gt;단방향 매핑을 잘 하고 양방향 매핑은 필요할 때 추가해도 됨(테이블에 영향 X)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;이번에는 연관관계에 대해서 알아봤습니다. 마지막으로 Persistence Context(영속성 컨텍스트)에 대해 알아보겠습니다.&lt;/p&gt;
+&lt;p&gt;이번에는 연관관계에 대해서 알아봤습니다. 마지막으로 &lt;strong&gt;Persistence Context(영속성 컨텍스트)&lt;/strong&gt; 에 대해 알아보겠습니다.&lt;/p&gt;
 
 &lt;p&gt;전체 코드는 &lt;a href=&quot;https://github.com/JongMinLee0/java-persistence-api&quot;&gt;Github&lt;/a&gt;에서 확인해보실수 있습니다.&lt;/p&gt;
 
@@ -351,7 +601,16 @@ JPA에서의 양방향 매핑은 데이터베이스와는 다른 형태입니다
     
       <item>
         <title>[JAVA] JPA 어노테이션 및 트랜잭션(3)</title>
-        <description>&lt;p&gt;이전 시간에 Member와 Club객체를 생성했습니다. 이 두 객체를 이용해서 JPA에 대해 좀더 알아 보겠습니다.&lt;/p&gt;
+        <description>&lt;h4 id=&quot;관련된-글&quot;&gt;관련된 글&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/09/jpa1&quot;&gt;[JAVA] JPA(Java Persistence API)란?(1)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/09/jpa2&quot;&gt;[JAVA] JPA 기본설정 및 객체생성(2)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/10/jpa3&quot;&gt;[JAVA] JPA 어노테이션 및 트랜잭션(3)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/10/jpa4&quot;&gt;[JAVA] JPA 연관관계(4)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/11/jpa5&quot;&gt;[JAVA] JPA 영속성 컨텍스트(5)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;이전 시간에 Member와 Club객체를 생성했습니다. 이 두 객체를 이용해서 JPA에 대해 좀더 알아 보겠습니다.&lt;/p&gt;
 
 &lt;p&gt;실습은 TEST Code로 진행할 수 있지만 &lt;strong&gt;h2-console&lt;/strong&gt;을 활용하기 위해서 main applicaion에서 진행하였습니다.&lt;br /&gt;
 &lt;strong&gt;main Apllication&lt;/strong&gt;&lt;/p&gt;
@@ -635,7 +894,16 @@ h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으�
     
       <item>
         <title>[JAVA] JPA 기본설정 및 객체생성(2) </title>
-        <description>&lt;h1 id=&quot;1-시작하기환경설정&quot;&gt;1. 시작하기(환경설정)&lt;/h1&gt;
+        <description>&lt;h4 id=&quot;관련된-글&quot;&gt;관련된 글&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/09/jpa1&quot;&gt;[JAVA] JPA(Java Persistence API)란?(1)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/09/jpa2&quot;&gt;[JAVA] JPA 기본설정 및 객체생성(2)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/10/jpa3&quot;&gt;[JAVA] JPA 어노테이션 및 트랜잭션(3)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/10/jpa4&quot;&gt;[JAVA] JPA 연관관계(4)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/11/jpa5&quot;&gt;[JAVA] JPA 영속성 컨텍스트(5)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;1-시작하기환경설정&quot;&gt;1. 시작하기(환경설정)&lt;/h1&gt;
 &lt;p&gt;이번 시간부터 실습을 통해서 JPA에 대해 알아보겠습니다.&lt;br /&gt;
 실습환경은 다음과 같습니다.&lt;/p&gt;
 
@@ -917,7 +1185,16 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 &lt;str
     
       <item>
         <title>[JAVA] JPA(Java Persistence API)란?(1) </title>
-        <description>&lt;h2 id=&quot;1-ormobject-relational-mapping&quot;&gt;1. ORM(Object-relational-mapping)&lt;/h2&gt;
+        <description>&lt;h4 id=&quot;관련된-글&quot;&gt;관련된 글&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/09/jpa1&quot;&gt;[JAVA] JPA(Java Persistence API)란?(1)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/09/jpa2&quot;&gt;[JAVA] JPA 기본설정 및 객체생성(2)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/10/jpa3&quot;&gt;[JAVA] JPA 어노테이션 및 트랜잭션(3)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/10/jpa4&quot;&gt;[JAVA] JPA 연관관계(4)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/2020/02/11/jpa5&quot;&gt;[JAVA] JPA 영속성 컨텍스트(5)&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;1-ormobject-relational-mapping&quot;&gt;1. ORM(Object-relational-mapping)&lt;/h2&gt;
 
 &lt;p&gt;JPA에 앞서 먼저 ORM에 대해 알아 보겠습니다. ORM은 Object-relational-mapping(객체 관계 매핑)의 약자 입니다. 말그대로 객체를 이용하여 매핑하는 것 입니다…. 사실 어떤 건지는 알겠는데.. ~란?했을때 딱 떨어지게 말을 못하겠습니다.. 제가 부족해서 그런거겠죠?.&lt;/p&gt;
 
@@ -2076,183 +2353,6 @@ class 메소드 및 class 변수가 각각 만들어 집니다.
         <category>Java</category>
         
         <category>Static</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>[Java] JVM이란 ?</title>
-        <description>&lt;h1 id=&quot;jvm&quot;&gt;JVM&lt;/h1&gt;
-
-&lt;p&gt;&lt;strong&gt;JVM(Java Virtual Machine)&lt;/strong&gt;은 Java를 다루는 사람이라면 실력을 막론하고 들어본 이름입니다.
-바로 Java 언어의 특징 중 ‘운영체제(OS / platform)에 독립적이다’의 주인공입니다.
-사실 저는 JVM 자바 가상 머신 즉, 가상으로 자바 코드를 돌리기 때문에 독립적이다라고만 알고 있엇고, 그 안에 메모리가 있는지 조차 알지 못했습니다. 때문에!! 이번에 확실하게 JVM에 대해 알아보고자 합니다!!&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;1-정의&quot;&gt;1. 정의&lt;/h2&gt;
-
-&lt;p&gt;JVM은 다른 프로그램을 실행하는 것을 목적으로 하는 프로그램 입니다. 즉, Java코드에 있는
-main메소드를 실제로 호출하는 것 입니다.
-JVM은 두 가지의 기본 기능이 있습니다. 첫 번째는 Java 프로그램이 모든 장치 또는 운영체제에서 실행되도록 허용하는 기능, 두 번재는 프로그램 메모리를 관리하고 최적화 하는 기능입니다. &lt;br /&gt;
-정리하자면 다음과 같습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;기술적 정의&lt;/strong&gt; : JVM은 코드를 실행하고 해당 코드의 런타임 환경을 제공하는 소프트웨어 프로그램 사양(specification)입니다.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;일상적인 정의&lt;/strong&gt; : JVM은 Java 프로그램을 실행하는 방법입니다. JVM의 설정을 구성한 다음 실행 중에 프로그램 리소스를 관리 하는데 의존합니다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;일반적으로 개발자가 JVM에 관해 이야기 한다면 Java app의 리소스 사용을 나타내고 제어하는 시스템, 특히 서버에서 실행되는 프로세스를 의미 합니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;2-구조&quot;&gt;2. 구조&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/JVM.jpg&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;1-class-loader&quot;&gt;(1) Class Loader&lt;/h3&gt;
-&lt;p&gt;클래스 로더란 runtime에 Class를 로딩하게 해주는 기술입니다. Java의 모든 것이 Class이며, 모든 Java애플리캐이션은 Class로 구성됩니다. 
-응용 프로그램은 하나 또는 수천개의 클래스로 구성될 수 있습니다. Java 애플리케이션을 실행하려면 JVM은 컴파일된 .class파일을 액세스 할 수 있는 서버와 같은 Context에 load해야 합니다. 
-따라서 JVM은 클래스 로더에 의존하여 기능을 수행합니다.&lt;/p&gt;
-
-&lt;p&gt;클래스 로더의 핵심 적인 기능은 3가지 입니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Loading&lt;/li&gt;
-  &lt;li&gt;Linking&lt;/li&gt;
-  &lt;li&gt;Initialization&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;위의 3가지 기능을 하나하나 알아봅시다!!&lt;/p&gt;
-
-&lt;h4 id=&quot;1-1-loading&quot;&gt;(1-1) Loading&lt;/h4&gt;
-&lt;p&gt;클래스 로드는 .class 파일을 읽고 해당 byte data를 생성한 다음 method영역에 저장합니다.
-각 .class파일에 method영역 정보를 저장합니다. 이 정보에는 다음과 같은 것들이 있습니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;.class파일이 class 또는 interface, Enum과 관련이 있는지 여부&lt;/li&gt;
-  &lt;li&gt;load된 class 및 부모 클래스의 정규화된 이름&lt;/li&gt;
-  &lt;li&gt;modifier, variable, method의 정보 등등..&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;.class 파일을 로드 한 후 JVM은 Class 유형의 객체를 생성하여 힙 메모리에 저장합니다.
-이 객체는 java.lang 패키지에 미리 정의된 Class 유형입니다. 이 Class 객체는 사용자가 정보를 얻는 과정에 많은 편의를 제공해 줍니다.
-만약 이 객체의 참조를 얻으려면 getClass( ) 메소드를 사용하여 얻을 수 있습니다.&lt;/p&gt;
-
-&lt;h4 id=&quot;1-2-linking&quot;&gt;(1-2) Linking&lt;/h4&gt;
-&lt;p&gt;verification(확인), preparation(준비), resolution(해결)을 수행합니다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;verification&lt;/strong&gt; : 
-.class파일의 정확성을 보장합니다. 이 파일의 형식이 올바른지, 유효한 컴파일러에 의해 생성되었는지를 확인합니다.
-    &lt;blockquote&gt;
-      &lt;p&gt;확인에 실패하면 런타임 에러 발생 (java.lang.VerifyError)&lt;/p&gt;
-    &lt;/blockquote&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;preparation&lt;/strong&gt; :
-클래스 변수에 메모리를 할당하고 메모리를 기본값으로 초기화 합니다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;resolution&lt;/strong&gt; :
-직접참조(direct reference)를 기호참조(symbolic reference)로 바꾸는 프로세스 입니다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;1-3-initialization&quot;&gt;(1-3) Initialization&lt;/h4&gt;
-&lt;p&gt;초기화 단계에서 모든 static 변수는 클래스 위의 계층(부모)부터 아래 계층(자식)순으로 정의된 값을 지정 받습니다.&lt;/p&gt;
-
-&lt;h4 id=&quot;1-4-class-loader&quot;&gt;(1-4) Class Loader&lt;/h4&gt;
-&lt;p&gt;Java Class Loader는 기본 클래스 로더가 3가지 있다. 간단하게 알아보자.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/classLoader.JPG&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;1-bootstrap-class-loader&quot;&gt;(1) Bootstrap class loader&lt;/h4&gt;
-&lt;p&gt;모든 JVM은 반드시 bootstrap class loader를 가지고 있어야 하며, 신뢰있는 클래스를 
-로드 할 수 있어야 합니다. 핵심 Java API 클래스를 로드해 줍니다.(Java_Hoome/jre/lib)&lt;/p&gt;
-
-&lt;h4 id=&quot;2-extension-class-loader&quot;&gt;(2) Extension class loader&lt;/h4&gt;
-&lt;p&gt;bootstrap class loader의 자식 입니다. 확장 디렉토리(Java_Home/jre/lib/ext)
-또는 java.ext.dirs 시스템으로 지정된 다른 디렉토리에 있는 클래스를 로드 합니다.&lt;/p&gt;
-
-&lt;h4 id=&quot;3-systemapplication-class-loader&quot;&gt;(3) System/Application class loader&lt;/h4&gt;
-&lt;p&gt;Extension class loader의 자식입니다. 내부적으로 java.class.path에 매핑된 환경 변수를 사용합니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;2-jvm-메모리&quot;&gt;2. JVM 메모리&lt;/h2&gt;
-&lt;p&gt;이번에는 JVM 메모리 영역에 대해서 알아보겠습니다.(구조에 있는 그림을 참고해주세요!!!)&lt;/p&gt;
-
-&lt;h3 id=&quot;1-method-area&quot;&gt;(1) Method area&lt;/h3&gt;
-&lt;p&gt;static 변수를 포함하여 class 이름, 메소드 및 변수 정보 등 모든 클래스 레벨의 정보가
-저장됩니다. JVM에는 단 하나의 메소드 영역이 있는며, 이는 공유자원(shared resource)입니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;2-heap-area&quot;&gt;(2) Heap area&lt;/h3&gt;
-&lt;p&gt;모든 객체(Object)의 정보를 저자아고 있습니다. 이 또한 하나만 존재하며 공유자원 입니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;3-stack-area&quot;&gt;(3) Stack area&lt;/h3&gt;
-&lt;p&gt;Method 내에서 사용되는 값들(매개변수, 지역변수, 리턴값 등)이 저장되는 구역으로 메소드가
-호출할때 LIFO(Last In Frist Out)로 하나씩 생성되고, 메소드 실행이 완료되면
-LIFO형식으로 하나씩 지워집니다.&lt;/p&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;각 Thread별로 하나씩 생성&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;4-pc-resister&quot;&gt;(4) PC Resister&lt;/h3&gt;
-&lt;p&gt;현재 실행중인 스레드(thread)의 주소를 저장합니다. 각 thread별로 별도의 PC register를 
-가지고 있습니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;5-native-method-statcks&quot;&gt;(5) Native Method Statcks&lt;/h3&gt;
-&lt;p&gt;Java외 언어로 작성된 Native 코드를 위한 메모리 입니다. C / C++ 등의 코드를 수행하기위한
-스택입니다.&lt;/p&gt;
-
-&lt;p&gt;그 외&lt;/p&gt;
-
-&lt;h3 id=&quot;6-excution-engine&quot;&gt;(6) Excution Engine&lt;/h3&gt;
-&lt;p&gt;클래스 로더가 로드 작업을 완료하면 JVM은 각 클래스의 코드를 실행하기 시작합니다. 실행 엔진은
-이 처리를 수행합니다. .class(바이트코드)를 실행하여 한줄씩(interperter) 바이트코드를 읽습니다.&lt;/p&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;실행엔진은 3부분으로 분류할 수 있습니다.
-Interperter, JIT(Just-In-Time Compiler, GC(Garbage Collection))&lt;/p&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;참고) JIT는 인터프리터의 효츌성을 높이는데 사용됩니다. 인터프리터방식과 컴파일러 방식을 혼합한 것으로 생각할 수 있습니다.&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;7-jnijava-native-method-interface&quot;&gt;(7) JNI(Java Native Method Interface)&lt;/h3&gt;
-&lt;p&gt;Native Method Library와 상호작용하고 실행에 필요한 Native Libarary(C, C++)를 제공하는 인터페이스 입니다.&lt;/p&gt;
-
-&lt;h3 id=&quot;8-native-method-libraries&quot;&gt;(8) Native Method Libraries&lt;/h3&gt;
-&lt;p&gt;Execution Engine에 필요한 Native Library(C, C++)의 Collection입니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;3-메모리-관리&quot;&gt;3. 메모리 관리&lt;/h2&gt;
-&lt;p&gt;Java이전에는 프로그래머가 모든 프로그램 메모리를 관리했습니다. 그러나 Java에서는 JVM에 의해서 관리가 됩니다.
-JVM에서 GC(Garbage Collection)이라는 녀석이 사용하지 않는 메모리를 지속적으로 식별하고
-제거하며 메모리를 관리합니다.(이 GC라는 녀석도 상당한 녀석이니 나중에 다루도록 하겠습니다!)&lt;/p&gt;
-
-&lt;p&gt;그런데 GC가 있어서 무조건 좋은 것은 아닙니다. 초기에는 Java가 C++만큼 빠르지 않았기 떄문에
-많은 비판을 받았습니다. 차츰 다양한 알고리즘과 접근법이 나와 GC의 능력이 크게 향상되었습니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;JVM은 Java에서 가장 기본적이면서도 중요하다고 생각합니다. 처음에는 가상메모리구나 정도로 시작했다면 JVM을 이루는 구조와 기능들이 많음을 알았습니다.&lt;/p&gt;
-
-&lt;p&gt;이 구조들의 기능들이 모여 JVM을 이루는데 각각의 구조물들 또한 다양한 구조와 기능을 이루고 있습니다.
-다음에 차근차근 세세한 부분까지 알아보겠습니다!!&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;참고&quot;&gt;참고&lt;/h4&gt;
-&lt;p&gt;https://www.javaworld.com/article/3272244/what-is-the-jvm-introducing-the-java-virtual-machine.html&lt;/p&gt;
-
-&lt;p&gt;https://www.geeksforgeeks.org/jvm-works-jvm-architecture/JVM&lt;/p&gt;
-
-</description>
-        <pubDate>Thu, 13 Jun 2019 00:00:00 +0900</pubDate>
-        <link>http://localhost:4000/2019/06/13/jvm/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/06/13/jvm/</guid>
-        
-        <category>Java</category>
         
         
       </item>

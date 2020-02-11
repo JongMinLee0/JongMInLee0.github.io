@@ -11,7 +11,7 @@
     <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="[JAVA] JPA 어노테이션 및 트랜잭션(3) - Jongmin's Blog">
+    <meta property="og:title" content="[JAVA] JPA 영속성 컨텍스트(5) - Jongmin's Blog">
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="관련된 글
@@ -25,7 +25,7 @@
 
 ">
     
-    <meta property="article:published_time" content="2020-02-10T00:00:00Z">
+    <meta property="article:published_time" content="2020-02-11T00:00:00Z">
     
     
     <meta property="article:author" content="JongMin-Lee">
@@ -39,10 +39,10 @@
     
     
     <meta property="og:image" content="http://localhost:4000">
-    <meta property="og:url" content="http://localhost:4000/2020/02/10/jpa3/">
+    <meta property="og:url" content="http://localhost:4000/2020/02/11/jpa5/">
     <meta property="og:site_name" content="Jongmin's Blog">
     
-    <title>[JAVA] JPA 어노테이션 및 트랜잭션(3) - Jongmin's Blog</title>
+    <title>[JAVA] JPA 영속성 컨텍스트(5) - Jongmin's Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -51,7 +51,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2020/02/10/jpa3/">
+    <link rel="canonical" href="http://localhost:4000/2020/02/11/jpa5/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -235,10 +235,10 @@
                         <a class="tag" href="/archive/?tag=Spring+Boot" title="Spring Boot">Spring Boot</a>
                         
                     </div>
-                    <h1>[JAVA] JPA 어노테이션 및 트랜잭션(3)</h1>
+                    <h1>[JAVA] JPA 영속성 컨텍스트(5)</h1>
                     
-                    <h2 class="subheading"> About JPA annotaion and Transaction</h2>
-                    <span class="meta">Posted by JongMin-Lee on February 10, 2020</span>
+                    <h2 class="subheading"> About JPA Relation</h2>
+                    <span class="meta">Posted by JongMin-Lee on February 11, 2020</span>
                 </div>
             </div>
         </div>
@@ -273,10 +273,22 @@
   <li><strong><a href="/2020/02/11/jpa5">[JAVA] JPA 영속성 컨텍스트(5)</a></strong></li>
 </ol>
 
-<p>이전 시간에 Member와 Club객체를 생성했습니다. 이 두 객체를 이용해서 JPA에 대해 좀더 알아 보겠습니다.</p>
+<p>마지막으로 JPA에서 가장중요하다고도 할 수 있는 <code class="highlighter-rouge">Persistence Context(영속성 컨텍스트)</code>에 대해 알아보겠습니다.<br />
+JPA를 이해하는데 가장 중요한 용어이며 <code class="highlighter-rouge">Entity를 영구 저장하는 환경</code>이라는 뜻입니다. 이 영속성 컨텍스트는 눈에 보이지 않는 논리적인 개념입니다. <strong>EntityManager</strong>를 통해서 접근이 가능합니다. 이 영속성 컨텍스트에 대해 알아보기 전에 <strong>Entity</strong>의 생명주기를 먼저 보겠습니다.</p>
 
-<p>실습은 TEST Code로 진행할 수 있지만 <strong>h2-console</strong>을 활용하기 위해서 main applicaion에서 진행하였습니다.<br />
-<strong>main Apllication</strong></p>
+<h2 id="1-entity의-생명주기">1. Entity의 생명주기</h2>
+<p><img src="/img/in-post/jpa_orm/entity_rifecycle.png" /></p>
+
+<h5 id="1-비영속newtransient">1. 비영속(new/transient)</h5>
+<p>: 영속성 컨텍스트와 전혀 관계가 없는 상태</p>
+<h5 id="2-영속managed">2. 영속(managed)</h5>
+<p>: 영속성 컨텍스트에 저장된 상태</p>
+<h5 id="3-준영속detached">3. 준영속(detached)</h5>
+<p>: 영속성 컨텍스트에 저장되었다가 분리된 형태</p>
+<h5 id="4-삭제removed">4. 삭제(removed)</h5>
+<p>: 삭제된 상태</p>
+
+<p>간단한 코드와 함께 알아보겠습니다!</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -305,117 +317,88 @@
 26
 27
 28
-</pre></td><td class="rouge-code"><pre><span class="nd">@SpringBootApplication</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoApplication</span> <span class="o">{</span>
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="n">EntityManagerFactory</span> <span class="n">entityManagerFactory</span> <span class="o">=</span> <span class="n">Persistence</span><span class="o">.</span><span class="na">createEntityManagerFactory</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">);</span>
+    <span class="n">EntityManager</span> <span class="n">entityManager</span> <span class="o">=</span> <span class="n">entityManagerFactory</span><span class="o">.</span><span class="na">createEntityManager</span><span class="o">();</span>
+    <span class="n">EntityTransaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">();</span>
 
-        <span class="n">EntityManagerFactory</span> <span class="n">entityManagerFactory</span> <span class="o">=</span> <span class="n">Persistence</span><span class="o">.</span><span class="na">createEntityManagerFactory</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">);</span>
-        <span class="n">EntityManager</span> <span class="n">entityManager</span> <span class="o">=</span> <span class="n">entityManagerFactory</span><span class="o">.</span><span class="na">createEntityManager</span><span class="o">();</span>
-        <span class="n">EntityTransaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">();</span>
+    <span class="c1">// 트랜잭션 시작</span>
+    <span class="n">transaction</span><span class="o">.</span><span class="na">begin</span><span class="o">();</span>
+    <span class="k">try</span><span class="o">{</span>
+        <span class="n">Club</span> <span class="n">club</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Club</span><span class="o">(</span><span class="s">"baskball"</span><span class="o">);</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">club</span><span class="o">);</span>
 
-        <span class="c1">// 트랜잭션 시작</span>
-        <span class="n">transaction</span><span class="o">.</span><span class="na">begin</span><span class="o">();</span>
-        <span class="k">try</span><span class="o">{</span>
-            <span class="n">Member</span> <span class="n">member</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Member</span><span class="o">();</span>
-            <span class="n">member</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">);</span>
-            <span class="n">member</span><span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="mi">30</span><span class="o">);</span>
-            <span class="n">entityManager</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">member</span><span class="o">);</span> <span class="c1">// 영구저장</span>
+        <span class="n">Friend</span> <span class="n">friend</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Friend</span><span class="o">(</span><span class="s">"park"</span><span class="o">,</span> <span class="s">"01022221111"</span><span class="o">);</span>
+        <span class="n">Member</span> <span class="n">member</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Member</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="n">friend</span><span class="o">);</span>
+        <span class="n">member</span><span class="o">.</span><span class="na">setClub</span><span class="o">(</span><span class="n">club</span><span class="o">);</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">member</span><span class="o">);</span>
 
-            <span class="n">transaction</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span> <span class="c1">// 커밋</span>
-        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
-            <span class="n">transaction</span><span class="o">.</span><span class="na">rollback</span><span class="o">();</span>
-        <span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
-            <span class="n">entityManager</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+
+        <span class="n">Member</span> <span class="n">findMember</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">Member</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">member</span><span class="o">.</span><span class="na">getMember_id</span><span class="o">());</span>
+        <span class="n">Club</span> <span class="n">findClub</span> <span class="o">=</span> <span class="n">findMember</span><span class="o">.</span><span class="na">getClub</span><span class="o">();</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">&gt;</span> <span class="n">members</span> <span class="o">=</span> <span class="n">findClub</span><span class="o">.</span><span class="na">getMemberList</span><span class="o">();</span>
+        <span class="k">for</span><span class="o">(</span><span class="n">Member</span> <span class="n">member1</span> <span class="o">:</span> <span class="n">members</span><span class="o">){</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Member Name : "</span> <span class="o">+</span> <span class="n">member1</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
         <span class="o">}</span>
-        <span class="n">entityManagerFactory</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+
+        <span class="n">transaction</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
+    <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+        <span class="n">transaction</span><span class="o">.</span><span class="na">rollback</span><span class="o">();</span>
+    <span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
     <span class="o">}</span>
+    <span class="n">entityManagerFactory</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
-<ol>
-  <li><strong>EntityManagerFactory</strong>를 이용하여 persistence.xml에서 지정한 설정을 가지고 옵니다.
-  이 전에 지정한 persistence.xml설정에서 <code class="highlighter-rouge">&lt;persistence-unit name="jongmin"&gt;</code>에 지정한 name으로 설정을 가지고 옵니다.</li>
-  <li><strong>EntityManager</strong>를 생성하고 <strong>Transaction</strong>을 얻습니다.</li>
-  <li>트랜잭션을 시작하고 Member객체를 만들어 값을 넣은 후 <strong>persist</strong>를 통해서 값을 넣어줍니다.</li>
-  <li><strong>commit()</strong>해주어 값을 물리적으로 데이터베이스에 넣어주고 <strong>close</strong>해줍니다.(에러시 rollback)</li>
-</ol>
+<p>이전에 사용했던 코드 입니다. 처음에 <strong>Entity</strong>를 생성합니다. <code class="highlighter-rouge">Club club = new Club("baskball");</code> 이 상태는 비영속(new) 상태입니다. 왜냐하면 아직 영속성 컨텍스트에 의해 관리되고 있지 않기 때문이죠. <code class="highlighter-rouge">entityManager.persist(club)</code>를 통해서 영속성 컨텍스트에 넣어줍니다.</p>
+<blockquote>
+  <p>앞에서 <strong>persist()</strong>는 물리적으로 데이터베이스에 값을 저장하는 것이 아니라고 한 부분이 이 이유 때문입니다.</p>
+</blockquote>
 
-<p>EntityManagerFactory는 애플리케이션 전체에서 하나만 생성하여 공유해야합니다. EntityManagerFactory를 생성할 때마다 DB와의 연결이 발생함으로 성능상에 문제가 발생할 수 있기 때문입니다.<br />
-(DB와의 연결을 해주는 인터페이스라고 생각합니다.)<br />
-EntityManager는 EntityManagerFactory의 구현체입니다. EntityManager를 통해서 DB와 데이터를 주고 받을 수 있습니다. 모든 Transaction이 끝나면 close()를 사용해서 자원을 해제합니다.</p>
+<p>그림으로 보게 된다면 좀더 이해가 잘 될 것입니다.</p>
 
-<h4 id="주의사항">주의사항</h4>
-<ul>
-  <li>모든 변화(update, delete, save)는 Transaction안에서 일어나야 합니다.</li>
-  <li>EntityManagerFactory는 애플리케이션 전체에 하나만 생성하여 공유해야 합니다.</li>
-  <li>Transaction이 끝나면 close()를 통해서 자원을 해제시켜야 합니다.</li>
-  <li>EntityManager는 쓰레드간에 공유해서는 안된다.(사용하고 버린다.)
-    <blockquote>
-      <p>참고<br />
-persist()를 수행했다고 데이터베이스에 값이 완전히 들어가는 것이 아닙니다!!<br />
-commit()을 해야 물리적으로 데이터페이스에 들어가며 이부분은 뒤에서 다루겠습니다.</p>
-    </blockquote>
-  </li>
-</ul>
+<p><img src="/img/in-post/jpa_orm/db.png" /></p>
 
-<p>main 메소드를 수행한 후 결과를 확인해 보겠습니다. 먼저 console창 입니다.
-<strong>console</strong>
-<img src="/img/in-post/jpa3/console1.png" />
-<img src="/img/in-post/jpa3/console2.png" />
-다른 특별한 작업을 하지 않았음에도 불구하고 <code class="highlighter-rouge">create table</code>을 통해서 테이블을 생성하는 것을 알 수 있습니다. 이것이 persistence.xml에 <code class="highlighter-rouge">&lt;property name="hibernate.hbm2ddl.auto" value="create" /&gt;</code>를 지정했기 때문입니다.<br />
-여기서는 캡쳐하지 않았지만 테이블을 생성하기 전에 <code class="highlighter-rouge">drop table Member if exists</code>을 먼저 수행하는 것을 콘솔에서 확인하실 수 있을 것입니다. 그 다음 <strong>persist</strong>를 통해서 데이터베이스에 값을 넣어주어 <strong>insert</strong>쿼리가 자동으로 날라가는 것을 볼 수 있습니다.<br />
-<img src="/img/in-post/jpa3/h2-member.png" style="width:600px; height:400px" />
-h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으로 들어간 것을 볼 수 있습니다. 여기서 ID는 값을 따로 넣어주지 않았지만 <em>1</em>값이 들어가 있습니다. 저희가 Member객체를 만들때 <code class="highlighter-rouge">@GeneratedValue</code>를 지정했기 때문에 H2데이터베이스에서 자체적으로 만들어 주었기 때문입니다.</p>
+<p><strong>flush()</strong>와 <strong>commit()</strong>을 아직 하지 않았기 때문에 데이터베이스에 저장된 상태가 아니라 <strong>Persistence Context</strong>에 저장된 상태인 것 입니다. flush()에 대해 잠시 살펴보겠습니다.</p>
+<h5 id="flush">flush()</h5>
+<p>: 영속성 컨테이너의 변경 내용을 데이터베이스에 반영<br />
+flush()발생은 <code class="highlighter-rouge">.flush()</code>를 통해 직접 호출하거나 <code class="highlighter-rouge">commit()</code>을 하는 경우 또는 JPQL쿼리를 실행하는 경우 flush가 자동 발생됩니다.</p>
+<blockquote>
+  <p>flush() 주의사항</p>
+  <ul>
+    <li>영속성 컨텍스트를 비우지 않습니다.</li>
+    <li>영속성 컨텍스트의 변경내용을 데이터베이스에 동기화 합니다.</li>
+    <li>트랜잭션이라는 작업단위가 중요합니다.</li>
+  </ul>
+</blockquote>
 
-<p>이제 추가적인 어노테이션에대해 알아보겠습니다.</p>
-<h5 id="column">@Column</h5>
-<p>가장 많이 사용하는 어노테이션입니다.</p>
-<ul>
-  <li>name : 데이터베이스의 Column이름 지정</li>
-  <li>insertable, updateble : 읽기 전용여부</li>
-  <li>nullable : null 허용 여부, DDL 생성시 사용</li>
-  <li>unique : 유니크 제약조건, DDL 생성시 사용</li>
-</ul>
-
-<h5 id="enumerated">@Enumerated</h5>
-<p>열거형 매핑으로 Enum 타입과 관련하여 매핑해줍니다.</p>
-<ul>
-  <li>EnumType.STRING : String 타입으로 열거형 이름그대로 저장해줍니다.</li>
-  <li>EnumType.ORDINAL : 순서를 저장해줍니다.(default)</li>
-  <li>실제로 사용할 때는 EnumType.STRING을 사용해 줍시다.
-    <blockquote>
-      <p>Enum Type이 추가되서 순서가 변경되면 ORDINAL이 무의미 해지기 때문에 STRING을 사용을 권장.</p>
-    </blockquote>
-  </li>
-</ul>
-
-<h5 id="lob">@Lob</h5>
-<p>컨텐츠의 길이가 길경우 사용합니다.(CLOB, BLOB)</p>
-<ul>
-  <li>CLOB : String, char[], java.sql.CLOB</li>
-  <li>BLOB : byte[], java.sql.BLOB</li>
-</ul>
-
-<h5 id="transient">@Transient</h5>
-<p>Transient어노테이션이 추가된 필드는 매핑하지 않습니다. 데이터베이스에서는 사용하지 않지만 Class에 추가하고 싶은 경우 사용합니다.</p>
-
-<h5 id="temporal">@Temporal</h5>
-<p>시간에 관련된 어노테이션 입니다.</p>
-<ul>
-  <li>Date(java.sql.Date)</li>
-  <li>Time(java.sql.Time)</li>
-  <li>TimeStamp(java.sql.TimeStamp)
-    <blockquote>
-      <p>그러나 LocalDateTime이 있으므로 잘 사용하지 않게 되는 어노테이션입니다.</p>
-    </blockquote>
-  </li>
-</ul>
-
-<h5 id="embedded">@Embedded</h5>
-<p>그 다음 @Embeddable, @Embedded, @AttributeOverrides, @AttributeOverride 등이 있습니다.
-이 4개의 어노테이션은 한번에 살펴보겠습니다.(아래의 예시가 적절하지 않을 수도 있습니다…)</p>
+<p>여러 실습을 통해서 눈치 채신분이 있을 수도 있지만 <code class="highlighter-rouge">clear()</code>를 사용했을 때와 사용하지 않았을 때의 차이점이 있습니다. 콘솔을 통해 확인하실 수 있는데 바로 <strong>SELECT QUERY</strong>입니다. 기존에 <code class="highlighter-rouge">clear()</code>를 하지 않고 조회시에 콘솔창에 <strong>SELECT</strong>문이 날라가지 않았지만 조회된 것을 보실 수 있습니다. 그 이유는 영속성 컨텍스트 내에 있는 데이터를 먼저 조회한 후 데이터베이스를 조회하기 때문입니다. 따라서 <code class="highlighter-rouge">clear()</code>를 사용하여 영속성 컨텍스트를 비운 후 조회를 진행하면 <strong>SELECT</strong>쿼리가 날라가는 것을 콘솔을 통해 확인 가능합니다.</p>
+<pre><code class="language-SQL">Hibernate: 
+    select
+        club0_.club_id as club_id1_0_0_,
+        club0_.clubName as clubName2_0_0_ 
+    from
+        Club club0_ 
+    where
+        club0_.club_id=?
+</code></pre>
+<p>다음 영속성 컨택스트의 특징을 보겠습니다. 바로 <strong>변경 감지(Dirty Checking)</strong> 입니다.</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -435,110 +418,75 @@ h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으�
 17
 18
 19
-</pre></td><td class="rouge-code"><pre><span class="nd">@Entity</span>
-<span class="nd">@Getter</span> <span class="nd">@Setter</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Member</span> <span class="o">{</span>
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
 
-    <span class="nd">@Id</span>
-    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="n">EntityManagerFactory</span> <span class="n">entityManagerFactory</span> <span class="o">=</span> <span class="n">Persistence</span><span class="o">.</span><span class="na">createEntityManagerFactory</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">);</span>
+    <span class="n">EntityManager</span> <span class="n">entityManager</span> <span class="o">=</span> <span class="n">entityManagerFactory</span><span class="o">.</span><span class="na">createEntityManager</span><span class="o">();</span>
+    <span class="n">EntityTransaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">();</span>
 
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+    <span class="c1">// 트랜잭션 시작</span>
+    <span class="n">transaction</span><span class="o">.</span><span class="na">begin</span><span class="o">();</span>
+    <span class="k">try</span><span class="o">{</span>
+        <span class="n">Club</span> <span class="n">club</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Club</span><span class="o">(</span><span class="s">"baskball"</span><span class="o">);</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">club</span><span class="o">);</span>
 
-    <span class="nd">@Enumerated</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">EnumType</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">RoleType</span> <span class="n">roleType</span><span class="o">;</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
 
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">friendName</span><span class="o">;</span>
+        <span class="n">Club</span> <span class="n">club2</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">Club</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">club</span><span class="o">.</span><span class="na">getClub_id</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Club Name1 : "</span> <span class="o">+</span> <span class="n">club2</span><span class="o">.</span><span class="na">getClubName</span><span class="o">());</span>
 
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">friendPhone</span><span class="o">;</span>
+        <span class="n">club2</span><span class="o">.</span><span class="na">setClubName</span><span class="o">(</span><span class="s">"BASEBALL"</span><span class="o">);</span>
+
+        <span class="n">transaction</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
+    <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+        <span class="n">transaction</span><span class="o">.</span><span class="na">rollback</span><span class="o">();</span>
+    <span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
+        <span class="n">entityManager</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="n">entityManagerFactory</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p>Member 객체가 위와 같이 구성되어 있다고 하겠습니다.(Getter, Setter는 Lombok을 이용해서 처리했습니다.)
-아래의 friend(친구)와 관련된 컬럼이 있다고 할 때 이 컬럼을 따로 관리하고 싶습니다. 테이블에서는 분리하지 않고 객체(클래스)만을 분리해서 사용하고 싶을 때 위의 어노테이션들을 사용할 수 있습니다.<br />
-먼저 분리시킬 <strong>Friend</strong>클래스를 생성해줍니다.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="rouge-code"><pre><span class="nd">@Embeddable</span>
-<span class="nd">@Getter</span> <span class="nd">@Setter</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Friend</span> <span class="o">{</span>
+<p>처음 <strong>clubName</strong>을 <strong>baskball</strong>로 만들어 <strong>flush()</strong>해 데이터베이스에 값을 넣어 줬습니다. 그 다음 조회를 실행 한 후 엔터티의 <strong>clubName</strong>값을 <strong>BASEBALL</strong>로 바꾸기만 한 후 종료했습니다. 아래는 h2-console의 화면입니다.
+<img src="/img/in-post/jpa_orm/h2.png" /></p>
 
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">phoneNumber</span><span class="o">;</span>
+<p><strong>CLUBNAME</strong>의 값이 <strong>BASEBALL</strong>인 것을 확인 할 수 있습니다. 저는 다른 행동을 취하지 않았지만 영속성 컨텍스트가 변경을 감지하여 데이터베이스와 동기화 시켜준 것 입니다. 콘솔을 확인하면 더욱 확실해집니다.</p>
+<pre><code class="language-SQL">Club Name1 : baskball
+Hibernate: 
+    /* update
+        com.example.demo.entity.Club */ update
+            Club 
+        set
+            clubName=? 
+        where
+            club_id=?
+</code></pre>
+<p><strong>Club Name1</strong>을 출력한 후 <strong>UPDATE</strong> 쿼리가 날라가는 것을 보실 수 있습니다.</p>
 
-<span class="o">}</span>
-</pre></td></tr></tbody></table></code></pre></div></div>
-<p>분리시킨 Friend클래스에 <strong>@Embeddable</strong>어노테이션을 추가해줍니다. 그 다음 <strong>Member</strong>클래스를 바꿔 보겠습니다.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-</pre></td><td class="rouge-code"><pre><span class="nd">@Entity</span>
-<span class="nd">@Getter</span> <span class="nd">@Setter</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Member</span> <span class="o">{</span>
+<p>이러한 <strong>1차 캐시</strong> 특성과 <strong>변경감지</strong> 특성들을 활용한다면 더욱 편리하고 빠르게 JPA를 활용할 수 있을거라 믿습니다.<br />
+이외에도 <strong>쓰기 지연(write-behind)</strong> 또한 존재합니다. <strong>쓰기 지연</strong>은 <strong>INSERT</strong> 등을 수행할 때 쿼리를 모았다가 한번에 수행해줍니다. 기존에 DAO에서는 <strong>batch</strong>를 사용해서 구현해야 했지만 JPA에서는 쉽게 지원해줍니다.<br />
+JPA에서 중요한 것은 <code class="highlighter-rouge">Transaction</code>이라고 생각합니다. JPA는 동일한 <strong>Transaction</strong>에서 조회한 엔터티는 같음을 보장해주기 때문입니다.</p>
 
-    <span class="nd">@Id</span>
-    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
-
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
-
-    <span class="nd">@Enumerated</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">EnumType</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">RoleType</span> <span class="n">roleType</span><span class="o">;</span>
-
-    <span class="nd">@Embedded</span>
-    <span class="kd">private</span> <span class="n">Friend</span> <span class="n">friend</span><span class="o">;</span>
-    
-<span class="o">}</span>
-</pre></td></tr></tbody></table></code></pre></div></div>
-<p>위와 같이 <strong>@Embedded</strong> 어노테이션을 사용하여 분리시킨 <strong>Friend</strong>클래스를 불러올 수 있습니다.<br />
-이대로 사용할 수 있지만 에러가 발생합니다. 그 이유는 <code class="highlighter-rouge">name컬럼이 중복되기 때문입니다.</code> 기존에는 <strong>friendName</strong>을 사용했지만 분리시키면서 <strong>name</strong>으로 변경 시켰습니다. 이 경우 <strong>@AttributeOverrides</strong>을 사용하여 분리한 클래스의 매핑명을 지정해 줄 수 있습니다.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-</pre></td><td class="rouge-code"><pre><span class="nd">@Embedded</span>
-<span class="nd">@AttributeOverrides</span><span class="o">(</span>
-    <span class="nd">@AttributeOverride</span><span class="o">(</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"name"</span><span class="o">,</span> <span class="n">column</span> <span class="o">=</span> <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"friendNsame"</span><span class="o">)),</span>
-    <span class="nd">@AttributeOverride</span><span class="o">(</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"phoneNumber"</span><span class="o">,</span> <span class="n">column</span> <span class="o">=</span> <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"friendPhsne"</span><span class="o">))</span>
-<span class="o">)</span>
-<span class="kd">private</span> <span class="n">Friend</span> <span class="n">friends</span>
-</pre></td></tr></tbody></table></code></pre></div></div>
-<p>다음과 같이 지정하므로써 매핑할 컬럼명을 바꿔줄 수 있습니다.</p>
-
-<p>여기까지 <strong>Transaction과 기타 어노테이션</strong>에 대해 알아봤습니다.<br />
-다음 시간에는 가장 중요한 <strong>연관관계</strong>에 대해 알아보겠습니다.</p>
+<p>사실 Spring Boot에서 <strong>Spring Data JPA</strong>를 사용한다면 지금까지와의 실습과는 사용이 다릅니다. <strong>Spring Data JPA</strong>에서는 지금까지 봐왔던 것을 알아서 처리해 주기 때문입니다. 그러나 이렇게 실습한 이유는 조금 더 JPA의 동작에 대해서 이해하기 위해 실습한 것 입니다. 다음에 <strong>Spring Data JPA</strong>에 대해서도 다뤄보도록 하겠습니다. 부족한 내용이지만 읽어주셔서 감사드립니다!(잘못된 내용에 대해서 말씀해주시면 참고 후 수정하겠습니다..ㅎㅎ)</p>
 
 <p>전체 코드는 <a href="https://github.com/JongMinLee0/java-persistence-api">Github</a>에서 확인해보실수 있습니다.</p>
 
 <h5 id="참고">참고</h5>
 <ul>
-  <li>objectdb (https://www.objectdb.com/java/jpa/persistence/overview)</li>
-  <li>Baeldung (https://www.baeldung.com/hibernate-date-time)</li>
+  <li>Baeldung (https://www.baeldung.com/jpa-hibernate-persistence-context)</li>
   <li>SKplanet Academy (https://www.youtube.com/channel/UCtV98yyffjUORQRGTuLHomw)</li>
 </ul>
 
@@ -547,19 +495,12 @@ h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으�
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2020/02/09/jpa2/" data-toggle="tooltip" data-placement="top" title="[JAVA] JPA 기본설정 및 객체생성(2) ">
-                        Previous<br>
-                        <span>[JAVA] JPA 기본설정 및 객체생성(2) </span>
-                        </a>
-                    </li>
-                    
-                    
-                    <li class="next">
                         <a href="/2020/02/10/jpa4/" data-toggle="tooltip" data-placement="top" title="[JAVA] JPA 연관관계(4)">
-                        Next<br>
+                        Previous<br>
                         <span>[JAVA] JPA 연관관계(4)</span>
                         </a>
                     </li>
+                    
                     
                 </ul>
                 <hr style="visibility: hidden;">
@@ -677,8 +618,8 @@ h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으�
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "jongminlee0-github-io";
-    var disqus_identifier = "/2020/02/10/jpa3";
-    var disqus_url = "http://localhost:4000/2020/02/10/jpa3/";
+    var disqus_identifier = "/2020/02/11/jpa5";
+    var disqus_url = "http://localhost:4000/2020/02/11/jpa5/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

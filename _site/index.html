@@ -108,6 +108,8 @@
                     
                     
                     
+                    
+                    
                 </ul>
             </div>
         </div>
@@ -212,6 +214,37 @@
 </head>
 
 <div class="post-preview">
+    <a href="/2020/02/11/jpa5/">
+        <h2 class="post-title">
+            [JAVA] JPA 영속성 컨텍스트(5)
+        </h2>
+        
+        <h3 class="post-subtitle">
+             About JPA Relation
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                관련된 글
+
+  [JAVA] JPA(Java Persistence API)란?(1)
+  [JAVA] JPA 기본설정 및 객체생성(2)
+  [JAVA] JPA 어노테이션 및 트랜잭션(3)
+  [JAVA] JPA 연관관계(4)
+  [JAVA] JPA 영속성 컨텍스트(5)
+
+
+마지막으로 JPA에서 가장중요하다고도 할 수 있는 Persistence Conte...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by JongMin-Lee on February 11, 2020
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2020/02/10/jpa4/">
         <h2 class="post-title">
             [JAVA] JPA 연관관계(4)
@@ -223,21 +256,17 @@
         
         <div class="post-content-preview">
             
-                이번에는 연관관계에 대해 보겠습니다.
-연관관계에는 단방향과 양방향이 있습니다. 차례대로 살펴 보겠습니다.
+                관련된 글
 
-1. 단방향 매핑
-지금 현재 Member객체와 Club객체가 있습니다.
-
-
-
-  보기 편하기 위해서 다른 컬럼들은 제외했습니다.
+  [JAVA] JPA(Java Persistence API)란?(1)
+  [JAVA] JPA 기본설정 및 객체생성(2)
+  [JAVA] JPA 어노테이션 및 트랜잭션(3)
+  [JAVA] JPA 연관관계(4)
+  [JAVA] JPA 영속성 컨텍스트(5)
 
 
-Club에 여러 Member가 가입할 수 있다고 해보겠습니다. 그럼 1:N의 관계가 성립합니다.
-
-
-다음과 같은 ...
+이번에는 연관관계에 대해 보겠습니다.
+연관관계에는 단방향과 양방향이 있습니다. 차...
             
         </div>
     </a>
@@ -259,27 +288,16 @@ Club에 여러 Member가 가입할 수 있다고 해보겠습니다. 그럼 1:N�
         
         <div class="post-content-preview">
             
-                이전 시간에 Member와 Club객체를 생성했습니다. 이 두 객체를 이용해서 JPA에 대해 좀더 알아 보겠습니다.
+                관련된 글
 
-실습은 TEST Code로 진행할 수 있지만 h2-console을 활용하기 위해서 main applicaion에서 진행하였습니다.
-main Apllication
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17...
+  [JAVA] JPA(Java Persistence API)란?(1)
+  [JAVA] JPA 기본설정 및 객체생성(2)
+  [JAVA] JPA 어노테이션 및 트랜잭션(3)
+  [JAVA] JPA 연관관계(4)
+  [JAVA] JPA 영속성 컨텍스트(5)
+
+
+이전 시간에 Member와 Club객체를 생성했습니다. 이 두 객체를 이용해서 J...
             
         </div>
     </a>
@@ -301,18 +319,17 @@ main Apllication
         
         <div class="post-content-preview">
             
-                1. 시작하기(환경설정)
-이번 시간부터 실습을 통해서 JPA에 대해 알아보겠습니다.
-실습환경은 다음과 같습니다.
+                관련된 글
+
+  [JAVA] JPA(Java Persistence API)란?(1)
+  [JAVA] JPA 기본설정 및 객체생성(2)
+  [JAVA] JPA 어노테이션 및 트랜잭션(3)
+  [JAVA] JPA 연관관계(4)
+  [JAVA] JPA 영속성 컨텍스트(5)
 
 
-  java 1.8
-  Spring Boot 2.2.4.RELEASE
-  H2 DataBase
-    
-      H2 DataBase는 In-Memory형식으로 Test및 개발시 많이 사용하게 됩니다.(운영에서는 사용X)
-    
-  ...
+1. 시작하기(환경설정)
+이번 시간부터 실습을 통해서 JPA에 대해 알아보겠습니다...
             
         </div>
     </a>
@@ -334,9 +351,18 @@ main Apllication
         
         <div class="post-content-preview">
             
-                1. ORM(Object-relational-mapping)
+                관련된 글
 
-JPA에 앞서 먼저 ORM에 대해 알아 보겠습니다. ORM은 Object-relational-mapping(객체 관계 매핑)의 약자 입니다. 말그대로 객체를 이용하여 매핑하는 것 입니다…. 사실 어떤 건지는 알겠는데.. ~란?했을때 딱 떨어지게 말을 못하겠습니다.. 제가 부족해서 그런거겠죠...
+  [JAVA] JPA(Java Persistence API)란?(1)
+  [JAVA] JPA 기본설정 및 객체생성(2)
+  [JAVA] JPA 어노테이션 및 트랜잭션(3)
+  [JAVA] JPA 연관관계(4)
+  [JAVA] JPA 영속성 컨텍스트(5)
+
+
+1. ORM(Object-relational-mapping)
+
+JPA에 앞서 먼저...
             
         </div>
     </a>
@@ -492,34 +518,17 @@ Java를 처음 접하고 가장 먼저 적었던 코드가 있습니다. 바로 
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2019/06/13/jvm/">
-        <h2 class="post-title">
-            [Java] JVM이란 ?
-        </h2>
-        
-        <h3 class="post-subtitle">
-             About JVM 
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                JVM
-
-JVM(Java Virtual Machine)은 Java를 다루는 사람이라면 실력을 막론하고 들어본 이름입니다.
-바로 Java 언어의 특징 중 ‘운영체제(OS / platform)에 독립적이다’의 주인공입니다.
-사실 저는 JVM 자바 가상 머신 즉, 가상으로 자바 코드를 돌리기 때문에 독립적이다라고만 알고 있엇고, 그 안에 메모리가 있는지 조...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by JongMin-Lee on June 13, 2019
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
+
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page2">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
 
 
     		</div>
@@ -545,7 +554,7 @@ JVM(Java Virtual Machine)은 Java를 다루는 사람이라면 실력을 막론�
         </a>
         
         
-                <a data-sort="0005" 
+                <a data-sort="0006" 
                     href="/archive/?tag=Java"
                     title="Java"
                     rel="5">Java</a>
@@ -553,24 +562,24 @@ JVM(Java Virtual Machine)은 Java를 다루는 사람이라면 실력을 막론�
                 <a data-sort="0006" 
                     href="/archive/?tag=JAVA"
                     title="JAVA"
-                    rel="4">JAVA</a>
+                    rel="5">JAVA</a>
         
                 <a data-sort="0006" 
                     href="/archive/?tag=JPA"
                     title="JPA"
-                    rel="4">JPA</a>
+                    rel="5">JPA</a>
         
                 <a data-sort="0006" 
                     href="/archive/?tag=Spring+Boot"
                     title="Spring Boot"
-                    rel="4">Spring Boot</a>
+                    rel="5">Spring Boot</a>
         
-                <a data-sort="0008" 
+                <a data-sort="0009" 
                     href="/archive/?tag=Servlet"
                     title="Servlet"
                     rel="2">Servlet</a>
         
-                <a data-sort="0008" 
+                <a data-sort="0009" 
                     href="/archive/?tag=Static"
                     title="Static"
                     rel="2">Static
