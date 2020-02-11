@@ -11,7 +11,7 @@
     <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="[JAVA] JPA 연관관계 - Jongmin's Blog">
+    <meta property="og:title" content="[JAVA] JPA 연관관계(4) - Jongmin's Blog">
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="이번에는 연관관계에 대해 보겠습니다.
@@ -36,7 +36,7 @@
     <meta property="og:url" content="http://localhost:4000/2020/02/10/jpa4/">
     <meta property="og:site_name" content="Jongmin's Blog">
     
-    <title>[JAVA] JPA 연관관계 - Jongmin's Blog</title>
+    <title>[JAVA] JPA 연관관계(4) - Jongmin's Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -227,7 +227,7 @@
                         <a class="tag" href="/archive/?tag=Spring+Boot" title="Spring Boot">Spring Boot</a>
                         
                     </div>
-                    <h1>[JAVA] JPA 연관관계</h1>
+                    <h1>[JAVA] JPA 연관관계(4)</h1>
                     
                     <h2 class="subheading"> About JPA Relation</h2>
                     <span class="meta">Posted by JongMin-Lee on February 10, 2020</span>
@@ -419,7 +419,7 @@ JPA에서의 양방향 매핑은 데이터베이스와는 다른 형태입니다
 <img src="/img/in-post/jpa4/relation5.jpg" /></p>
 <center>참고: 위키피디아</center>
 
-<p>저희는 위에서 <strong>Member</strong>에서 <strong>Clob</strong>로 가는 매핑은 설정을 했습니다. 그렇다면 이번에는 <strong>Clob</strong>에서 <strong>Member</strong>로 가는 매핑을 설정해보겠습니다.</p>
+<p>저희는 위에서 <strong>Member</strong>에서 <strong>Clob</strong>로 가는 매핑은 설정을 했습니다. 그렇다면 이번에는 <strong>Club</strong>에서 <strong>Member</strong>로 가는 매핑을 설정해보겠습니다.</p>
 <blockquote>
   <p>데이터베이스와 JPA의 차이점이 여기서 나타납니다.<br />
 데이터베이스에서는 한쪽이 연결되면 다른쪽에서도 참조가 가능합니다. 예를들어 Member와 Club이 연결되었다면 서로 JOIN하여 검색이 가능합니다. 그러나 JPA에서는 위의 설정만 가지고 Member에서 Club은 참조가 가능하나 Club에서는 Member를 참조할 수가 없습니다.</p>
@@ -505,8 +505,7 @@ JPA에서의 양방향 매핑은 데이터베이스와는 다른 형태입니다
 36
 37
 38
-39
-</pre></td><td class="rouge-code"><pre> <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</pre></td><td class="rouge-code"><pre>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
 
         <span class="n">EntityManagerFactory</span> <span class="n">entityManagerFactory</span> <span class="o">=</span> <span class="n">Persistence</span><span class="o">.</span><span class="na">createEntityManagerFactory</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">);</span>
@@ -529,7 +528,6 @@ JPA에서의 양방향 매핑은 데이터베이스와는 다른 형태입니다
 
             <span class="n">Member</span> <span class="n">findMember</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">Member</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">member</span><span class="o">.</span><span class="na">getMember_id</span><span class="o">());</span>
             <span class="n">Club</span> <span class="n">findClub</span> <span class="o">=</span> <span class="n">findMember</span><span class="o">.</span><span class="na">getClub</span><span class="o">();</span>
-            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Club Name : "</span> <span class="o">+</span> <span class="n">findClub</span><span class="o">.</span><span class="na">getClubName</span><span class="o">());</span>
 
             <span class="n">List</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">&gt;</span> <span class="n">members</span> <span class="o">=</span> <span class="n">findClub</span><span class="o">.</span><span class="na">getMemberList</span><span class="o">();</span>
             <span class="k">for</span><span class="o">(</span><span class="n">Member</span> <span class="n">member1</span> <span class="o">:</span> <span class="n">members</span><span class="o">){</span>
@@ -547,8 +545,41 @@ JPA에서의 양방향 매핑은 데이터베이스와는 다른 형태입니다
     <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>이전의 단방향 코드에서 <code class="highlighter-rouge">List&lt;Member&gt; members = findClub.getMemberList();</code>를 통해서 <strong>MemberList</strong>가 출력되는지 확인 하는 코드가 추가 되었습니다.(flush()와 clear()가 추가 되었는데 이후의 장에서 설명하겠습니다.)<br />
-콘솔창을 확인해 보시면 <strong>Member</strong> Entity에 저장한 <strong>‘jongmin’</strong>이 출력되는 것을 볼 수 있습니다.</p>
+콘솔창을 확인해 보시면 <strong>Member</strong> Entity에 저장한 <strong>‘jongmin’</strong> 이 출력되는 것을 볼 수 있습니다.<br />
+<strong>Club</strong> 엔터티에 추가 된것을 보면 <strong>@OneToMany</strong>와 <strong>mappedBy</strong> 입니다. 양방향 관계에서 이 <strong>mappedBy</strong>는 정말 중요한 역할을 합니다. JPA에서의 양방향 관계는 <strong>주인(Owner)</strong> 을 정해줘야 합니다.</p>
 
+<p><strong>양방향 매핑 규칙</strong></p>
+<ul>
+  <li>객체의 두 관계중 하나를 연관관계의 <strong>주인(Owner)</strong> 으로 지정해야 한다.</li>
+  <li>연관관계의 주인만이 왜래 키를 관리(등록, 수정) 한다.</li>
+  <li>주인은 <strong>‘mappedBy’</strong> 속성을 사용하지 않는다.</li>
+  <li>주인이 아니면 <strong>‘mappedBy’</strong> 속성으로 <strong>주인(Owner)</strong> 를 지정한다.</li>
+</ul>
+
+<p>두 앤터티중 누구를 주인으로 정하는가는 보통 <strong>외래키</strong>가 있는 엔터티를 주인으로 지정합니다. 그렇지만 단방향으로 설계하는 것이 가장 좋다고 생각합니다. 단방향으로 설계 후 양방향 관계가 필요한 경우에만 사용하는 방식으로 개발하면 좋을 것 같습니다.</p>
+<blockquote>
+  <p><strong>주의사항</strong><br />
+양방향 매핑시 연관관계의 주인에 값을 입력해야 한다.<br />
+(순수한 객체 관계를 고려하면 양쪽다 값을 입력해야 한다.)</p>
+</blockquote>
+
+<p><strong>양방향 매핑의 장점</strong></p>
+<ul>
+  <li>단방향 매핑만으로도 이미 연관관계 매핑은 완료.</li>
+  <li>양방향 매핑은 반대 방향으로 조회(객체 그래프 탐색) 기능이 추가된 것 뿐</li>
+  <li>JPQL에서 역방향으로 탐색할 일이 많음.</li>
+  <li>단방향 매핑을 잘 하고 양방향 매핑은 필요할 때 추가해도 됨(테이블에 영향 X)</li>
+</ul>
+
+<p>이번에는 연관관계에 대해서 알아봤습니다. 마지막으로 Persistence Context(영속성 컨텍스트)에 대해 알아보겠습니다.</p>
+
+<p>전체 코드는 <a href="https://github.com/JongMinLee0/java-persistence-api">Github</a>에서 확인해보실수 있습니다.</p>
+
+<h5 id="참고">참고</h5>
+<ul>
+  <li>Baeldung (https://www.baeldung.com/hibernate-one-to-many)</li>
+  <li>SKplanet Academy (https://www.youtube.com/channel/UCtV98yyffjUORQRGTuLHomw)</li>
+</ul>
 
 
                 <hr style="visibility: hidden;">

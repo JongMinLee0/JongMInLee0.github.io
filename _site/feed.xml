@@ -5,12 +5,12 @@
     <description>description</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 10 Feb 2020 18:51:43 +0900</pubDate>
-    <lastBuildDate>Mon, 10 Feb 2020 18:51:43 +0900</lastBuildDate>
+    <pubDate>Tue, 11 Feb 2020 19:11:43 +0900</pubDate>
+    <lastBuildDate>Tue, 11 Feb 2020 19:11:43 +0900</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
-        <title>[JAVA] JPA 연관관계</title>
+        <title>[JAVA] JPA 연관관계(4)</title>
         <description>&lt;p&gt;이번에는 연관관계에 대해 보겠습니다.&lt;br /&gt;
 연관관계에는 &lt;strong&gt;단방향&lt;/strong&gt;과 &lt;strong&gt;양방향&lt;/strong&gt;이 있습니다. 차례대로 살펴 보겠습니다.&lt;/p&gt;
 
@@ -174,7 +174,7 @@ JPA에서의 양방향 매핑은 데이터베이스와는 다른 형태입니다
 &lt;img src=&quot;/img/in-post/jpa4/relation5.jpg&quot; /&gt;&lt;/p&gt;
 &lt;center&gt;참고: 위키피디아&lt;/center&gt;
 
-&lt;p&gt;저희는 위에서 &lt;strong&gt;Member&lt;/strong&gt;에서 &lt;strong&gt;Clob&lt;/strong&gt;로 가는 매핑은 설정을 했습니다. 그렇다면 이번에는 &lt;strong&gt;Clob&lt;/strong&gt;에서 &lt;strong&gt;Member&lt;/strong&gt;로 가는 매핑을 설정해보겠습니다.&lt;/p&gt;
+&lt;p&gt;저희는 위에서 &lt;strong&gt;Member&lt;/strong&gt;에서 &lt;strong&gt;Clob&lt;/strong&gt;로 가는 매핑은 설정을 했습니다. 그렇다면 이번에는 &lt;strong&gt;Club&lt;/strong&gt;에서 &lt;strong&gt;Member&lt;/strong&gt;로 가는 매핑을 설정해보겠습니다.&lt;/p&gt;
 &lt;blockquote&gt;
   &lt;p&gt;데이터베이스와 JPA의 차이점이 여기서 나타납니다.&lt;br /&gt;
 데이터베이스에서는 한쪽이 연결되면 다른쪽에서도 참조가 가능합니다. 예를들어 Member와 Club이 연결되었다면 서로 JOIN하여 검색이 가능합니다. 그러나 JPA에서는 위의 설정만 가지고 Member에서 Club은 참조가 가능하나 Club에서는 Member를 참조할 수가 없습니다.&lt;/p&gt;
@@ -260,8 +260,7 @@ JPA에서의 양방향 매핑은 데이터베이스와는 다른 형태입니다
 36
 37
 38
-39
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
         &lt;span class=&quot;n&quot;&gt;SpringApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DemoApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
 
         &lt;span class=&quot;n&quot;&gt;EntityManagerFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManagerFactory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Persistence&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;createEntityManagerFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jongmin&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
@@ -284,7 +283,6 @@ JPA에서의 양방향 매핑은 데이터베이스와는 다른 형태입니다
 
             &lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findMember&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entityManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getMember_id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
             &lt;span class=&quot;n&quot;&gt;Club&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findClub&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findMember&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Club Name : &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getClubName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
 
             &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;members&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getMemberList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
             &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Member&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;member1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;members&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
@@ -302,8 +300,41 @@ JPA에서의 양방향 매핑은 데이터베이스와는 다른 형태입니다
     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;이전의 단방향 코드에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;List&amp;lt;Member&amp;gt; members = findClub.getMemberList();&lt;/code&gt;를 통해서 &lt;strong&gt;MemberList&lt;/strong&gt;가 출력되는지 확인 하는 코드가 추가 되었습니다.(flush()와 clear()가 추가 되었는데 이후의 장에서 설명하겠습니다.)&lt;br /&gt;
-콘솔창을 확인해 보시면 &lt;strong&gt;Member&lt;/strong&gt; Entity에 저장한 &lt;strong&gt;‘jongmin’&lt;/strong&gt;이 출력되는 것을 볼 수 있습니다.&lt;/p&gt;
+콘솔창을 확인해 보시면 &lt;strong&gt;Member&lt;/strong&gt; Entity에 저장한 &lt;strong&gt;‘jongmin’&lt;/strong&gt; 이 출력되는 것을 볼 수 있습니다.&lt;br /&gt;
+&lt;strong&gt;Club&lt;/strong&gt; 엔터티에 추가 된것을 보면 &lt;strong&gt;@OneToMany&lt;/strong&gt;와 &lt;strong&gt;mappedBy&lt;/strong&gt; 입니다. 양방향 관계에서 이 &lt;strong&gt;mappedBy&lt;/strong&gt;는 정말 중요한 역할을 합니다. JPA에서의 양방향 관계는 &lt;strong&gt;주인(Owner)&lt;/strong&gt; 을 정해줘야 합니다.&lt;/p&gt;
 
+&lt;p&gt;&lt;strong&gt;양방향 매핑 규칙&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;객체의 두 관계중 하나를 연관관계의 &lt;strong&gt;주인(Owner)&lt;/strong&gt; 으로 지정해야 한다.&lt;/li&gt;
+  &lt;li&gt;연관관계의 주인만이 왜래 키를 관리(등록, 수정) 한다.&lt;/li&gt;
+  &lt;li&gt;주인은 &lt;strong&gt;‘mappedBy’&lt;/strong&gt; 속성을 사용하지 않는다.&lt;/li&gt;
+  &lt;li&gt;주인이 아니면 &lt;strong&gt;‘mappedBy’&lt;/strong&gt; 속성으로 &lt;strong&gt;주인(Owner)&lt;/strong&gt; 를 지정한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;두 앤터티중 누구를 주인으로 정하는가는 보통 &lt;strong&gt;외래키&lt;/strong&gt;가 있는 엔터티를 주인으로 지정합니다. 그렇지만 단방향으로 설계하는 것이 가장 좋다고 생각합니다. 단방향으로 설계 후 양방향 관계가 필요한 경우에만 사용하는 방식으로 개발하면 좋을 것 같습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;주의사항&lt;/strong&gt;&lt;br /&gt;
+양방향 매핑시 연관관계의 주인에 값을 입력해야 한다.&lt;br /&gt;
+(순수한 객체 관계를 고려하면 양쪽다 값을 입력해야 한다.)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;양방향 매핑의 장점&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;단방향 매핑만으로도 이미 연관관계 매핑은 완료.&lt;/li&gt;
+  &lt;li&gt;양방향 매핑은 반대 방향으로 조회(객체 그래프 탐색) 기능이 추가된 것 뿐&lt;/li&gt;
+  &lt;li&gt;JPQL에서 역방향으로 탐색할 일이 많음.&lt;/li&gt;
+  &lt;li&gt;단방향 매핑을 잘 하고 양방향 매핑은 필요할 때 추가해도 됨(테이블에 영향 X)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이번에는 연관관계에 대해서 알아봤습니다. 마지막으로 Persistence Context(영속성 컨텍스트)에 대해 알아보겠습니다.&lt;/p&gt;
+
+&lt;p&gt;전체 코드는 &lt;a href=&quot;https://github.com/JongMinLee0/java-persistence-api&quot;&gt;Github&lt;/a&gt;에서 확인해보실수 있습니다.&lt;/p&gt;
+
+&lt;h5 id=&quot;참고&quot;&gt;참고&lt;/h5&gt;
+&lt;ul&gt;
+  &lt;li&gt;Baeldung (https://www.baeldung.com/hibernate-one-to-many)&lt;/li&gt;
+  &lt;li&gt;SKplanet Academy (https://www.youtube.com/channel/UCtV98yyffjUORQRGTuLHomw)&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         <pubDate>Mon, 10 Feb 2020 00:00:00 +0900</pubDate>
         <link>http://localhost:4000/2020/02/10/jpa4/</link>
