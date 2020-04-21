@@ -5,8 +5,8 @@
     <description>description</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 21 Apr 2020 17:13:56 +0900</pubDate>
-    <lastBuildDate>Tue, 21 Apr 2020 17:13:56 +0900</lastBuildDate>
+    <pubDate>Tue, 21 Apr 2020 18:26:51 +0900</pubDate>
+    <lastBuildDate>Tue, 21 Apr 2020 18:26:51 +0900</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -112,7 +112,7 @@ Spring Security는 다음과 같은 일을 할 수 있습니다.&lt;/p&gt;
 7
 8
 &lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nd&quot;&gt;@RestController&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HomeResource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MainController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
 
     &lt;span class=&quot;nd&quot;&gt;@GetMapping&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
@@ -138,19 +138,37 @@ Spring Security는 다음과 같은 일을 할 수 있습니다.&lt;/p&gt;
 &lt;p&gt;Spring Security에는 Default로 동작하는 기능이 있기 때문에 위와 같은 현상이 발생합니다. Default로 동작하는 기능은 다음과 같습니다.&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Login Form을 추가해 줍니다.&lt;/li&gt;
-  &lt;li&gt;URL들을 인증합니다.&lt;/li&gt;
+  &lt;li&gt;URL들을 인증합니다.(All APIs)&lt;/li&gt;
   &lt;li&gt;Login Error을 다뤄 줍니다.&lt;/li&gt;
   &lt;li&gt;user를 생성하고 비밀번호를 생성합니다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;사용자와 비밀번호를 바꿔주기 위해 다음 설정을 추가해 줍니다.
-&lt;strong&gt;application.properties&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;사용자와 비밀번호를 바꿔주기 위해 다음 설정을 추가해 줍니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;application.properties&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;language-properties highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
 2
 &lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;py&quot;&gt;spring.security.user.name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;jongmin&lt;/span&gt;
 &lt;span class=&quot;py&quot;&gt;spring.security.user.password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;lee&lt;/span&gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;다시 실행하게 되면 console창에는 비밀번호가 생성되지 않습니다. 또한 username과 password에 지정해준 설정 값을 입력하게 되면 Sign in이 성공적으로 처리 됩니다.&lt;/p&gt;
+
+&lt;p&gt;여기서 한 가지 의문이 생기게 됩니다. 의존성을 추가하는 것만으로 default 기능이 어떻게 동작할까? 그것은 Spring Security가 Filter기반으로 동작하기 때문입니다. 여러개의 Filter가 연결되어 있는 형태를 Filter Chain이라 하는데 Spring Security는 이 Filter Chain형태 입니다. 따라서 Filter를 추가/제거 함으로서 Customizing 할 수도 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/security1/security4.png&quot; /&gt;
+Spring Security의 architecture는 위와 같은 구조를 뜁니다. 위의 Filter들을 간단하게 알아 보겠습니다.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;ChannelProcessingFilter : 다른 프로토콜로 리다이렉트 할 때 필요합니다.&lt;/li&gt;
+  &lt;li&gt;SecurityContextPersistenceFilter : Web Request가 시작할 때 SecurityContextHolder에서 SecurityContext를 설정하며, Web Request가 종료될 때 SecurityContext에 대한 변경내용을 HttpSession에 복사합니다.(다음 web request와 사용할 준비 완료)&lt;/li&gt;
+  &lt;li&gt;ConcurrentSessionFilter : SecurityContextHolder의 기능을 사용하지만 SessionRegistry를 업데이트하여 principal의 request를 지속적으로 반영해야 한다.&lt;/li&gt;
+  &lt;li&gt;UsernamePasswordAuthenticationFilter : 유효한 인증 토큰을 갖도록 SecurityContextHolder를 수정할 수 있도록 한다.&lt;/li&gt;
+  &lt;li&gt;SecurityContextHolderAwareRequestFilter : HttpServletRequestWrapper를 Servlet Container에 설치하는데 사용하는 경우&lt;/li&gt;
+  &lt;li&gt;JaasApiIntegrationFilter : JAAS(Java Authentication and Authorization)와 Spring SecurityContext를 같이 사용할 수 있도록 지원한다.&lt;/li&gt;
+  &lt;li&gt;RememberMeAuthenticationFilter : 만약 이전의 인증처리 메커니즘이 SerucityContextHolder를 업데이트 하지 않았고, 요청이 기억하기 위한 서비스를 수행할 수 있는 쿠키를 제공하는 경우, 기억된 인증 개체가 그곳에 저장될 것이다.&lt;/li&gt;
+  &lt;li&gt;AnonymousAuthenticationFilter : 이 전에 인증 처리 메커니즘이 SecurityContextHolder를 업데이트 하지 않았을 경우 익명 인증 개체가 여기에 배치되도록 한다.&lt;/li&gt;
+  &lt;li&gt;ExceptionTranslationFilter : Spring Security에서 발생하는 예외를 catch하여 HTTP에러 응답을 적절한 위치에 보낸다.&lt;/li&gt;
+  &lt;li&gt;FilterSecurityInterceptor : Web URI를 보호하고 액세스가 거부된 경우 예외가 발생한다.&lt;/li&gt;
+&lt;/ol&gt;
 
 </description>
         <pubDate>Fri, 03 Apr 2020 00:00:00 +0900</pubDate>

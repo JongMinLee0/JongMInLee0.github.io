@@ -357,7 +357,7 @@ Spring Security는 다음과 같은 일을 할 수 있습니다.</p>
 7
 8
 </pre></td><td class="rouge-code"><pre><span class="nd">@RestController</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HomeResource</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainController</span> <span class="o">{</span>
 
     <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/"</span><span class="o">)</span>
     <span class="kd">public</span> <span class="n">String</span> <span class="nf">home</span><span class="o">(){</span>
@@ -383,19 +383,37 @@ Spring Security는 다음과 같은 일을 할 수 있습니다.</p>
 <p>Spring Security에는 Default로 동작하는 기능이 있기 때문에 위와 같은 현상이 발생합니다. Default로 동작하는 기능은 다음과 같습니다.</p>
 <ul>
   <li>Login Form을 추가해 줍니다.</li>
-  <li>URL들을 인증합니다.</li>
+  <li>URL들을 인증합니다.(All APIs)</li>
   <li>Login Error을 다뤄 줍니다.</li>
   <li>user를 생성하고 비밀번호를 생성합니다.</li>
 </ul>
 
-<p>사용자와 비밀번호를 바꿔주기 위해 다음 설정을 추가해 줍니다.
-<strong>application.properties</strong></p>
+<p>사용자와 비밀번호를 바꿔주기 위해 다음 설정을 추가해 줍니다.</p>
+
+<p><strong>application.properties</strong></p>
 <div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre><span class="py">spring.security.user.name</span><span class="p">=</span><span class="s">jongmin</span>
 <span class="py">spring.security.user.password</span><span class="p">=</span><span class="s">lee</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>다시 실행하게 되면 console창에는 비밀번호가 생성되지 않습니다. 또한 username과 password에 지정해준 설정 값을 입력하게 되면 Sign in이 성공적으로 처리 됩니다.</p>
+
+<p>여기서 한 가지 의문이 생기게 됩니다. 의존성을 추가하는 것만으로 default 기능이 어떻게 동작할까? 그것은 Spring Security가 Filter기반으로 동작하기 때문입니다. 여러개의 Filter가 연결되어 있는 형태를 Filter Chain이라 하는데 Spring Security는 이 Filter Chain형태 입니다. 따라서 Filter를 추가/제거 함으로서 Customizing 할 수도 있습니다.</p>
+
+<p><img src="/img/in-post/security1/security4.png" />
+Spring Security의 architecture는 위와 같은 구조를 뜁니다. 위의 Filter들을 간단하게 알아 보겠습니다.</p>
+<ol>
+  <li>ChannelProcessingFilter : 다른 프로토콜로 리다이렉트 할 때 필요합니다.</li>
+  <li>SecurityContextPersistenceFilter : Web Request가 시작할 때 SecurityContextHolder에서 SecurityContext를 설정하며, Web Request가 종료될 때 SecurityContext에 대한 변경내용을 HttpSession에 복사합니다.(다음 web request와 사용할 준비 완료)</li>
+  <li>ConcurrentSessionFilter : SecurityContextHolder의 기능을 사용하지만 SessionRegistry를 업데이트하여 principal의 request를 지속적으로 반영해야 한다.</li>
+  <li>UsernamePasswordAuthenticationFilter : 유효한 인증 토큰을 갖도록 SecurityContextHolder를 수정할 수 있도록 한다.</li>
+  <li>SecurityContextHolderAwareRequestFilter : HttpServletRequestWrapper를 Servlet Container에 설치하는데 사용하는 경우</li>
+  <li>JaasApiIntegrationFilter : JAAS(Java Authentication and Authorization)와 Spring SecurityContext를 같이 사용할 수 있도록 지원한다.</li>
+  <li>RememberMeAuthenticationFilter : 만약 이전의 인증처리 메커니즘이 SerucityContextHolder를 업데이트 하지 않았고, 요청이 기억하기 위한 서비스를 수행할 수 있는 쿠키를 제공하는 경우, 기억된 인증 개체가 그곳에 저장될 것이다.</li>
+  <li>AnonymousAuthenticationFilter : 이 전에 인증 처리 메커니즘이 SecurityContextHolder를 업데이트 하지 않았을 경우 익명 인증 개체가 여기에 배치되도록 한다.</li>
+  <li>ExceptionTranslationFilter : Spring Security에서 발생하는 예외를 catch하여 HTTP에러 응답을 적절한 위치에 보낸다.</li>
+  <li>FilterSecurityInterceptor : Web URI를 보호하고 액세스가 거부된 경우 예외가 발생한다.</li>
+</ol>
 
 
 
