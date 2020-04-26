@@ -11,38 +11,27 @@
     <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="[JAVA] JPA(Java Persistence API)란?(1)  - Jongmin's Blog">
+    <meta property="og:title" content="[Java] Java8 Interface default method - Jongmin's Blog">
     
     <meta property="og:type" content="article">
-    <meta property="og:description" content="관련된 글
-
-  [JAVA] JPA(Java Persistence API)란?(1)
-  [JAVA] JPA 기본설정 및 객체생성(2)
-  [JAVA] JPA 어노테이션 및 트랜잭션(3)
-  [JAVA] JPA 연관관계(4)
-  [JAVA] JPA 영속성 컨텍스트(5)
-
+    <meta property="og:description" content="Java8 이전의 interface는 abstract(추상) 메서드만 가질 수 있었습니다. 모든 메서드는 기본적으로 접근제어자는 public이고, abstract 메서드 입니다. 그러나 Java8이 등장하면서 default method와 static method가 추가 되었습니다. 이 두가지에 대해 알아보도록 하겠습니다.
 
 ">
     
-    <meta property="article:published_time" content="2020-02-09T00:00:00Z">
+    <meta property="article:published_time" content="2020-04-26T00:00:00Z">
     
     
     <meta property="article:author" content="JongMin-Lee">
     
     
-    <meta property="article:tag" content="JPA">
-    
     <meta property="article:tag" content="JAVA">
-    
-    <meta property="article:tag" content="Spring Boot">
     
     
     <meta property="og:image" content="http://localhost:4000">
-    <meta property="og:url" content="http://localhost:4000/2020/02/09/jpa1/">
+    <meta property="og:url" content="http://localhost:4000/2020/04/26/defaultmethod/">
     <meta property="og:site_name" content="Jongmin's Blog">
     
-    <title>[JAVA] JPA(Java Persistence API)란?(1)  - Jongmin's Blog</title>
+    <title>[Java] Java8 Interface default method - Jongmin's Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -51,7 +40,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2020/02/09/jpa1/">
+    <link rel="canonical" href="http://localhost:4000/2020/04/26/defaultmethod/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -228,17 +217,13 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/archive/?tag=JPA" title="JPA">JPA</a>
-                        
                         <a class="tag" href="/archive/?tag=JAVA" title="JAVA">JAVA</a>
                         
-                        <a class="tag" href="/archive/?tag=Spring+Boot" title="Spring Boot">Spring Boot</a>
-                        
                     </div>
-                    <h1>[JAVA] JPA(Java Persistence API)란?(1) </h1>
+                    <h1>[Java] Java8 Interface default method</h1>
                     
-                    <h2 class="subheading"> About JPA and ORM</h2>
-                    <span class="meta">Posted by JongMin-Lee on February 9, 2020</span>
+                    <h2 class="subheading"> About Default method in java8</h2>
+                    <span class="meta">Posted by JongMin-Lee on April 26, 2020</span>
                 </div>
             </div>
         </div>
@@ -264,110 +249,12 @@
                 <!-- Multi-Lingual -->
                 
 
-				<h4 id="관련된-글">관련된 글</h4>
-<ol>
-  <li><strong><a href="/2020/02/09/jpa1">[JAVA] JPA(Java Persistence API)란?(1)</a></strong></li>
-  <li><strong><a href="/2020/02/09/jpa2">[JAVA] JPA 기본설정 및 객체생성(2)</a></strong></li>
-  <li><strong><a href="/2020/02/10/jpa3">[JAVA] JPA 어노테이션 및 트랜잭션(3)</a></strong></li>
-  <li><strong><a href="/2020/02/10/jpa4">[JAVA] JPA 연관관계(4)</a></strong></li>
-  <li><strong><a href="/2020/02/11/jpa5">[JAVA] JPA 영속성 컨텍스트(5)</a></strong></li>
-</ol>
+				<p>Java8 이전의 <strong>interface는 abstract(추상)</strong> 메서드만 가질 수 있었습니다. 모든 메서드는 기본적으로 접근제어자는 public이고, abstract 메서드 입니다. 그러나 Java8이 등장하면서 <strong>default method</strong>와 <strong>static method</strong>가 추가 되었습니다. 이 두가지에 대해 알아보도록 하겠습니다.</p>
 
-<h2 id="1-ormobject-relational-mapping">1. ORM(Object-relational-mapping)</h2>
+<h2 id="1-default-method">1. Default Method</h2>
+<p>기존에 interface에는 한 가지 불편한 점이 존재했습니다. Interface A가 존재할 때 A를 implements한 B, C, D클래스가 있다고 해보겠습니다. 만약 Interface A에 메서드를 1개 추가한다면 B, C, D를 모두 수정해줘야 합니다. 지금은 1개의 interface와 3개의 클래스 밖에 되지 않지만 만약 수십, 수백개라면 엄청나게 복잡한 작업이 될 것 입니다. interface의 메서드를 의무적으로 구현(implements)해야 한다는 점이 장점이 될 수도 있으나 단점이 될 수도 있기 때문에 default method가 등장했습니다.</p>
 
-<p>JPA에 앞서 먼저 ORM에 대해 알아 보겠습니다. ORM은 Object-relational-mapping(객체 관계 매핑)의 약자 입니다. 말그대로 객체를 이용하여 매핑하는 것 입니다…. 사실 어떤 건지는 알겠는데.. ~란?했을때 딱 떨어지게 말을 못하겠습니다.. 제가 부족해서 그런거겠죠?.</p>
-
-<p>ORM은 애플리케이션과 데이터베이스 사이에서 객체 지향 페러다임을 이용 데이터베이스를 다룰 수 있는 프레임워크 입니다. 대중적인 언어 대부분에는 ORM 기술이 존재합니다. JPA도 ORM 기술중 하나입니다.</p>
-
-<p>더 자세한 사항은 JPA를 알아보며 보겠습니다.</p>
-
-<h2 id="2-jpajava-persistence-api">2. JPA(Java Persistence API)</h2>
-<p>JPA가 나온 배경은 기본 <strong>관계형 데이터베이스(RDBMS)</strong> 와 <strong>객체지향형 프로그래밍(OOP)</strong> 의 간격을 좁히기 위해 나온 자바 진영의 ORM 표준 기준 입니다.</p>
-<blockquote>
-  <p>간격을 예시를 통해 쉽게 말해보자면 프로젝트를 진행하며 Java에서 객체(Object, POJO 등..)에 집중하며 개발하기 보다 각 테이블과 테이블 간의 관계, 즉 DB에 더 집중해 개발을한다는 것을 의미 한다고 생각합니다.</p>
-</blockquote>
-
-<p><img src="/img/in-post/jpa_orm/jpa_layer.png" style="width:400px; height:500px;" />  <center>이미지 참고:Java world</center></p>
-
-<p>JPA는 Applicaion과 JDBC사이에서 매핑역할을 해줍니다. 매핑역할과 동시에 dialect(방언)을 처리해주는 역할도 해줍니다.</p>
-<blockquote>
-  <p><strong>dialect(방언)</strong><br />
-방언은 우리말로 사투리라고도 할 수 있는데요 데이터베이스는 각각이 제공하는 SQL문법과 함수가 조금씩 다릅니다. 이것들을 데이터베이스의 dialect라고 할 수 있는데 이 dialect를 JPA에서 속성을 지정하여 처리해 줍니다.
-<code class="highlighter-rouge">spring.jpa.database-platform=org.hibernate.dialect.H2Dialect</code></p>
-  <blockquote>
-    <p><strong>dialect의 예시</strong><br />
-가변문자 : Mysql은 VARCHAR, Oracle은 VARCHAR2<br />
-문자열함수 : SQL표준은 SUBSTRING(), Oracle은 SUBSTR()<br />
-페이징 : Mysql은 LIMIT, Oracle은 ROWNUM</p>
-  </blockquote>
-</blockquote>
-
-<p>JPA를 사용하는 이유는 다음과 같은 이유들이 있습니다.</p>
-<ul>
-  <li>SQL 중심개발에서 객체 중심으로 개발</li>
-  <li>생산성 증가</li>
-  <li>유지보수 용이</li>
-  <li>패러다임의 불일치 해결</li>
-  <li>성능 최적화</li>
-</ul>
-
-<p>등이 있습니다. 위의 특징들을 앞으로 알아보도록 하겠습니다.<br />
-먼저 JPA와 RDBMS와의 차이를 보겠습니다.</p>
-
-<h2 id="3-jpa-vs-rdbms">3. JPA vs RDBMS</h2>
-<p>RDMS는 SQL 개발이 중심을 이룹니다.
-다음과 같은 Object가 있다고 하겠습니다.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Member</span><span class="o">{</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
-  <span class="c1">// ....</span>
-<span class="o">}</span>
-</pre></td></tr></tbody></table></code></pre></div></div>
-<p>이 Class에 대해 RDBMS에서 다음과 같이 sql을 작성할 수 있습니다.</p>
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-</pre></td><td class="rouge-code"><pre><span class="k">SELECT</span> <span class="n">ID</span><span class="p">,</span> <span class="n">NAME</span><span class="p">,</span> <span class="n">AGE</span> <span class="k">FROM</span> <span class="n">MEMBER</span><span class="p">;</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">MEMBER</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="nv">"id"</span><span class="p">,</span> <span class="nv">"name"</span><span class="p">,</span> <span class="nv">"age"</span><span class="p">);</span>
-</pre></td></tr></tbody></table></code></pre></div></div>
-<p>여기서 Member Class에 Field가 추가 되었다고 해보면 다음과 같은 일이 벌어집니다.</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Member</span><span class="o">{</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span> <span class="c1">// 추가된 컬럼</span>
-<span class="o">}</span>
-</pre></td></tr></tbody></table></code></pre></div></div>
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-</pre></td><td class="rouge-code"><pre><span class="k">SELECT</span> <span class="n">ID</span><span class="p">,</span> <span class="n">NAME</span><span class="p">,</span> <span class="n">AGE</span><span class="p">,</span> <span class="n">EMAIL</span> <span class="k">FROM</span> <span class="n">MEMBER</span><span class="p">;</span>
-<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">MEMBER</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">EMAIL</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="nv">"id"</span><span class="p">,</span> <span class="nv">"name"</span><span class="p">,</span> <span class="nv">"age"</span><span class="p">,</span> <span class="nv">"email"</span><span class="p">);</span>
-</pre></td></tr></tbody></table></code></pre></div></div>
-<p>위와 같이 SQL문 하나하나에 변경사항을 입력해줘야 합니다. 지금은 Field하나, SQL문 두줄의 수정이지만 프로젝트 도중 몇십개의 테이블에 변화가 일어난다면 상상도 하기 싫은 일입니다;;<br />
-그러나 JPA의 경우 필드를 추가하면 거기서 끝입니다.ㅎㅎㅎ<br />
-이외에도 상속, 연관관계, 데이터타입, 데이터 식별방법등이 있습니다.</p>
-
-<p>1) <strong>상속</strong><br />
-<strong>[객체 상속관계] vs [Table 슈퍼타입 서브타입 관계]</strong><br />
-DB에서는 상속관계를 거의 사용하지 않습니다.</p>
-
-<p>2) <strong>연관관계</strong><br />
-<strong>[객체 참조사용] vs [외래키 사용(JOIN)]</strong><br />
-테이블의 외래키를 사용하여 JOIN할 경우 객체를 테이블에 맞추어 모델링 하는 일이 빈번하게 일어납니다. 왜냐하면 객체 답게 모델링 할 수록 매핑작업이 늘어나기 때문입니다. 
-예를 들어보겠습니다.</p>
+<p>먼저 코드를 확인해 보겠습니다. interface 1개와 interface를 구현한 클래스 1개, main 클래스를 구현하겠습니다.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
@@ -379,22 +266,60 @@ DB에서는 상속관계를 거의 사용하지 않습니다.</p>
 8
 9
 10
-</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Member</span><span class="o">{</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DefaultInterface</span> <span class="o">{</span>
+
+    <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">();</span>
+
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
 <span class="o">}</span>
 
-<span class="kd">class</span> <span class="nc">Club</span><span class="o">{</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">clubName</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">memberName</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="n">DefaultInterface</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainClass</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">DefaultExam</span> <span class="n">exam</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultExam</span><span class="o">();</span>
+        <span class="n">exam</span><span class="o">.</span><span class="na">printMessage</span><span class="o">();</span>
+        <span class="n">exam</span><span class="o">.</span><span class="na">defaultMessage</span><span class="o">();</span>
+    <span class="o">}</span>
+
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
-
-<p>위와 같은 클래스가 2개 있을 때 Mybatis를 사용한다고 하면 조인한 결과를 어떻게 가져올까요??</p>
-
-<p>물론 Collection을 사용해서 가져올 수도 있습니다. 그러나 제 짧은 경험과 si에서 일할 때의 경험은 SuperClass를 만드는 경우가 빈번했습니다. SuperClass는 다음과 같습니다.</p>
-
+<p>default method는 위에서 볼 수 있듯이 <strong>default 키워드</strong>를 메서드 앞에 붙여주고, 메서드 내부를 구현하면 됩니다. Main클래스를 실행하게 되면 아래와 같은 결과가 나오게 됩니다.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>print Message!!
+default Message!!
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>defaultMessage 메서드를 DefaultExam에서 따로 구현하지 않았지만 Main클래스 처럼 호출하는 것을 볼 수 있습니다. 이는 <strong>상속(extends)</strong>과 같다고 볼 수 있습니다. 그 말은 즉 상속처럼 메서드의 <strong>override</strong>가 가능하다는 것 입니다. DefaultExam을 다음과 같이 변경해 보겠습니다.</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -402,26 +327,206 @@ DB에서는 상속관계를 거의 사용하지 않습니다.</p>
 5
 6
 7
-</pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">MemberSuperClass</span><span class="o">{</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">clubName</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">memberName</span><span class="o">;</span>
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="n">DefaultInterface</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"override message!!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>이제 다시 Main 클래스를 실행시키면 결과는 바뀌게 됩니다.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>print Message!!
+override message!!
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h2 id="2-static-method">2. Static Method</h2>
+<p>static method는 위에서 살펴본 default method와 비슷한 형태 입니다. 위의 interface에 static method를 추가해 보겠습니다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DefaultInterface</span> <span class="o">{</span>
+
+    <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">();</span>
+
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">static</span> <span class="kt">void</span> <span class="nf">staticMessage</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"static Message!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
-<p>두 클래스의 필드를 모두 가지고 있는 MemberSuperClass를 이용하면 많은 매핑작업을 생략하고 값을 받아 올 수 있습니다. 위와 같은 일이 빈번하기 때문에 객체지향적인 개발과 거리가 멀어진다고 생각합니다.</p>
+<p>메서드 앞에 static 키워드를 붙임으로서 생성할 수 있습니다. static 이라는 키워드의 의미처럼 이 메서드는 override 할 수 없습니다. Main 클래스에서 다음과 같이 호출해 보겠습니다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainClass</span> <span class="o">{</span>
 
-<p>물론 이렇게 말하니깐.. RDBMS가 안좋게 느껴질 수 있지만 RDBMS도 정말 중요합니다. RDBMS를 알아야 JPA도 잘 이해할 수 있기 때문입니다.</p>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">DefaultExam</span> <span class="n">exam</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultExam</span><span class="o">();</span>
+        <span class="n">exam</span><span class="o">.</span><span class="na">printMessage</span><span class="o">();</span>
+        <span class="n">exam</span><span class="o">.</span><span class="na">defaultMessage</span><span class="o">();</span>
+        <span class="n">DefaultInterface</span><span class="o">.</span><span class="na">staticMessage</span><span class="o">();</span>
+    <span class="o">}</span>
 
-<p>앞으로 JPA를 살펴보며 자세한 내용을 다루겠습니다.</p>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>interface를 직접 호출하면서 <strong>staticMessage()</strong>를 호출 했습니다. 결과는 아래와 같습니다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="n">print</span> <span class="n">Message</span><span class="o">!!</span>
+<span class="n">override</span> <span class="n">message</span><span class="o">!!</span>
+<span class="kd">static</span> <span class="n">Message</span><span class="o">!</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
-<h5 id="참고">참고</h5>
+<h2 id="3-multiple-inheritance다중상속">3. Multiple Inheritance(다중상속)</h2>
+<p>default method를 사용하며 다중상속에서 문제가 발생할 수 있습니다. 다음 상황을 보겠습니다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DefaultInterface</span> <span class="o">{</span>
+
+    <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">();</span>
+
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DefaultInterface2</span> <span class="o">{</span>
+
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">(){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="n">DefaultInterface</span><span class="o">,</span> <span class="n">DefaultInterface2</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainClass</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">DefaultExam</span> <span class="n">exam</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultExam</span><span class="o">();</span>
+        <span class="n">exam</span><span class="o">.</span><span class="na">printMessage</span><span class="o">();</span>
+        <span class="n">exam</span><span class="o">.</span><span class="na">defaultMessage</span><span class="o">();</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>위와 같이 같은 이름의 default method를 갖고 있는 interface 2개를 implements 하는 경우 에러가 발생하게 됩니다. 그 이유는 어떠한 interface의 method인지 부정확하기 때문입니다. 따라서 다음과 같은 경우에는 DefaultExam에서 같은 이름의 default method를 구현해줌으로써 해결할 수 있습니다.</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="n">DefaultInterface</span><span class="o">,</span> <span class="n">DefaultInterface2</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default message!!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<blockquote>
+  <p>참고로 요즘 IDE에서는 위와 같은 문제시 컴파일에러가 발생되어 위와 같은 경우가 발생할 일은 없을 것 입니다.</p>
+</blockquote>
+
+<p>지금까지 Java8에서 추가된 default method와 static method에 대해 알아보았습니다. default method를 보면서 <strong>abstract class(추상클래스)</strong>와 같다고 생각할 수 있습니다. 그러나 Java8에서는 여전히 다른 개념으로 존재하고 사용됩니다. 추상클래스는 생성자를 가질 수 있고, 상태를 가질 수 있습니다. 반면에 인터페이스는 특정 상태를 참조하지 않고, 호출하는 측면에서만 구현될 수 있습니다. 이는 상황과 목적에 따라 구분되어 사용되어야 합니다.</p>
+
+<h2 id="4-참고">4. 참고</h2>
 <ul>
-  <li>JavaWorld (https://www.javaworld.com/article/3379043/what-is-jpa-introduction-to-the-java-persistence-api.html)</li>
-  <li>hibernate (https://hibernate.org/orm/)</li>
-  <li>SKplanet Academy (https://www.youtube.com/channel/UCtV98yyffjUORQRGTuLHomw)</li>
+  <li>Oracle(https://www.oracle.com/technetwork/java/javase/8-whats-new-2157071.html)</li>
+  <li>Dzone(https://dzone.com/articles/interface-default-methods-java)</li>
+  <li>BeginnersBook(https://beginnersbook.com/2017/10/java-8-interface-changes-default-method-and-static-method/)</li>
 </ul>
 
 
@@ -429,17 +534,17 @@ DB에서는 상속관계를 거의 사용하지 않습니다.</p>
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2019/10/17/http/" data-toggle="tooltip" data-placement="top" title="[WEB] HTTP / HTTPS">
+                        <a href="/2020/03/16/thread/" data-toggle="tooltip" data-placement="top" title="[Java] Thread in Java, Spring">
                         Previous<br>
-                        <span>[WEB] HTTP / HTTPS</span>
+                        <span>[Java] Thread in Java, Spring</span>
                         </a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2020/02/09/jpa2/" data-toggle="tooltip" data-placement="top" title="[JAVA] JPA 기본설정 및 객체생성(2) ">
+                        <a href="/2020/04/26/lambda/" data-toggle="tooltip" data-placement="top" title="[Java] Java8 람다식(Lambda)">
                         Next<br>
-                        <span>[JAVA] JPA 기본설정 및 객체생성(2) </span>
+                        <span>[Java] Java8 람다식(Lambda)</span>
                         </a>
                     </li>
                     
@@ -564,8 +669,8 @@ DB에서는 상속관계를 거의 사용하지 않습니다.</p>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "jongminlee0-github-io";
-    var disqus_identifier = "/2020/02/09/jpa1";
-    var disqus_url = "http://localhost:4000/2020/02/09/jpa1/";
+    var disqus_identifier = "/2020/04/26/defaultmethod";
+    var disqus_url = "http://localhost:4000/2020/04/26/defaultmethod/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

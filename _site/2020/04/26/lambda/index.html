@@ -11,13 +11,13 @@
     <meta name="theme-color" content="#000000">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="[Spring] Spring Security-1(Basic) - Jongmin's Blog">
+    <meta property="og:title" content="[Java] Java8 람다식(Lambda) - Jongmin's Blog">
     
     <meta property="og:type" content="article">
-    <meta property="og:description" content="0. 들어가며
-프로젝트를 진행하며 Spring Security를 사용하기 위해서 많은 구글링을 해봤지만 ‘왜 이렇게 사용해야 하지?’하는 생각과 함께 따라 쓰기에 급급했습니다. Spring Security가 워낙 복잡하기도 하고, 많은 Custom을 지원하기 때문이기도 합니다. 이 때문에 좀 더 알아보고자 Spring Security Reference...">
+    <meta property="og:description" content="
+">
     
-    <meta property="article:published_time" content="2020-04-03T00:00:00Z">
+    <meta property="article:published_time" content="2020-04-26T00:00:00Z">
     
     
     <meta property="article:author" content="JongMin-Lee">
@@ -25,16 +25,12 @@
     
     <meta property="article:tag" content="JAVA">
     
-    <meta property="article:tag" content="Spring Boot">
-    
-    <meta property="article:tag" content="Spring Security">
-    
     
     <meta property="og:image" content="http://localhost:4000">
-    <meta property="og:url" content="http://localhost:4000/2020/04/03/security1/">
+    <meta property="og:url" content="http://localhost:4000/2020/04/26/lambda/">
     <meta property="og:site_name" content="Jongmin's Blog">
     
-    <title>[Spring] Spring Security-1(Basic) - Jongmin's Blog</title>
+    <title>[Java] Java8 람다식(Lambda) - Jongmin's Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -43,7 +39,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2020/04/03/security1/">
+    <link rel="canonical" href="http://localhost:4000/2020/04/26/lambda/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -222,15 +218,11 @@
                         
                         <a class="tag" href="/archive/?tag=JAVA" title="JAVA">JAVA</a>
                         
-                        <a class="tag" href="/archive/?tag=Spring+Boot" title="Spring Boot">Spring Boot</a>
-                        
-                        <a class="tag" href="/archive/?tag=Spring+Security" title="Spring Security">Spring Security</a>
-                        
                     </div>
-                    <h1>[Spring] Spring Security-1(Basic)</h1>
+                    <h1>[Java] Java8 람다식(Lambda)</h1>
                     
-                    <h2 class="subheading">About Spring Security in Spring boot</h2>
-                    <span class="meta">Posted by JongMin-Lee on April 3, 2020</span>
+                    <h2 class="subheading"> About Lambda expression</h2>
+                    <span class="meta">Posted by JongMin-Lee on April 26, 2020</span>
                 </div>
             </div>
         </div>
@@ -256,174 +248,16 @@
                 <!-- Multi-Lingual -->
                 
 
-				<h1 id="0-들어가며">0. 들어가며</h1>
-<p>프로젝트를 진행하며 Spring Security를 사용하기 위해서 많은 구글링을 해봤지만 ‘왜 이렇게 사용해야 하지?’하는 생각과 함께 따라 쓰기에 급급했습니다. Spring Security가 워낙 복잡하기도 하고, 많은 Custom을 지원하기 때문이기도 합니다. 이 때문에 좀 더 알아보고자 Spring Security Reference를 기반으로 공부를 하게 되었고 블로그에 정리하기로 했습니다. 부족한 내용이 있을 수 있으니 참고해주시기 바랍니다! 방식은 실습을 기반으로 하면서 세부적인 사항에 대해서 알아보겠습니다.</p>
-
-<h1 id="1-spring-security">1. Spring Security</h1>
-<p>Spring Security는 Authentication(인증), Authorization(인가), 외부 공격에 대한 protection(보호)를 지원해 줍니다. 인증과 인가 이 두 단어는 Security의 핵심이라고 할 수 있습니다. 때문에 단어의 의미를 확실하게 알아야지 Secrutiy를 이해할 수 있습니다.<br />
-Spring Security는 다음과 같은 일을 할 수 있습니다.</p>
-<ul>
-  <li>User name/password 인증</li>
-  <li>SSO / Okta / LDAP</li>
-  <li>App level Authorization</li>
-  <li>Intra App Authorization(OAuth)</li>
-  <li>Microservice security(JWT, token)</li>
-  <li>Method level Security</li>
-</ul>
-
-<p>이외에도 일반적인 취약점 관리를 할 수 있습니다.(Session fixation etc..)</p>
-
-<h3 id="spring-security의-5가지-주요-개념">Spring Security의 5가지 주요 개념</h3>
-<h4 id="1-authentication">1. Authentication</h4>
-<p>Authentication(인증)은 Security의 시작이라 할 수 있습니다. 사용자(접근자)의 identity(신원)을 확인합니다. 접근자는 자신이 누군인지를 증명할 수 있어야 합니다.<br />
-여기 몇 가지 인증 방식이 있습니다.</p>
-<h5 id="knowledge-based-authentication">Knowledge based Authentication</h5>
-<ul>
-  <li>Password</li>
-  <li>Pin code</li>
-  <li>Answer to a secret / Personal question</li>
-</ul>
-
-<p>이 방식은 구현이 쉽지만 안전하지 않을 수 있습니다.</p>
-
-<h5 id="possession-based-authentication">Possession based Authentication</h5>
-<ul>
-  <li>Phone / Text message</li>
-  <li>Key cards and badges</li>
-  <li>Access token device</li>
-</ul>
-
-<h5 id="multi-factor-authentication">Multi Factor Authentication</h5>
-<ul>
-  <li>Knowledge + Possession Based Authentication</li>
-</ul>
-
-<h4 id="2-authorization">2. Authorization</h4>
-<p>Authorization(인가)는 허가에 관한 일입니다. 인증과 헷갈리는 경우가 많으니 유의 해야 합니다. 인증이 끝난 후 자료에 접근할 수 있는 권한이 있는지 확인하며 권한이 있을 경우 통과, 없을 경우 접근이 거절 됩니다.</p>
-
-<h4 id="3-principal">3. Principal</h4>
-<p>Principal은 쉽게 말해 현재 로그인한 사용자라고 볼 수 있습니다.</p>
-
-<h4 id="4-granted-authority">4. Granted Authority</h4>
-<p>부여 받은 권한 입니다.</p>
-
-<h4 id="5-roles">5. Roles</h4>
-<p>Authorities(권한)들의 집합(Group) 입니다.</p>
-
-<h2 id="2-spring-security-시작하기">2. Spring security 시작하기</h2>
-
-<p>실습환경</p>
-<ul>
-  <li>Spring Boot 2.2.6.RELEASE</li>
-  <li>Maven</li>
-</ul>
-
-<p>dependency(의존성)</p>
-
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-</pre></td><td class="rouge-code"><pre><span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-<span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-<span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-thymeleaf<span class="nt">&lt;/artifactId&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-</pre></td></tr></tbody></table></code></pre></div></div>
-<p>추후에 사용할 수 도 있기 때문에 web과 thymeleaf도 추가 했습니다.</p>
-
-<p>먼저 Class를 하나 추가해보겠습니다.</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="rouge-code"><pre><span class="nd">@RestController</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainController</span> <span class="o">{</span>
-
-    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/"</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="n">String</span> <span class="nf">home</span><span class="o">(){</span>
-        <span class="k">return</span> <span class="o">(</span><span class="s">"&lt;h1&gt;Welcome&lt;/h1&gt;"</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</pre></td></tr></tbody></table></code></pre></div></div>
-<p>이 후에 실행해 보겠습니다. 그렇다면 다음과 같은 화면을 마주치게 될 것입니다.</p>
-
-<p><img src="/img/in-post/security1/security1.png" /></p>
-
-<p>우리가 한 것은 단지 Spring Security의 의존성을 추가한 것 밖게 없지만 권한을 확인하기 위한 login페이지를 만나게 되었습니다. 이 다음 console창을 확인해 보겠습니다.</p>
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-</pre></td><td class="rouge-code"><pre><span class="go">Using generated security password: 97afbef3-6397-4c28-bf12-7a1c486aad90
-</span></pre></td></tr></tbody></table></code></pre></div></div>
-<p>위와 같이 비밀번호가 자동적으로 생성된 것을 볼 수 있습니다. Spring Security를 사용하기 위해서는 사용자 이름과 사용자 비밀번호를 설정해 줘야 합니다. 그러나 우리는 설정을 해주지 않았기 때문에 자동적으로 생성해 준 것입니다. 비밀번호는 생성되었는데 username은 생성되지 않았습니다. Spring Security에서는 Username을 default로 user로 지정하고 있습니다. 이제 생성된 password를 복사하여 Password에 입력하고 Username에 user를 입력한 후 Sign in을 클릭해보겠습니다.
-<img src="/img/in-post/security1/security2.png" /></p>
-
-<p>우리가 작성한 Controller를 통해 다음과 같은 페이지를 만나 볼 수 있습니다.</p>
-
-<p><img src="/img/in-post/security1/security3.png" /></p>
-
-<p>Spring Security에는 Default로 동작하는 기능이 있기 때문에 위와 같은 현상이 발생합니다. Default로 동작하는 기능은 다음과 같습니다.</p>
-<ul>
-  <li>Login Form을 추가해 줍니다.</li>
-  <li>URL들을 인증합니다.(All APIs)</li>
-  <li>Login Error을 다뤄 줍니다.</li>
-  <li>user를 생성하고 비밀번호를 생성합니다.</li>
-</ul>
-
-<p>사용자와 비밀번호를 바꿔주기 위해 다음 설정을 추가해 줍니다.</p>
-
-<p><strong>application.properties</strong></p>
-<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
-2
-</pre></td><td class="rouge-code"><pre><span class="py">spring.security.user.name</span><span class="p">=</span><span class="s">jongmin</span>
-<span class="py">spring.security.user.password</span><span class="p">=</span><span class="s">lee</span>
-</pre></td></tr></tbody></table></code></pre></div></div>
-<p>다시 실행하게 되면 console창에는 비밀번호가 생성되지 않습니다. 또한 username과 password에 지정해준 설정 값을 입력하게 되면 Sign in이 성공적으로 처리 됩니다.</p>
-
-<p>여기서 한 가지 의문이 생기게 됩니다. 의존성을 추가하는 것만으로 default 기능이 어떻게 동작할까? 그것은 Spring Security가 Filter기반으로 동작하기 때문입니다. 여러개의 Filter가 연결되어 있는 형태를 Filter Chain이라 하는데 Spring Security는 이 Filter Chain형태 입니다. 따라서 Filter를 추가/제거 함으로서 Customizing 할 수도 있습니다.</p>
-
-<p><img src="/img/in-post/security1/security4.png" />
-Spring Security의 architecture는 위와 같은 구조를 뜁니다. 위의 Filter들을 간단하게 알아 보겠습니다.</p>
-<ol>
-  <li>ChannelProcessingFilter : 다른 프로토콜로 리다이렉트 할 때 필요합니다.</li>
-  <li>SecurityContextPersistenceFilter : Web Request가 시작할 때 SecurityContextHolder에서 SecurityContext를 설정하며, Web Request가 종료될 때 SecurityContext에 대한 변경내용을 HttpSession에 복사합니다.(다음 web request와 사용할 준비 완료)</li>
-  <li>ConcurrentSessionFilter : SecurityContextHolder의 기능을 사용하지만 SessionRegistry를 업데이트하여 principal의 request를 지속적으로 반영해야 한다.</li>
-  <li>UsernamePasswordAuthenticationFilter : 유효한 인증 토큰을 갖도록 SecurityContextHolder를 수정할 수 있도록 한다.</li>
-  <li>SecurityContextHolderAwareRequestFilter : HttpServletRequestWrapper를 Servlet Container에 설치하는데 사용하는 경우</li>
-  <li>JaasApiIntegrationFilter : JAAS(Java Authentication and Authorization)와 Spring SecurityContext를 같이 사용할 수 있도록 지원한다.</li>
-  <li>RememberMeAuthenticationFilter : 만약 이전의 인증처리 메커니즘이 SerucityContextHolder를 업데이트 하지 않았고, 요청이 기억하기 위한 서비스를 수행할 수 있는 쿠키를 제공하는 경우, 기억된 인증 개체가 그곳에 저장될 것이다.</li>
-  <li>AnonymousAuthenticationFilter : 이 전에 인증 처리 메커니즘이 SecurityContextHolder를 업데이트 하지 않았을 경우 익명 인증 개체가 여기에 배치되도록 한다.</li>
-  <li>ExceptionTranslationFilter : Spring Security에서 발생하는 예외를 catch하여 HTTP에러 응답을 적절한 위치에 보낸다.</li>
-  <li>FilterSecurityInterceptor : Web URI를 보호하고 액세스가 거부된 경우 예외가 발생한다.</li>
-</ol>
-
+				
 
 
                 <hr style="visibility: hidden;">
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2020/03/16/thread/" data-toggle="tooltip" data-placement="top" title="[Java] Thread in Java, Spring">
+                        <a href="/2020/04/26/defaultmethod/" data-toggle="tooltip" data-placement="top" title="[Java] Java8 Interface default method">
                         Previous<br>
-                        <span>[Java] Thread in Java, Spring</span>
+                        <span>[Java] Java8 Interface default method</span>
                         </a>
                     </li>
                     
@@ -481,37 +315,37 @@ Spring Security의 architecture는 위와 같은 구조를 뜁니다. 위의 Fil
         </a>
         
         
-                <a data-sort="0013" 
+                <a data-sort="0014" 
                     href="/archive/?tag=Java"
                     title="Java"
                     rel="5">Java</a>
         
-                <a data-sort="0007" 
-                    href="/archive/?tag=Spring+Boot"
-                    title="Spring Boot"
-                    rel="11">Spring Boot</a>
-        
                 <a data-sort="0009" 
                     href="/archive/?tag=JAVA"
                     title="JAVA"
-                    rel="9">JAVA</a>
+                    rel="10">JAVA</a>
         
-                <a data-sort="0012" 
+                <a data-sort="0009" 
+                    href="/archive/?tag=Spring+Boot"
+                    title="Spring Boot"
+                    rel="10">Spring Boot</a>
+        
+                <a data-sort="0013" 
                     href="/archive/?tag=JPA"
                     title="JPA"
                     rel="6">JPA</a>
         
-                <a data-sort="0015" 
+                <a data-sort="0016" 
                     href="/archive/?tag=Web"
                     title="Web"
                     rel="3">Web</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=Servlet"
                     title="Servlet"
                     rel="2">Servlet</a>
         
-                <a data-sort="0016" 
+                <a data-sort="0017" 
                     href="/archive/?tag=Static"
                     title="Static"
                     rel="2">Static
@@ -549,8 +383,8 @@ Spring Security의 architecture는 위와 같은 구조를 뜁니다. 위의 Fil
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "jongminlee0-github-io";
-    var disqus_identifier = "/2020/04/03/security1";
-    var disqus_url = "http://localhost:4000/2020/04/03/security1/";
+    var disqus_identifier = "/2020/04/26/lambda";
+    var disqus_url = "http://localhost:4000/2020/04/26/lambda/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
