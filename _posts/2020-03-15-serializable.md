@@ -8,7 +8,7 @@ header-mask: 0.3
 comments: true
 catalog:  true
 tags:
-  - JAVA
+  - Java
 ---
 
 JPA를 학습하다 Serializable을 implements하고 있는 Entity들을 만났습니다. 저는 Serializable을 스스로 implements 해본적이 없었기 때문에 왜 JPA Entity에 Serializable이 붙을까라는 생각이 들었습니다. 이 기회에 Java에서의 Serializable에 대해 알아보겠습니다.

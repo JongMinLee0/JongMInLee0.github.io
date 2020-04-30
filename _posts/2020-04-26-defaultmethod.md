@@ -8,7 +8,7 @@ header-mask: 0.3
 comments: true
 catalog:  true
 tags:
-  - JAVA
+  - Java
 ---
 
 Java8 이전의 **interface는 abstract(추상)** 메서드만 가질 수 있었습니다. 모든 메서드는 기본적으로 접근제어자는 public이고, abstract 메서드 입니다. 그러나 Java8이 등장하면서 **default method**와 **static method**가 추가 되었습니다. 이 두가지에 대해 알아보도록 하겠습니다.

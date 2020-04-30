@@ -9,7 +9,7 @@ comments: true
 catalog:  true
 tags:
   - JPA
-  - JAVA
+  - Java
   - Spring Boot
 ---
 
