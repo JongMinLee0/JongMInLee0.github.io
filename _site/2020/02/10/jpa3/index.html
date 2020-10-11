@@ -22,7 +22,6 @@
   [JAVA] JPA 연관관계(4)
   [JAVA] JPA 영속성 컨텍스트(5)
 
-
 ">
     
     <meta property="article:published_time" content="2020-02-10T00:00:00Z">
@@ -33,7 +32,7 @@
     
     <meta property="article:tag" content="JPA">
     
-    <meta property="article:tag" content="JAVA">
+    <meta property="article:tag" content="Java">
     
     <meta property="article:tag" content="Spring Boot">
     
@@ -121,11 +120,11 @@
                     
                     
                     
+                    
+                    
                     <li>
                         <a href="/portfolio/">Portfolio</a>
                     </li>
-                    
-                    
                     
                     
                     
@@ -230,7 +229,7 @@
                         
                         <a class="tag" href="/archive/?tag=JPA" title="JPA">JPA</a>
                         
-                        <a class="tag" href="/archive/?tag=JAVA" title="JAVA">JAVA</a>
+                        <a class="tag" href="/archive/?tag=Java" title="Java">Java</a>
                         
                         <a class="tag" href="/archive/?tag=Spring+Boot" title="Spring Boot">Spring Boot</a>
                         
@@ -308,23 +307,23 @@
 </pre></td><td class="rouge-code"><pre><span class="nd">@SpringBootApplication</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoApplication</span> <span class="o">{</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="nc">DemoApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
 
-        <span class="n">EntityManagerFactory</span> <span class="n">entityManagerFactory</span> <span class="o">=</span> <span class="n">Persistence</span><span class="o">.</span><span class="na">createEntityManagerFactory</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">);</span>
-        <span class="n">EntityManager</span> <span class="n">entityManager</span> <span class="o">=</span> <span class="n">entityManagerFactory</span><span class="o">.</span><span class="na">createEntityManager</span><span class="o">();</span>
-        <span class="n">EntityTransaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">();</span>
+        <span class="nc">EntityManagerFactory</span> <span class="n">entityManagerFactory</span> <span class="o">=</span> <span class="nc">Persistence</span><span class="o">.</span><span class="na">createEntityManagerFactory</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">);</span>
+        <span class="nc">EntityManager</span> <span class="n">entityManager</span> <span class="o">=</span> <span class="n">entityManagerFactory</span><span class="o">.</span><span class="na">createEntityManager</span><span class="o">();</span>
+        <span class="nc">EntityTransaction</span> <span class="n">transaction</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">();</span>
 
         <span class="c1">// 트랜잭션 시작</span>
         <span class="n">transaction</span><span class="o">.</span><span class="na">begin</span><span class="o">();</span>
         <span class="k">try</span><span class="o">{</span>
-            <span class="n">Member</span> <span class="n">member</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Member</span><span class="o">();</span>
+            <span class="nc">Member</span> <span class="n">member</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Member</span><span class="o">();</span>
             <span class="n">member</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">);</span>
             <span class="n">member</span><span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="mi">30</span><span class="o">);</span>
             <span class="n">entityManager</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">member</span><span class="o">);</span> <span class="c1">// 영구저장</span>
 
             <span class="n">transaction</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span> <span class="c1">// 커밋</span>
-        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">){</span>
             <span class="n">transaction</span><span class="o">.</span><span class="na">rollback</span><span class="o">();</span>
         <span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
             <span class="n">entityManager</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
@@ -336,7 +335,7 @@
 </pre></td></tr></tbody></table></code></pre></div></div>
 <ol>
   <li><strong>EntityManagerFactory</strong>를 이용하여 persistence.xml에서 지정한 설정을 가지고 옵니다.
-  이 전에 지정한 persistence.xml설정에서 <code class="highlighter-rouge">&lt;persistence-unit name="jongmin"&gt;</code>에 지정한 name으로 설정을 가지고 옵니다.</li>
+  이 전에 지정한 persistence.xml설정에서 <code class="language-plaintext highlighter-rouge">&lt;persistence-unit name="jongmin"&gt;</code>에 지정한 name으로 설정을 가지고 옵니다.</li>
   <li><strong>EntityManager</strong>를 생성하고 <strong>Transaction</strong>을 얻습니다.</li>
   <li>트랜잭션을 시작하고 Member객체를 만들어 값을 넣은 후 <strong>persist</strong>를 통해서 값을 넣어줍니다.</li>
   <li><strong>commit()</strong>해주어 값을 물리적으로 데이터베이스에 넣어주고 <strong>close</strong>해줍니다.(에러시 rollback)</li>
@@ -364,10 +363,10 @@ commit()을 해야 물리적으로 데이터페이스에 들어가며 이부분�
 <strong>console</strong>
 <img src="/img/in-post/jpa3/console1.png" />
 <img src="/img/in-post/jpa3/console2.png" />
-다른 특별한 작업을 하지 않았음에도 불구하고 <code class="highlighter-rouge">create table</code>을 통해서 테이블을 생성하는 것을 알 수 있습니다. 이것이 persistence.xml에 <code class="highlighter-rouge">&lt;property name="hibernate.hbm2ddl.auto" value="create" /&gt;</code>를 지정했기 때문입니다.<br />
-여기서는 캡쳐하지 않았지만 테이블을 생성하기 전에 <code class="highlighter-rouge">drop table Member if exists</code>을 먼저 수행하는 것을 콘솔에서 확인하실 수 있을 것입니다. 그 다음 <strong>persist</strong>를 통해서 데이터베이스에 값을 넣어주어 <strong>insert</strong>쿼리가 자동으로 날라가는 것을 볼 수 있습니다.<br />
+다른 특별한 작업을 하지 않았음에도 불구하고 <code class="language-plaintext highlighter-rouge">create table</code>을 통해서 테이블을 생성하는 것을 알 수 있습니다. 이것이 persistence.xml에 <code class="language-plaintext highlighter-rouge">&lt;property name="hibernate.hbm2ddl.auto" value="create" /&gt;</code>를 지정했기 때문입니다.<br />
+여기서는 캡쳐하지 않았지만 테이블을 생성하기 전에 <code class="language-plaintext highlighter-rouge">drop table Member if exists</code>을 먼저 수행하는 것을 콘솔에서 확인하실 수 있을 것입니다. 그 다음 <strong>persist</strong>를 통해서 데이터베이스에 값을 넣어주어 <strong>insert</strong>쿼리가 자동으로 날라가는 것을 볼 수 있습니다.<br />
 <img src="/img/in-post/jpa3/h2-member.png" style="width:600px; height:400px" />
-h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으로 들어간 것을 볼 수 있습니다. 여기서 ID는 값을 따로 넣어주지 않았지만 <em>1</em>값이 들어가 있습니다. 저희가 Member객체를 만들때 <code class="highlighter-rouge">@GeneratedValue</code>를 지정했기 때문에 H2데이터베이스에서 자체적으로 만들어 주었기 때문입니다.</p>
+h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으로 들어간 것을 볼 수 있습니다. 여기서 ID는 값을 따로 넣어주지 않았지만 <em>1</em>값이 들어가 있습니다. 저희가 Member객체를 만들때 <code class="language-plaintext highlighter-rouge">@GeneratedValue</code>를 지정했기 때문에 H2데이터베이스에서 자체적으로 만들어 주었기 때문입니다.</p>
 
 <p>이제 추가적인 어노테이션에대해 알아보겠습니다.</p>
 <h5 id="column">@Column</h5>
@@ -440,18 +439,18 @@ h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으�
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Member</span> <span class="o">{</span>
 
     <span class="nd">@Id</span>
-    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
 
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
     <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
 
-    <span class="nd">@Enumerated</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">EnumType</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">RoleType</span> <span class="n">roleType</span><span class="o">;</span>
+    <span class="nd">@Enumerated</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="nc">EnumType</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">RoleType</span> <span class="n">roleType</span><span class="o">;</span>
 
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">friendName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">friendName</span><span class="o">;</span>
 
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">friendPhone</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">friendPhone</span><span class="o">;</span>
 
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
@@ -470,8 +469,8 @@ h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으�
 <span class="nd">@Getter</span> <span class="nd">@Setter</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Friend</span> <span class="o">{</span>
 
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">phoneNumber</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">phoneNumber</span><span class="o">;</span>
 
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
@@ -499,22 +498,22 @@ h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으�
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Member</span> <span class="o">{</span>
 
     <span class="nd">@Id</span>
-    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
 
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
     <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
 
-    <span class="nd">@Enumerated</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">EnumType</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">RoleType</span> <span class="n">roleType</span><span class="o">;</span>
+    <span class="nd">@Enumerated</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="nc">EnumType</span><span class="o">.</span><span class="na">STRING</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">RoleType</span> <span class="n">roleType</span><span class="o">;</span>
 
     <span class="nd">@Embedded</span>
-    <span class="kd">private</span> <span class="n">Friend</span> <span class="n">friend</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Friend</span> <span class="n">friend</span><span class="o">;</span>
     
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>위와 같이 <strong>@Embedded</strong> 어노테이션을 사용하여 분리시킨 <strong>Friend</strong>클래스를 불러올 수 있습니다.<br />
-이대로 사용할 수 있지만 에러가 발생합니다. 그 이유는 <code class="highlighter-rouge">name컬럼이 중복되기 때문입니다.</code> 기존에는 <strong>friendName</strong>을 사용했지만 분리시키면서 <strong>name</strong>으로 변경 시켰습니다. 이 경우 <strong>@AttributeOverrides</strong>을 사용하여 분리한 클래스의 매핑명을 지정해 줄 수 있습니다.</p>
+이대로 사용할 수 있지만 에러가 발생합니다. 그 이유는 <code class="language-plaintext highlighter-rouge">name컬럼이 중복되기 때문입니다.</code> 기존에는 <strong>friendName</strong>을 사용했지만 분리시키면서 <strong>name</strong>으로 변경 시켰습니다. 이 경우 <strong>@AttributeOverrides</strong>을 사용하여 분리한 클래스의 매핑명을 지정해 줄 수 있습니다.</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -526,7 +525,7 @@ h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으�
     <span class="nd">@AttributeOverride</span><span class="o">(</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"name"</span><span class="o">,</span> <span class="n">column</span> <span class="o">=</span> <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"friendNsame"</span><span class="o">)),</span>
     <span class="nd">@AttributeOverride</span><span class="o">(</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"phoneNumber"</span><span class="o">,</span> <span class="n">column</span> <span class="o">=</span> <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"friendPhsne"</span><span class="o">))</span>
 <span class="o">)</span>
-<span class="kd">private</span> <span class="n">Friend</span> <span class="n">friends</span>
+<span class="kd">private</span> <span class="nc">Friend</span> <span class="n">friends</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>다음과 같이 지정하므로써 매핑할 컬럼명을 바꿔줄 수 있습니다.</p>
 
@@ -614,15 +613,10 @@ h2-console에 접속하여 Member 객체를 확인해보면 값이 성공적으�
         </a>
         
         
-                <a data-sort="0014" 
+                <a data-sort="0004" 
                     href="/archive/?tag=Java"
                     title="Java"
-                    rel="5">Java</a>
-        
-                <a data-sort="0009" 
-                    href="/archive/?tag=JAVA"
-                    title="JAVA"
-                    rel="10">JAVA</a>
+                    rel="15">Java</a>
         
                 <a data-sort="0009" 
                     href="/archive/?tag=Spring+Boot"

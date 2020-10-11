@@ -22,7 +22,6 @@
   [JAVA] JPA 연관관계(4)
   [JAVA] JPA 영속성 컨텍스트(5)
 
-
 ">
     
     <meta property="article:published_time" content="2020-02-09T00:00:00Z">
@@ -33,7 +32,7 @@
     
     <meta property="article:tag" content="JPA">
     
-    <meta property="article:tag" content="JAVA">
+    <meta property="article:tag" content="Java">
     
     <meta property="article:tag" content="Spring Boot">
     
@@ -121,11 +120,11 @@
                     
                     
                     
+                    
+                    
                     <li>
                         <a href="/portfolio/">Portfolio</a>
                     </li>
-                    
-                    
                     
                     
                     
@@ -230,7 +229,7 @@
                         
                         <a class="tag" href="/archive/?tag=JPA" title="JPA">JPA</a>
                         
-                        <a class="tag" href="/archive/?tag=JAVA" title="JAVA">JAVA</a>
+                        <a class="tag" href="/archive/?tag=Java" title="Java">Java</a>
                         
                         <a class="tag" href="/archive/?tag=Spring+Boot" title="Spring Boot">Spring Boot</a>
                         
@@ -404,7 +403,7 @@ Hibernate는 쉽게 말해 JPA의 구현체?라고 생각합니다.</p>
 
 <span class="nt">&lt;/persistence&gt;</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p>먼저 H2 데이터베이스에 대한 설정을 진행합니다. 설정은 <a href="https://www.baeldung.com/spring-boot-h2-database">Spring boot H2 설정</a>을 참고했습니다. 그 다음으로 h2-console을 사용하기 위해 추가적인 설정을 진행했습니다. <code class="highlighter-rouge">application.properties</code>파일에 다음과 같은 설정을 추가했습니다.</p>
+<p>먼저 H2 데이터베이스에 대한 설정을 진행합니다. 설정은 <a href="https://www.baeldung.com/spring-boot-h2-database">Spring boot H2 설정</a>을 참고했습니다. 그 다음으로 h2-console을 사용하기 위해 추가적인 설정을 진행했습니다. <code class="language-plaintext highlighter-rouge">application.properties</code>파일에 다음과 같은 설정을 추가했습니다.</p>
 <div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre><span class="py">spring.h2.console.enabled</span><span class="p">=</span><span class="s">true</span>
@@ -415,7 +414,7 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 <strong
 접속은 http://localhost:8080/h2-console로 할 수 있습니다.
 <img src="/img/in-post/jpa_orm/h2-console.png" style="width:600px; height:400px" /></p>
 
-<p>마지막으로 <code class="highlighter-rouge">hibernate.hbm2ddl.auto</code>입니다. 이 설정은 데이터베이스 스키마에 대한 설정입니다.<br />
+<p>마지막으로 <code class="language-plaintext highlighter-rouge">hibernate.hbm2ddl.auto</code>입니다. 이 설정은 데이터베이스 스키마에 대한 설정입니다.<br />
 이 설정에 대한 특징은 다음과 같습니다.</p>
 
 <ul>
@@ -478,9 +477,9 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 <strong
 
     <span class="nd">@Id</span>
     <span class="nd">@GeneratedValue</span>
-    <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
 
-    <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
     <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
 
 <span class="c1">// getter, setter...</span>
@@ -491,9 +490,9 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 <strong
 
     <span class="nd">@Id</span>
     <span class="nd">@GeneratedValue</span>
-    <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
 
-    <span class="n">String</span> <span class="n">clubName</span><span class="o">;</span>
+    <span class="nc">String</span> <span class="n">clubName</span><span class="o">;</span>
 
 <span class="c1">// getter, setter...</span>
 <span class="o">}</span>
@@ -508,7 +507,7 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 <strong
 
 <h5 id="generatedvalue">@GeneratedValue</h5>
 <p>기본키를 만들어 주는 역할을 합니다. 이 어노테이션에는 <strong>strategy</strong>(전략)가 존재합니다.<br />
-다음과 같이 사용이 가능합니다. <code class="highlighter-rouge">@GeneratedValue(strategy = GenerationType.AUTO)</code><br />
+다음과 같이 사용이 가능합니다. <code class="language-plaintext highlighter-rouge">@GeneratedValue(strategy = GenerationType.AUTO)</code><br />
 이 strategy의 속성을 살펴보겠습니다.</p>
 <ul>
   <li>IDENTITY : 데이터베이스에 위임한다.(Mysql)</li>
@@ -518,8 +517,8 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 <strong
 </ul>
 
 <p>보통 <strong>기본키(PK)</strong>라고 하면 <strong>USER_ID</strong>나 <strong>PRODUCT_NUMBER</strong>등 객체와 관련된 컬럼을 생각합니다. 물론 저도 그렇고요..ㅎㅎ 그런데 JPA에서는 이러한 <strong>자동생성 전략</strong>을 지원해 줍니다. 그 이유는 무엇일까요?<br />
-바로 <code class="highlighter-rouge">기본키는 바뀔 수 있기 때문입니다.</code> 물론 사용자의 ID나 상품 번호등을 기본키로 기정하는 이유는 거의(대부분) 바뀔 일이 없기 때문입니다. 그러나 혹시라도 그럴 경우를 대비해서 Long을 이용한 숫자의 자동생성을 통해서 방지하는 것입니다.<br />
-또 자동생성전략에 <code class="highlighter-rouge">int가 아닌 Long을 사용하는 이유는 자료형 크기 때문입니다.</code> int보다는 Long이 크기때문에 보다 널널한? 데이터를 담을 수 있습니다.</p>
+바로 <code class="language-plaintext highlighter-rouge">기본키는 바뀔 수 있기 때문입니다.</code> 물론 사용자의 ID나 상품 번호등을 기본키로 기정하는 이유는 거의(대부분) 바뀔 일이 없기 때문입니다. 그러나 혹시라도 그럴 경우를 대비해서 Long을 이용한 숫자의 자동생성을 통해서 방지하는 것입니다.<br />
+또 자동생성전략에 <code class="language-plaintext highlighter-rouge">int가 아닌 Long을 사용하는 이유는 자료형 크기 때문입니다.</code> int보다는 Long이 크기때문에 보다 널널한? 데이터를 담을 수 있습니다.</p>
 
 <blockquote>
   <p><strong>권장하는 식별자 전략</strong><br />
@@ -612,15 +611,10 @@ h2 console은 기본적으로 false처리 되어 있습니다. 따라서 <strong
         </a>
         
         
-                <a data-sort="0014" 
+                <a data-sort="0004" 
                     href="/archive/?tag=Java"
                     title="Java"
-                    rel="5">Java</a>
-        
-                <a data-sort="0009" 
-                    href="/archive/?tag=JAVA"
-                    title="JAVA"
-                    rel="10">JAVA</a>
+                    rel="15">Java</a>
         
                 <a data-sort="0009" 
                     href="/archive/?tag=Spring+Boot"

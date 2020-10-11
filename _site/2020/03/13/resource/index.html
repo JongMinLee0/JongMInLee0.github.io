@@ -114,11 +114,11 @@
                     
                     
                     
+                    
+                    
                     <li>
                         <a href="/portfolio/">Portfolio</a>
                     </li>
-                    
-                    
                     
                     
                     
@@ -259,14 +259,14 @@
 
 				<h2 id="정적-자원static-resource">정적 자원(Static Resource)</h2>
 <p>정적자원이란 html, css, image, javascript와 같이 컴파일이 필요없는 파일들을 말합니다.<br />
-스프링 부트에서 Web MVC 설정을 담당하는 <code class="highlighter-rouge">WebMvcAutoConfiguration</code> 클래스는 기본 설정으로 웹 리소스 폴더에서 정적 자원들을 찾습니다. 이 때 템플릿 엔진(Thymeleaf, Groovy, FreeMarker)등을 추가하면 <code class="highlighter-rouge">src/main/resources/templates</code> 경로를 기본 경로로 인식하게 됩니다.<br />
-간단하게 확인해 보겠습니다. 의존성은 웹을 실행시키기 위해서 <code class="highlighter-rouge">spring-boot-starter-web</code>만을 추가 하였습니다.<br />
+스프링 부트에서 Web MVC 설정을 담당하는 <code class="language-plaintext highlighter-rouge">WebMvcAutoConfiguration</code> 클래스는 기본 설정으로 웹 리소스 폴더에서 정적 자원들을 찾습니다. 이 때 템플릿 엔진(Thymeleaf, Groovy, FreeMarker)등을 추가하면 <code class="language-plaintext highlighter-rouge">src/main/resources/templates</code> 경로를 기본 경로로 인식하게 됩니다.<br />
+간단하게 확인해 보겠습니다. 의존성은 웹을 실행시키기 위해서 <code class="language-plaintext highlighter-rouge">spring-boot-starter-web</code>만을 추가 하였습니다.<br />
 <img src="/img/in-post/resou/r1.png" />
-<code class="highlighter-rouge">src/main/static/image</code>경로에 <strong>git_img.png</strong> 이미지 파일을 추가 했습니다. 이제 프로젝트를 실행시키고 이미지를 불러와 보겠습니다.
+<code class="language-plaintext highlighter-rouge">src/main/static/image</code>경로에 <strong>git_img.png</strong> 이미지 파일을 추가 했습니다. 이제 프로젝트를 실행시키고 이미지를 불러와 보겠습니다.
 <img src="/img/in-post/resou/r2.png" />
 이미지가 화면에 잘 나오는 것을 보실 수 있습니다.<br />
-여기서 중요한 것은 경로 입니다. <code class="highlighter-rouge">localhost:8081/image/git_img.png</code>로써 이미지를 불러옵니다.(8081포트는 제가 application.properties에서 따로 변경한 것 입니다.) 다음과 같은 경로로 불러오는 이유에 대해 알아보겠습니다. 
-어떻게 <code class="highlighter-rouge">/resources/static/image</code>에 있는 이미지를 <strong>image</strong>부터 가져 올 수 있는지 확인하려면 <code class="highlighter-rouge">WebMvcAutoConfiguration</code>을 참고 해야 합니다.</p>
+여기서 중요한 것은 경로 입니다. <code class="language-plaintext highlighter-rouge">localhost:8081/image/git_img.png</code>로써 이미지를 불러옵니다.(8081포트는 제가 application.properties에서 따로 변경한 것 입니다.) 다음과 같은 경로로 불러오는 이유에 대해 알아보겠습니다. 
+어떻게 <code class="language-plaintext highlighter-rouge">/resources/static/image</code>에 있는 이미지를 <strong>image</strong>부터 가져 올 수 있는지 확인하려면 <code class="language-plaintext highlighter-rouge">WebMvcAutoConfiguration</code>을 참고 해야 합니다.</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -284,19 +284,19 @@
 15
 16
 17
-</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addResourceHandlers</span><span class="o">(</span><span class="n">ResourceHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addResourceHandlers</span><span class="o">(</span><span class="nc">ResourceHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">if</span> <span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="na">resourceProperties</span><span class="o">.</span><span class="na">isAddMappings</span><span class="o">())</span> <span class="o">{</span>
         <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Default resource handling disabled"</span><span class="o">);</span>
     <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-        <span class="n">Duration</span> <span class="n">cachePeriod</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">resourceProperties</span><span class="o">.</span><span class="na">getCache</span><span class="o">().</span><span class="na">getPeriod</span><span class="o">();</span>
-        <span class="n">CacheControl</span> <span class="n">cacheControl</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">resourceProperties</span><span class="o">.</span><span class="na">getCache</span><span class="o">().</span><span class="na">getCachecontrol</span><span class="o">().</span><span class="na">toHttpCacheControl</span><span class="o">();</span>
+        <span class="nc">Duration</span> <span class="n">cachePeriod</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">resourceProperties</span><span class="o">.</span><span class="na">getCache</span><span class="o">().</span><span class="na">getPeriod</span><span class="o">();</span>
+        <span class="nc">CacheControl</span> <span class="n">cacheControl</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">resourceProperties</span><span class="o">.</span><span class="na">getCache</span><span class="o">().</span><span class="na">getCachecontrol</span><span class="o">().</span><span class="na">toHttpCacheControl</span><span class="o">();</span>
         <span class="k">if</span> <span class="o">(!</span><span class="n">registry</span><span class="o">.</span><span class="na">hasMappingForPattern</span><span class="o">(</span><span class="s">"/webjars/**"</span><span class="o">))</span> <span class="o">{</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">customizeResourceHandlerRegistration</span><span class="o">(</span><span class="n">registry</span><span class="o">.</span><span class="na">addResourceHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">"/webjars/**"</span><span class="o">}).</span><span class="na">addResourceLocations</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">"classpath:/META-INF/resources/webjars/"</span><span class="o">}).</span><span class="na">setCachePeriod</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getSeconds</span><span class="o">(</span><span class="n">cachePeriod</span><span class="o">)).</span><span class="na">setCacheControl</span><span class="o">(</span><span class="n">cacheControl</span><span class="o">));</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">customizeResourceHandlerRegistration</span><span class="o">(</span><span class="n">registry</span><span class="o">.</span><span class="na">addResourceHandler</span><span class="o">(</span><span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span><span class="s">"/webjars/**"</span><span class="o">}).</span><span class="na">addResourceLocations</span><span class="o">(</span><span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span><span class="s">"classpath:/META-INF/resources/webjars/"</span><span class="o">}).</span><span class="na">setCachePeriod</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getSeconds</span><span class="o">(</span><span class="n">cachePeriod</span><span class="o">)).</span><span class="na">setCacheControl</span><span class="o">(</span><span class="n">cacheControl</span><span class="o">));</span>
         <span class="o">}</span>
 
-        <span class="n">String</span> <span class="n">staticPathPattern</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mvcProperties</span><span class="o">.</span><span class="na">getStaticPathPattern</span><span class="o">();</span>
+        <span class="nc">String</span> <span class="n">staticPathPattern</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">mvcProperties</span><span class="o">.</span><span class="na">getStaticPathPattern</span><span class="o">();</span>
         <span class="k">if</span> <span class="o">(!</span><span class="n">registry</span><span class="o">.</span><span class="na">hasMappingForPattern</span><span class="o">(</span><span class="n">staticPathPattern</span><span class="o">))</span> <span class="o">{</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">customizeResourceHandlerRegistration</span><span class="o">(</span><span class="n">registry</span><span class="o">.</span><span class="na">addResourceHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="n">staticPathPattern</span><span class="o">}).</span><span class="na">addResourceLocations</span><span class="o">(</span><span class="n">WebMvcAutoConfiguration</span><span class="o">.</span><span class="na">getResourceLocations</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">resourceProperties</span><span class="o">.</span><span class="na">getStaticLocations</span><span class="o">())).</span><span class="na">setCachePeriod</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getSeconds</span><span class="o">(</span><span class="n">cachePeriod</span><span class="o">)).</span><span class="na">setCacheControl</span><span class="o">(</span><span class="n">cacheControl</span><span class="o">));</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">customizeResourceHandlerRegistration</span><span class="o">(</span><span class="n">registry</span><span class="o">.</span><span class="na">addResourceHandler</span><span class="o">(</span><span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span><span class="n">staticPathPattern</span><span class="o">}).</span><span class="na">addResourceLocations</span><span class="o">(</span><span class="nc">WebMvcAutoConfiguration</span><span class="o">.</span><span class="na">getResourceLocations</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">resourceProperties</span><span class="o">.</span><span class="na">getStaticLocations</span><span class="o">())).</span><span class="na">setCachePeriod</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getSeconds</span><span class="o">(</span><span class="n">cachePeriod</span><span class="o">)).</span><span class="na">setCacheControl</span><span class="o">(</span><span class="n">cacheControl</span><span class="o">));</span>
         <span class="o">}</span>
 
     <span class="o">}</span>
@@ -308,15 +308,15 @@
 3
 4
 </pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResourceProperties</span> <span class="o">{</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span><span class="o">[]</span> <span class="n">CLASSPATH_RESOURCE_LOCATIONS</span> <span class="o">=</span> 
-    <span class="k">new</span> <span class="n">String</span><span class="o">[]{</span><span class="s">"classpath:/META-INF/resources/"</span><span class="o">,</span> 
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="no">CLASSPATH_RESOURCE_LOCATIONS</span> <span class="o">=</span> 
+    <span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span><span class="s">"classpath:/META-INF/resources/"</span><span class="o">,</span> 
     <span class="s">"classpath:/resources/"</span><span class="o">,</span> <span class="s">"classpath:/static/"</span><span class="o">,</span> <span class="s">"classpath:/public/"</span><span class="o">};</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p><code class="highlighter-rouge">ResourceProperties</code>를 확인해 보시면 첫 줄에 <code class="highlighter-rouge">CLASSPATH_RESOURCE_LOCATIONS</code>가 선언되어 있습니다. 여기서 <strong>/resources/</strong>와 <strong>/static/</strong> 이 선언되어 있는 걸 볼 수 있습니다. 때문에 <strong>/static/</strong> 까지는 Default로 정적파일경로를 인지 할 수 있다는 것 입니다. 따라서 우리는 /static 하위인 /image부터 시작하여 정적파일에 접근할 수 있습니다.<br />
-그렇다면 스프링 부트의 기본 설정 대신 다른 경로를 추가하기 위해서는 어떻게 해야 할까요? <code class="highlighter-rouge">WebMvcConfigurerAdapter</code>을 이용하여 설정해 보겠습니다.</p>
+<p><code class="language-plaintext highlighter-rouge">ResourceProperties</code>를 확인해 보시면 첫 줄에 <code class="language-plaintext highlighter-rouge">CLASSPATH_RESOURCE_LOCATIONS</code>가 선언되어 있습니다. 여기서 <strong>/resources/</strong>와 <strong>/static/</strong> 이 선언되어 있는 걸 볼 수 있습니다. 때문에 <strong>/static/</strong> 까지는 Default로 정적파일경로를 인지 할 수 있다는 것 입니다. 따라서 우리는 /static 하위인 /image부터 시작하여 정적파일에 접근할 수 있습니다.<br />
+그렇다면 스프링 부트의 기본 설정 대신 다른 경로를 추가하기 위해서는 어떻게 해야 할까요? <code class="language-plaintext highlighter-rouge">WebMvcConfigurerAdapter</code>을 이용하여 설정해 보겠습니다.</p>
 
 <p><img src="/img/in-post/resou/r3.png" />
-resources폴더 밑에 testImage 폴더를 추가하고, 이미지를 추가해보겠습니다. 그 다음 <code class="highlighter-rouge">WebMvcConfig</code>클래스에서 설정을 해보겠습니다.</p>
+resources폴더 밑에 testImage 폴더를 추가하고, 이미지를 추가해보겠습니다. 그 다음 <code class="language-plaintext highlighter-rouge">WebMvcConfig</code>클래스에서 설정을 해보겠습니다.</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
@@ -328,26 +328,26 @@ resources폴더 밑에 testImage 폴더를 추가하고, 이미지를 추가해�
 9
 10
 </pre></td><td class="rouge-code"><pre><span class="nd">@Configuration</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebMvcConfig</span> <span class="kd">implements</span> <span class="n">WebMvcConfigurer</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebMvcConfig</span> <span class="kd">implements</span> <span class="nc">WebMvcConfigurer</span> <span class="o">{</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addResourceHandlers</span><span class="o">(</span><span class="n">ResourceHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addResourceHandlers</span><span class="o">(</span><span class="nc">ResourceHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">registry</span><span class="o">.</span><span class="na">addResourceHandler</span><span class="o">(</span><span class="s">"/testImage/**"</span><span class="o">)</span>
                 <span class="o">.</span><span class="na">addResourceLocations</span><span class="o">(</span><span class="s">"classpath:/testImage/"</span><span class="o">,</span> <span class="s">"/testImage/"</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p><code class="highlighter-rouge">WebMvcConfigurer</code>를 implements하여 addResourceHandlers 메소드를 재정의 했습니다. (위에서는 <code class="highlighter-rouge">WebMvcConfigereAdapter</code>를 이용한다고 했지만 변경했습니다. 뒤에서 다뤄보겠습니다.)<br />
+<p><code class="language-plaintext highlighter-rouge">WebMvcConfigurer</code>를 implements하여 addResourceHandlers 메소드를 재정의 했습니다. (위에서는 <code class="language-plaintext highlighter-rouge">WebMvcConfigereAdapter</code>를 이용한다고 했지만 변경했습니다. 뒤에서 다뤄보겠습니다.)<br />
 먼저 <strong>addResourceHandler</strong>는 <strong>http://localhost:8081/testImage</strong> 와 같이 호출경로로 사용될 URI값을 입력합니다. <strong>addResourceLocations</strong>는 실제 파일이 위치할 경로를 입력합니다.<br />
 <img src="/img/in-post/resou/r4.png" />
 위의 결과로 확인해 보실수 있습니다.</p>
 
-<p>위에서 말한 <code class="highlighter-rouge">WebMvcConfigurerAdapter</code>에 대해서 보겠습니다.</p>
+<p>위에서 말한 <code class="language-plaintext highlighter-rouge">WebMvcConfigurerAdapter</code>에 대해서 보겠습니다.</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre><span class="nd">@Configuration</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebMvcConfig</span> <span class="kd">extends</span> <span class="n">WebMvcConfigurerAdapter</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebMvcConfig</span> <span class="kd">extends</span> <span class="nc">WebMvcConfigurerAdapter</span> <span class="o">{</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>기존에 설정을 위해서 위와 같이 선언 했습니다. 그런데 <strong>WebMvcConfigurerAdapter deprecated</strong> 라는 경고가 뜨는 경우가 있습니다. 이것은 Spring5, Spring Boot2 버전에서 발생하는 경고 입니다. 기존의 WebMvcConfigurerAdapter클래스는 WebMvcConfigurer를 implements한 추상 클래스 였습니다. 또한 상속된 모든 메서드는 비어있는 메서드 입니다. 그러나 Java8이 추가되고 interface에서 default methods에 대한 개념이 추가 되었습니다. 이로 인해 Spring team에서 위의 버전부터 이것을 반영한 것 입니다.<br />
 결과적으로 WebMvcConfigurer 인터페이스는 모든 메소드의 default 구현을 포함하고 있기 때문에 Spring5, SpringBoot2 버전부터는 WebMvcConfigurer를 사용하여 웹 설정을 진행해야 합니다.</p>
@@ -397,21 +397,21 @@ resources폴더 밑에 testImage 폴더를 추가하고, 이미지를 추가해�
     <span class="c1">// default method </span>
     <span class="k">default</span> <span class="kt">void</span> <span class="nf">show</span><span class="o">()</span> 
     <span class="o">{</span> 
-      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Default Method Executed"</span><span class="o">);</span> 
+      <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Default Method Executed"</span><span class="o">);</span> 
     <span class="o">}</span> 
 <span class="o">}</span> 
   
-<span class="kd">class</span> <span class="nc">TestClass</span> <span class="kd">implements</span> <span class="n">TestInterface</span> 
+<span class="kd">class</span> <span class="nc">TestClass</span> <span class="kd">implements</span> <span class="nc">TestInterface</span> 
 <span class="o">{</span> 
     <span class="c1">// implementation of square abstract method </span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">square</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">)</span> 
     <span class="o">{</span> 
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">*</span><span class="n">a</span><span class="o">);</span> 
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">*</span><span class="n">a</span><span class="o">);</span> 
     <span class="o">}</span> 
   
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="n">args</span><span class="o">[])</span> 
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span> <span class="n">args</span><span class="o">[])</span> 
     <span class="o">{</span> 
-        <span class="n">TestClass</span> <span class="n">d</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TestClass</span><span class="o">();</span> 
+        <span class="nc">TestClass</span> <span class="n">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">TestClass</span><span class="o">();</span> 
         <span class="n">d</span><span class="o">.</span><span class="na">square</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span> 
   
         <span class="c1">// default method executed </span>
@@ -506,15 +506,10 @@ Default Method Executed
         </a>
         
         
-                <a data-sort="0014" 
+                <a data-sort="0004" 
                     href="/archive/?tag=Java"
                     title="Java"
-                    rel="5">Java</a>
-        
-                <a data-sort="0009" 
-                    href="/archive/?tag=JAVA"
-                    title="JAVA"
-                    rel="10">JAVA</a>
+                    rel="15">Java</a>
         
                 <a data-sort="0009" 
                     href="/archive/?tag=Spring+Boot"

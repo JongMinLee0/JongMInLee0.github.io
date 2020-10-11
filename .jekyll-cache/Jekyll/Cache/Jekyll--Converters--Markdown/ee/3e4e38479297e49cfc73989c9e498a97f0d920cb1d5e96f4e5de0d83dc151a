@@ -1,0 +1,276 @@
+I"�8<h4 id="관련된-글">관련된 글</h4>
+<ol>
+  <li><strong><a href="/2020/02/09/jpa1">[JAVA] JPA(Java Persistence API)란?(1)</a></strong></li>
+  <li><strong><a href="/2020/02/09/jpa2">[JAVA] JPA 기본설정 및 객체생성(2)</a></strong></li>
+  <li><strong><a href="/2020/02/10/jpa3">[JAVA] JPA 어노테이션 및 트랜잭션(3)</a></strong></li>
+  <li><strong><a href="/2020/02/10/jpa4">[JAVA] JPA 연관관계(4)</a></strong></li>
+  <li><strong><a href="/2020/02/11/jpa5">[JAVA] JPA 영속성 컨텍스트(5)</a></strong></li>
+</ol>
+
+<h1 id="1-시작하기환경설정">1. 시작하기(환경설정)</h1>
+<p>이번 시간부터 실습을 통해서 JPA에 대해 알아보겠습니다.<br />
+실습환경은 다음과 같습니다.</p>
+
+<ol>
+  <li>java 1.8</li>
+  <li>Spring Boot 2.2.4.RELEASE</li>
+  <li>H2 DataBase
+    <blockquote>
+      <p>H2 DataBase는 In-Memory형식으로 Test및 개발시 많이 사용하게 됩니다.(운영에서는 사용X)</p>
+    </blockquote>
+  </li>
+  <li>maven</li>
+</ol>
+
+<p><strong>maven-dependency</strong></p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="rouge-code"><pre><span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>com.h2database<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>h2<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.hibernate<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>hibernate-entitymanager<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>5.3.7.Final<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-test<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+            <span class="nt">&lt;exclusions&gt;</span>
+                <span class="nt">&lt;exclusion&gt;</span>
+                    <span class="nt">&lt;groupId&gt;</span>org.junit.vintage<span class="nt">&lt;/groupId&gt;</span>
+                    <span class="nt">&lt;artifactId&gt;</span>junit-vintage-engine<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;/exclusion&gt;</span>
+            <span class="nt">&lt;/exclusions&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>기본 Spring boot project에서 <strong>web</strong>과 <strong>H2</strong> 데이터베이스와 <strong>Hibernate</strong>만 추가하였습니다.</p>
+<blockquote>
+  <p>Hibernate는 JPA와 같이 ORM 라이브러리중 하나입니다.<br />
+Hibernate는 쉽게 말해 JPA의 구현체?라고 생각합니다.</p>
+</blockquote>
+
+<p>Maven 의존성을 추가했다면 데이터베이스 설정을 해줍니다.</p>
+
+<p><strong>resource/META-INF/persistence.xml</strong></p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="rouge-code"><pre><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;persistence</span> <span class="na">xmlns=</span><span class="s">"http://xmlns.jcp.org/xml/ns/persistence"</span> <span class="na">version=</span><span class="s">"2.2"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;persistence-unit</span> <span class="na">name=</span><span class="s">"jongmin"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;properties&gt;</span>
+
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"javax.persistence.jdbc.driver"</span> <span class="na">value=</span><span class="s">"org.h2.Driver"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"javax.persistence.jdbc.user"</span> <span class="na">value=</span><span class="s">"sa"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"javax.persistence.jdbc.password"</span> <span class="na">value=</span><span class="s">""</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"javax.persistence.jdbc.url"</span> <span class="na">value=</span><span class="s">"jdbc:h2:~/test"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"hibernate.dialect"</span> <span class="na">value=</span><span class="s">"org.hibernate.dialect.H2Dialect"</span> <span class="nt">/&gt;</span>
+
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"hibernate.show_sql"</span> <span class="na">value=</span><span class="s">"true"</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"hibernate.format_sql"</span> <span class="na">value=</span><span class="s">"true"</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"hibernate.use_sql_comments"</span> <span class="na">value=</span><span class="s">"true"</span> <span class="nt">/&gt;</span>
+
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"hibernate.hbm2ddl.auto"</span> <span class="na">value=</span><span class="s">"create"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/properties&gt;</span>
+    <span class="nt">&lt;/persistence-unit&gt;</span>
+
+<span class="nt">&lt;/persistence&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>먼저 H2 데이터베이스에 대한 설정을 진행합니다. 설정은 <a href="https://www.baeldung.com/spring-boot-h2-database">Spring boot H2 설정</a>을 참고했습니다. 그 다음으로 h2-console을 사용하기 위해 추가적인 설정을 진행했습니다. <code class="language-plaintext highlighter-rouge">application.properties</code>파일에 다음과 같은 설정을 추가했습니다.</p>
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="py">spring.h2.console.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">spring.h2.console.path</span><span class="p">=</span><span class="s">/h2-console</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>다른 사람들은 안하는 경우도 있었는데 저는 이 설정을 추가하지 않으면 h2-console에 접근이 안됬습니다…<br />
+h2 console은 기본적으로 false처리 되어 있습니다. 따라서 <strong>true</strong>로 지정해주고 path를 지정했습니다.<br />
+접속은 http://localhost:8080/h2-console로 할 수 있습니다.
+<img src="/img/in-post/jpa_orm/h2-console.png" style="width:600px; height:400px" /></p>
+
+<p>마지막으로 <code class="language-plaintext highlighter-rouge">hibernate.hbm2ddl.auto</code>입니다. 이 설정은 데이터베이스 스키마에 대한 설정입니다.<br />
+이 설정에 대한 특징은 다음과 같습니다.</p>
+
+<ul>
+  <li>DDL을 애플리케이션 실행시점에 자동으로 생성</li>
+  <li>테이블중심 -&gt; 객체중심</li>
+  <li>데이터베이스 Dialect를 활용하여 적절한 DDL 생성</li>
+  <li>이렇게 생성된 DDL은 개발 장비에서만 사용</li>
+  <li>운영서버에서는 사용하지 않거나, 적절히 다듬은 후 사용</li>
+</ul>
+
+<p>DDL 설정값은 다음과 같습니다.</p>
+
+<ul>
+  <li>create : 기존 테이블 삭제 후 다시 생성(DROP + CREATE)</li>
+  <li>create-drop : create와 같으나 종료 시점에 테이블 DROP</li>
+  <li>update : 변경분만 반영(운영DB에는 사용하면 안됨)</li>
+  <li>validate : 엔티티와 테이블이 정상 매핑되었는지만 확인</li>
+  <li>none: 사용하지 않음</li>
+</ul>
+
+<blockquote>
+  <p>주의사항</p>
+  <ul>
+    <li>운영장비에서는 절대 create,create-drop,update를 사용하면 안된다.</li>
+    <li>개발초기단계는 create 또는 update</li>
+    <li>테스트서버는 update 또는 validate</li>
+    <li>스테이징과 운영서버는 validate 또는 none</li>
+  </ul>
+</blockquote>
+
+<p>설정은 여기에서 마치고 객체를 만들도록 하겠습니다.</p>
+
+<h1 id="2-객체-생성entity">2. 객체 생성(Entity)</h1>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="rouge-code"><pre><span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Member</span> <span class="o">{</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span>
+    <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+
+<span class="c1">// getter, setter...</span>
+<span class="o">}</span>
+
+<span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Club</span> <span class="o">{</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span>
+    <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="nc">String</span> <span class="n">clubName</span><span class="o">;</span>
+
+<span class="c1">// getter, setter...</span>
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+<p>먼저 위의 어노테이션에 대해 알아보겠습니다.</p>
+
+<h5 id="entity">@Entity</h5>
+<p>해당 Class가 JPA에 의해 관리되는 Entity라고 설정해주는 것입니다.</p>
+
+<h5 id="id">@Id</h5>
+<p>데이터베이스의 Primary Key(기본키)와 매핑해주는 역할을 합니다.</p>
+
+<h5 id="generatedvalue">@GeneratedValue</h5>
+<p>기본키를 만들어 주는 역할을 합니다. 이 어노테이션에는 <strong>strategy</strong>(전략)가 존재합니다.<br />
+다음과 같이 사용이 가능합니다. <code class="language-plaintext highlighter-rouge">@GeneratedValue(strategy = GenerationType.AUTO)</code><br />
+이 strategy의 속성을 살펴보겠습니다.</p>
+<ul>
+  <li>IDENTITY : 데이터베이스에 위임한다.(Mysql)</li>
+  <li>SEQUENCE : 데이터베이스 시퀀스 오브젝트 사용.(Oracle),@SequenceGenerator필요</li>
+  <li>TABLE : 키 생성용 테이블, 모든 DB에서 사용한다, @TableGenerator 필요</li>
+  <li>AUTO : DIALECT에 따라 자동 지정된다.(Default)</li>
+</ul>
+
+<p>보통 <strong>기본키(PK)</strong>라고 하면 <strong>USER_ID</strong>나 <strong>PRODUCT_NUMBER</strong>등 객체와 관련된 컬럼을 생각합니다. 물론 저도 그렇고요..ㅎㅎ 그런데 JPA에서는 이러한 <strong>자동생성 전략</strong>을 지원해 줍니다. 그 이유는 무엇일까요?<br />
+바로 <code class="language-plaintext highlighter-rouge">기본키는 바뀔 수 있기 때문입니다.</code> 물론 사용자의 ID나 상품 번호등을 기본키로 기정하는 이유는 거의(대부분) 바뀔 일이 없기 때문입니다. 그러나 혹시라도 그럴 경우를 대비해서 Long을 이용한 숫자의 자동생성을 통해서 방지하는 것입니다.<br />
+또 자동생성전략에 <code class="language-plaintext highlighter-rouge">int가 아닌 Long을 사용하는 이유는 자료형 크기 때문입니다.</code> int보다는 Long이 크기때문에 보다 널널한? 데이터를 담을 수 있습니다.</p>
+
+<blockquote>
+  <p><strong>권장하는 식별자 전략</strong><br />
+기본키 제약조건 : null 아님, 유일, 변하면 안된다.<br />
+미래까지 이 조건을 만족하는 자연키는 찾기 어렵다. 대리키(대체키)를 사용하자.<br />
+예를 들어 주민등록번호도 기본키로 적절하지 않다.<br />
+권장 : Long + 대체키 + 키 생성전략사용</p>
+</blockquote>
+
+<p>지금까지의 설정과 객체를 가지고 Transaction을 이용하여 객체를 다뤄보겠습니다.</p>
+
+<p>전체 코드는 <a href="https://github.com/JongMinLee0/java-persistence-api">Github</a>에서 확인해보실수 있습니다.</p>
+
+<h5 id="참고">참고</h5>
+<ul>
+  <li>HowtodoInJava (https://howtodoinjava.com/spring-boot2/h2-database-example/)</li>
+  <li>Baeldung (https://www.baeldung.com/spring-boot-h2-database)</li>
+  <li>SKplanet Academy (https://www.youtube.com/channel/UCtV98yyffjUORQRGTuLHomw)</li>
+</ul>
+:ET

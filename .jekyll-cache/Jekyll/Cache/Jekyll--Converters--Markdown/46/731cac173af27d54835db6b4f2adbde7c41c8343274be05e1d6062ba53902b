@@ -1,0 +1,22 @@
+I"G
+<h2 id="정적-자원static-resource">정적 자원(Static Resource)</h2>
+<p>정적자원이란 html, css, image, javascript와 같이 컴파일이 필요없는 파일들을 말합니다.<br />
+스프링 부트에서 Web MVC 설정을 담당하는 <code class="language-plaintext highlighter-rouge">WebMvcAutoConfiguration</code> 클래스는 기본 설정으로 웹 리소스 폴더에서 정적 자원들을 찾습니다. 이 때 템플릿 엔진(Thymeleaf, Groovy, FreeMarker)등을 추가하면 <code class="language-plaintext highlighter-rouge">src/main/resources/templates</code> 경로를 기본 경로로 인식하게 됩니다.<br />
+간단하게 확인해 보겠습니다. 의존성은 웹을 실행시키기 위해서 <code class="language-plaintext highlighter-rouge">spring-boot-starter-web</code>만을 추가 하였습니다.<br />
+<img src="/img/in-post/resou/r1.png" />
+<code class="language-plaintext highlighter-rouge">src/main/static/image</code>경로에 <strong>git_img.png</strong> 이미지 파일을 추가 했습니다. 이제 프로젝트를 실행시키고 이미지를 불러와 보겠습니다.
+<img src="/img/in-post/resou/r2.png" />
+이미지가 화면에 잘 나오는 것을 보실 수 있습니다.<br />
+여기서 중요한 것은 경로 입니다. <code class="language-plaintext highlighter-rouge">localhost:8081/image/git_img.png</code>로써 이미지를 불러옵니다.(8081포트는 제가 application.properties에서 따로 변경한 것 입니다.) 다음과 같은 경로로 불러오는 이유에 대해 알아보겠습니다. 
+어떻게 <code class="language-plaintext highlighter-rouge">/resources/static/image</code>에 있는 이미지를 <strong>image</strong>부터 가져 올 수 있는지 확인하려면 <code class="language-plaintext highlighter-rouge">WebMvcAutoConfiguration</code>을 참고 해야 합니다.
+```java
+public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    if (!this.resourceProperties.isAddMappings()) {
+        logger.debug(“Default resource handling disabled”);
+    } else {
+        Duration cachePeriod = this.resourceProperties.getCache().getPeriod();
+        CacheControl cacheControl = this.resourceProperties.getCache().getCachecontrol().toHttpCacheControl();
+        if (!registry.hasMappingForPattern(“/webjars/<strong>”)) {
+            this.customizeResourceHandlerRegistration(registry.addResourceHandler(new String[]{“/webjars/</strong>”}).addResourceLocations(new String[]{“classpath:/META-INF/resources/webjars/”}).setCachePeriod(this.getSeconds(cachePeriod)).setCacheControl(cacheControl));
+        }</p>
+:ET

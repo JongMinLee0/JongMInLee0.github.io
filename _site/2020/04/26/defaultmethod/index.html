@@ -15,7 +15,6 @@
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="Java8 이전의 interface는 abstract(추상) 메서드만 가질 수 있었습니다. 모든 메서드는 기본적으로 접근제어자는 public이고, abstract 메서드 입니다. 그러나 Java8이 등장하면서 default method와 static method가 추가 되었습니다. 이 두가지에 대해 알아보도록 하겠습니다.
-
 ">
     
     <meta property="article:published_time" content="2020-04-26T00:00:00Z">
@@ -24,7 +23,7 @@
     <meta property="article:author" content="JongMin-Lee">
     
     
-    <meta property="article:tag" content="JAVA">
+    <meta property="article:tag" content="Java">
     
     
     <meta property="og:image" content="http://localhost:4000">
@@ -110,11 +109,11 @@
                     
                     
                     
+                    
+                    
                     <li>
                         <a href="/portfolio/">Portfolio</a>
                     </li>
-                    
-                    
                     
                     
                     
@@ -217,7 +216,7 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/archive/?tag=JAVA" title="JAVA">JAVA</a>
+                        <a class="tag" href="/archive/?tag=Java" title="Java">Java</a>
                         
                     </div>
                     <h1>[Java] Java8 Interface default method</h1>
@@ -289,24 +288,24 @@
     <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">();</span>
 
     <span class="k">default</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">(){</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="n">DefaultInterface</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="nc">DefaultInterface</span> <span class="o">{</span>
 
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainClass</span> <span class="o">{</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">DefaultExam</span> <span class="n">exam</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultExam</span><span class="o">();</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">DefaultExam</span> <span class="n">exam</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultExam</span><span class="o">();</span>
         <span class="n">exam</span><span class="o">.</span><span class="na">printMessage</span><span class="o">();</span>
         <span class="n">exam</span><span class="o">.</span><span class="na">defaultMessage</span><span class="o">();</span>
     <span class="o">}</span>
@@ -332,16 +331,16 @@ default Message!!
 10
 11
 12
-</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="n">DefaultInterface</span> <span class="o">{</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="nc">DefaultInterface</span> <span class="o">{</span>
 
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"override message!!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"override message!!"</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
@@ -372,11 +371,11 @@ override message!!
     <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">();</span>
 
     <span class="k">default</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">(){</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="kd">static</span> <span class="kt">void</span> <span class="nf">staticMessage</span><span class="o">(){</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"static Message!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"static Message!"</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
@@ -395,11 +394,11 @@ override message!!
 10
 </pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainClass</span> <span class="o">{</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">DefaultExam</span> <span class="n">exam</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultExam</span><span class="o">();</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">DefaultExam</span> <span class="n">exam</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultExam</span><span class="o">();</span>
         <span class="n">exam</span><span class="o">.</span><span class="na">printMessage</span><span class="o">();</span>
         <span class="n">exam</span><span class="o">.</span><span class="na">defaultMessage</span><span class="o">();</span>
-        <span class="n">DefaultInterface</span><span class="o">.</span><span class="na">staticMessage</span><span class="o">();</span>
+        <span class="nc">DefaultInterface</span><span class="o">.</span><span class="na">staticMessage</span><span class="o">();</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
@@ -408,9 +407,9 @@ override message!!
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
-</pre></td><td class="rouge-code"><pre><span class="n">print</span> <span class="n">Message</span><span class="o">!!</span>
+</pre></td><td class="rouge-code"><pre><span class="n">print</span> <span class="nc">Message</span><span class="o">!!</span>
 <span class="n">override</span> <span class="n">message</span><span class="o">!!</span>
-<span class="kd">static</span> <span class="n">Message</span><span class="o">!</span>
+<span class="kd">static</span> <span class="nc">Message</span><span class="o">!</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <h2 id="3-multiple-inheritance다중상속">3. Multiple Inheritance(다중상속)</h2>
@@ -456,7 +455,7 @@ override message!!
     <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">();</span>
 
     <span class="k">default</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">(){</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
@@ -464,24 +463,24 @@ override message!!
 <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DefaultInterface2</span> <span class="o">{</span>
 
     <span class="k">default</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">(){</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default Message!!"</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="n">DefaultInterface</span><span class="o">,</span> <span class="n">DefaultInterface2</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="nc">DefaultInterface</span><span class="o">,</span> <span class="nc">DefaultInterface2</span> <span class="o">{</span>
 
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainClass</span> <span class="o">{</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">DefaultExam</span> <span class="n">exam</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultExam</span><span class="o">();</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">DefaultExam</span> <span class="n">exam</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultExam</span><span class="o">();</span>
         <span class="n">exam</span><span class="o">.</span><span class="na">printMessage</span><span class="o">();</span>
         <span class="n">exam</span><span class="o">.</span><span class="na">defaultMessage</span><span class="o">();</span>
     <span class="o">}</span>
@@ -502,16 +501,16 @@ override message!!
 11
 12
 13
-</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="n">DefaultInterface</span><span class="o">,</span> <span class="n">DefaultInterface2</span> <span class="o">{</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DefaultExam</span> <span class="kd">implements</span> <span class="nc">DefaultInterface</span><span class="o">,</span> <span class="nc">DefaultInterface2</span> <span class="o">{</span>
 
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMessage</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"print Message!!"</span><span class="o">);</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">defaultMessage</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default message!!"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default message!!"</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
@@ -542,9 +541,9 @@ override message!!
                     
                     
                     <li class="next">
-                        <a href="/2020/04/26/lambda/" data-toggle="tooltip" data-placement="top" title="[Java] Java8 람다식(Lambda)">
+                        <a href="/2020/10/10/cgivsservlet/" data-toggle="tooltip" data-placement="top" title="[Server] CGI와 Servlet에 대해서">
                         Next<br>
-                        <span>[Java] Java8 람다식(Lambda)</span>
+                        <span>[Server] CGI와 Servlet에 대해서</span>
                         </a>
                     </li>
                     
@@ -601,15 +600,10 @@ override message!!
         </a>
         
         
-                <a data-sort="0014" 
+                <a data-sort="0004" 
                     href="/archive/?tag=Java"
                     title="Java"
-                    rel="5">Java</a>
-        
-                <a data-sort="0009" 
-                    href="/archive/?tag=JAVA"
-                    title="JAVA"
-                    rel="10">JAVA</a>
+                    rel="15">Java</a>
         
                 <a data-sort="0009" 
                     href="/archive/?tag=Spring+Boot"

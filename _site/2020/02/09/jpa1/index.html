@@ -22,7 +22,6 @@
   [JAVA] JPA 연관관계(4)
   [JAVA] JPA 영속성 컨텍스트(5)
 
-
 ">
     
     <meta property="article:published_time" content="2020-02-09T00:00:00Z">
@@ -33,7 +32,7 @@
     
     <meta property="article:tag" content="JPA">
     
-    <meta property="article:tag" content="JAVA">
+    <meta property="article:tag" content="Java">
     
     <meta property="article:tag" content="Spring Boot">
     
@@ -121,11 +120,11 @@
                     
                     
                     
+                    
+                    
                     <li>
                         <a href="/portfolio/">Portfolio</a>
                     </li>
-                    
-                    
                     
                     
                     
@@ -230,7 +229,7 @@
                         
                         <a class="tag" href="/archive/?tag=JPA" title="JPA">JPA</a>
                         
-                        <a class="tag" href="/archive/?tag=JAVA" title="JAVA">JAVA</a>
+                        <a class="tag" href="/archive/?tag=Java" title="Java">Java</a>
                         
                         <a class="tag" href="/archive/?tag=Spring+Boot" title="Spring Boot">Spring Boot</a>
                         
@@ -293,7 +292,7 @@
 <blockquote>
   <p><strong>dialect(방언)</strong><br />
 방언은 우리말로 사투리라고도 할 수 있는데요 데이터베이스는 각각이 제공하는 SQL문법과 함수가 조금씩 다릅니다. 이것들을 데이터베이스의 dialect라고 할 수 있는데 이 dialect를 JPA에서 속성을 지정하여 처리해 줍니다.
-<code class="highlighter-rouge">spring.jpa.database-platform=org.hibernate.dialect.H2Dialect</code></p>
+<code class="language-plaintext highlighter-rouge">spring.jpa.database-platform=org.hibernate.dialect.H2Dialect</code></p>
   <blockquote>
     <p><strong>dialect의 예시</strong><br />
 가변문자 : Mysql은 VARCHAR, Oracle은 VARCHAR2<br />
@@ -324,8 +323,8 @@
 5
 6
 </pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Member</span><span class="o">{</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">id</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
   <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
   <span class="c1">// ....</span>
 <span class="o">}</span>
@@ -345,10 +344,10 @@
 5
 6
 </pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Member</span><span class="o">{</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">id</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
   <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span> <span class="c1">// 추가된 컬럼</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span> <span class="c1">// 추가된 컬럼</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
@@ -380,14 +379,14 @@ DB에서는 상속관계를 거의 사용하지 않습니다.</p>
 9
 10
 </pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">Member</span><span class="o">{</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
   <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
 <span class="o">}</span>
 
 <span class="kd">class</span> <span class="nc">Club</span><span class="o">{</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">clubName</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">memberName</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">clubName</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">memberName</span><span class="o">;</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
@@ -403,11 +402,11 @@ DB에서는 상속관계를 거의 사용하지 않습니다.</p>
 6
 7
 </pre></td><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">MemberSuperClass</span><span class="o">{</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
   <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">clubName</span><span class="o">;</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">memberName</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">clubName</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">memberName</span><span class="o">;</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 
@@ -496,15 +495,10 @@ DB에서는 상속관계를 거의 사용하지 않습니다.</p>
         </a>
         
         
-                <a data-sort="0014" 
+                <a data-sort="0004" 
                     href="/archive/?tag=Java"
                     title="Java"
-                    rel="5">Java</a>
-        
-                <a data-sort="0009" 
-                    href="/archive/?tag=JAVA"
-                    title="JAVA"
-                    rel="10">JAVA</a>
+                    rel="15">Java</a>
         
                 <a data-sort="0009" 
                     href="/archive/?tag=Spring+Boot"

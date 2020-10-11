@@ -15,7 +15,6 @@
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="Java EE 패턴
-
 ">
     
     <meta property="article:published_time" content="2019-06-27T00:00:00Z">
@@ -112,11 +111,11 @@
                     
                     
                     
+                    
+                    
                     <li>
                         <a href="/portfolio/">Portfolio</a>
                     </li>
-                    
-                    
                     
                     
                     
@@ -324,8 +323,8 @@
 <p>forward 메서드를 사용하기 위해서는 requestDispatcher 객체를 생성해야 합니다.</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
-</pre></td><td class="rouge-code"><pre><span class="n">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="s">"경로"</span><span class="o">);</span>
-<span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">ServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">ServletResponse</span> <span class="n">response</span><span class="o">);</span>
+</pre></td><td class="rouge-code"><pre><span class="nc">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="s">"경로"</span><span class="o">);</span>
+<span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="nc">ServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="nc">ServletResponse</span> <span class="n">response</span><span class="o">);</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>여기서 requestDispatcher 객체의 경로는 절대경로로 지정해야 됩니다. 다음은 Front Controller를 이용한 분기처리의 모습입니다.</p>
 
@@ -337,10 +336,10 @@
 6
 7
 </pre></td><td class="rouge-code"><pre><span class="k">if</span><span class="o">(</span><span class="n">url</span> <span class="o">==</span> <span class="s">"list"</span><span class="o">){</span>
-    <span class="n">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+    <span class="nc">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
     <span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
 <span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">url</span> <span class="o">==</span> <span class="s">"write"</span><span class="o">){</span>
-    <span class="n">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+    <span class="nc">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">getRequestDispatcher</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
     <span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
@@ -405,7 +404,7 @@ URL이 변경되거나 뷰가 변경될 때마다 컨트롤러를 변경하게 �
 44
 45
 46
-</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="n">command</span><span class="o">.</span><span class="na">pattern</span><span class="o">;</span>
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">command.pattern</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">javax.servlet.RequestDispatcher</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.servlet.ServletContext</span><span class="o">;</span>
@@ -415,39 +414,39 @@ URL이 변경되거나 뷰가 변경될 때마다 컨트롤러를 변경하게 �
 <span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
 
 <span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Command</span><span class="o">{</span>
-    <span class="kd">private</span> <span class="n">HttpServletRequest</span> <span class="n">req</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">HttpServletResponse</span> <span class="n">res</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">ServletContext</span> <span class="n">servletContext</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">HttpServletRequest</span> <span class="n">req</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">HttpServletResponse</span> <span class="n">res</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">ServletContext</span> <span class="n">servletContext</span><span class="o">;</span>
 
     <span class="kd">abstract</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">();</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">forward</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">){</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">forward</span><span class="o">(</span><span class="nc">String</span> <span class="n">url</span><span class="o">){</span>
         <span class="k">try</span><span class="o">{</span>
-            <span class="n">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">RequestDispatcher</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+            <span class="nc">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">RequestDispatcher</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
             <span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">getReq</span><span class="o">(),</span> <span class="n">getRes</span><span class="o">());</span>
-        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">ioe</span><span class="o">){</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">ioe</span><span class="o">){</span>
             <span class="n">servletContext</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"forward Error"</span><span class="o">,</span> <span class="n">ioe</span><span class="o">);</span>
-        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">ServletException</span> <span class="n">servletEx</span><span class="o">){</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="nc">ServletException</span> <span class="n">servletEx</span><span class="o">){</span>
             <span class="n">servletContext</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">"servlet Error"</span><span class="o">,</span> <span class="n">servletEx</span><span class="o">);</span>
         <span class="o">}</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="n">HttpServletRequest</span> <span class="nf">getReq</span><span class="o">(){</span>
+    <span class="kd">public</span> <span class="nc">HttpServletRequest</span> <span class="nf">getReq</span><span class="o">(){</span>
         <span class="k">return</span> <span class="n">req</span><span class="o">;</span>
     <span class="o">}</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setReq</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">req</span><span class="o">){</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setReq</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">req</span><span class="o">){</span>
         <span class="k">this</span><span class="o">.</span><span class="na">req</span> <span class="o">=</span> <span class="n">req</span><span class="o">;</span>
     <span class="o">}</span>
-    <span class="kd">public</span> <span class="n">HttpServletResponse</span> <span class="nf">getRes</span><span class="o">(){</span>
+    <span class="kd">public</span> <span class="nc">HttpServletResponse</span> <span class="nf">getRes</span><span class="o">(){</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">;</span>
     <span class="o">}</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setRes</span><span class="o">(</span><span class="n">HttpServletResponse</span> <span class="n">res</span><span class="o">){</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setRes</span><span class="o">(</span><span class="nc">HttpServletResponse</span> <span class="n">res</span><span class="o">){</span>
         <span class="k">this</span><span class="o">.</span><span class="na">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">;</span>
     <span class="o">}</span>
-    <span class="kd">public</span> <span class="n">ServletContext</span> <span class="nf">getServletContext</span><span class="o">(){</span>
+    <span class="kd">public</span> <span class="nc">ServletContext</span> <span class="nf">getServletContext</span><span class="o">(){</span>
         <span class="k">return</span> <span class="n">servletContext</span><span class="o">;</span>
     <span class="o">}</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setServletContext</span><span class="o">(</span><span class="n">ServletContext</span> <span class="n">servletContext</span><span class="o">){</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setServletContext</span><span class="o">(</span><span class="nc">ServletContext</span> <span class="n">servletContext</span><span class="o">){</span>
         <span class="k">this</span><span class="o">.</span><span class="na">servletContext</span> <span class="o">=</span> <span class="n">servletContext</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -511,7 +510,7 @@ getter와 setter메소드를 만들었습니다.</p>
 52
 53
 54
-</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="n">command</span><span class="o">.</span><span class="na">pattern</span><span class="o">;</span>
+</pre></td><td class="rouge-code"><pre><span class="kn">package</span> <span class="nn">command.pattern</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">javax.servlet.ServletConfig</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.servlet.ServletException</span><span class="o">;</span>
@@ -525,38 +524,38 @@ getter와 setter메소드를 만들었습니다.</p>
 <span class="kn">import</span> <span class="nn">java.util.Properties</span><span class="o">;</span>
 
 <span class="nd">@WebServlet</span><span class="o">(</span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="s">"/controller"</span><span class="o">,</span> <span class="n">initParams</span><span class="o">=</span> <span class="o">{</span><span class="nd">@WebInitParam</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"mapping"</span><span class="o">,</span> <span class="n">value</span><span class="o">=</span><span class="s">"/WEB-INF/command.properties"</span><span class="o">)})</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FrontController</span> <span class="kd">extends</span> <span class="n">HttpServlet</span><span class="o">{</span>
-    <span class="kd">private</span> <span class="n">Properties</span> <span class="n">cmdMapping</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FrontController</span> <span class="kd">extends</span> <span class="nc">HttpServlet</span><span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Properties</span> <span class="n">cmdMapping</span><span class="o">;</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">(</span><span class="n">ServletConfig</span> <span class="n">config</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">(</span><span class="nc">ServletConfig</span> <span class="n">config</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ServletException</span><span class="o">{</span>
         <span class="kd">super</span><span class="o">.</span><span class="na">init</span><span class="o">(</span><span class="n">config</span><span class="o">);</span>
-        <span class="n">InputStream</span> <span class="n">is</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="nc">InputStream</span> <span class="n">is</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
         <span class="k">try</span><span class="o">{</span>
-            <span class="n">String</span> <span class="n">location</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="na">getInitParameter</span><span class="o">(</span><span class="s">"mapping"</span><span class="o">);</span>
+            <span class="nc">String</span> <span class="n">location</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="na">getInitParameter</span><span class="o">(</span><span class="s">"mapping"</span><span class="o">);</span>
             <span class="n">is</span> <span class="o">=</span> <span class="n">getServletContext</span><span class="o">().</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="n">location</span><span class="o">);</span>
-            <span class="n">cmdMapping</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+            <span class="n">cmdMapping</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Properties</span><span class="o">();</span>
             <span class="n">cmdMapping</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">is</span><span class="o">);</span>
-        <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">){</span>
+        <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">){</span>
             <span class="n">getServletContext</span><span class="o">().</span><span class="na">log</span><span class="o">(</span><span class="s">"I/O Error"</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
         <span class="o">}</span><span class="k">finally</span><span class="o">{</span>
             <span class="k">try</span><span class="o">{</span>
                 <span class="n">is</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-            <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">IOException</span> <span class="n">iog</span><span class="o">){</span>
+            <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">IOException</span> <span class="n">iog</span><span class="o">){</span>
 
             <span class="o">}</span>
         <span class="o">}</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doGet</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">req</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">resp</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ServletException</span><span class="o">,</span> <span class="n">IOException</span><span class="o">{</span>
-        <span class="n">String</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"cmd"</span><span class="o">);</span>
-        <span class="n">String</span> <span class="n">cmdClass</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">cmdMapping</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">cmd</span><span class="o">);</span>
-        <span class="n">Command</span> <span class="n">command</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doGet</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">req</span><span class="o">,</span> <span class="nc">HttpServletResponse</span> <span class="n">resp</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ServletException</span><span class="o">,</span> <span class="nc">IOException</span><span class="o">{</span>
+        <span class="nc">String</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"cmd"</span><span class="o">);</span>
+        <span class="nc">String</span> <span class="n">cmdClass</span> <span class="o">=</span> <span class="o">(</span><span class="nc">String</span><span class="o">)</span><span class="n">cmdMapping</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">cmd</span><span class="o">);</span>
+        <span class="nc">Command</span> <span class="n">command</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
 
         <span class="k">try</span><span class="o">{</span>
-            <span class="n">command</span> <span class="o">=</span> <span class="o">(</span><span class="n">Command</span><span class="o">)</span><span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">cmdClass</span><span class="o">).</span><span class="na">newInstance</span><span class="o">();</span>
-        <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">ClassNotFoundException</span> <span class="o">|</span> <span class="n">IllegalAccessException</span> <span class="o">|</span> <span class="n">InstantiationException</span> <span class="n">ex</span><span class="o">){</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Command</span><span class="o">)</span><span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">cmdClass</span><span class="o">).</span><span class="na">newInstance</span><span class="o">();</span>
+        <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="nc">ClassNotFoundException</span> <span class="o">|</span> <span class="nc">IllegalAccessException</span> <span class="o">|</span> <span class="nc">InstantiationException</span> <span class="n">ex</span><span class="o">){</span>
             <span class="n">getServletContext</span><span class="o">().</span><span class="na">log</span><span class="o">(</span><span class="s">"Class not found"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
         <span class="o">}</span>
         <span class="n">command</span><span class="o">.</span><span class="na">setReq</span><span class="o">(</span><span class="n">req</span><span class="o">);</span>
@@ -589,7 +588,7 @@ init()메서드를 호출하여 초기화된 parameter를 ‘name / value’형�
 <p>command.properties 파일은 입력된 파라미터가 view 클래스들과 연결되도록 하는 역할을 합니다.</p>
 <blockquote>
   <p>properties 파일은 key / value 형태로 데이터를 저장하는 설정 파일 입니다.
-위의 코드중 <code class="highlighter-rouge">cmdMapping.load(is)</code>를 보면 properties파일에서 key / value를 읽어들여 key / value형태로 저장하는 것을 볼 수 있습니다.</p>
+위의 코드중 <code class="language-plaintext highlighter-rouge">cmdMapping.load(is)</code>를 보면 properties파일에서 key / value를 읽어들여 key / value형태로 저장하는 것을 볼 수 있습니다.</p>
 </blockquote>
 
 <p><strong>HomeView.java</strong></p>
@@ -599,14 +598,14 @@ init()메서드를 호출하여 초기화된 parameter를 ‘name / value’형�
 4
 5
 6
-</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HomeView</span> <span class="kd">extends</span> <span class="n">Command</span><span class="o">{</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HomeView</span> <span class="kd">extends</span> <span class="nc">Command</span><span class="o">{</span>
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(){</span>
         <span class="n">forward</span><span class="o">(</span><span class="s">"/home.jsp"</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
-<p>HomeView 클래스는 Command를 상속받아서 home.jsp로 리퀘스트를 forwarding합니다. 브라우저에서 <code class="highlighter-rouge">localhost:8080/controller?cmd=home</code>을 입력하고 
+<p>HomeView 클래스는 Command를 상속받아서 home.jsp로 리퀘스트를 forwarding합니다. 브라우저에서 <code class="language-plaintext highlighter-rouge">localhost:8080/controller?cmd=home</code>을 입력하고 
 결과를 확인해 보면 home.jsp에 작성한 내용이 출력됩니다.</p>
 
 <p>페이지 경로를 모르더라고 cmd 파라미터에 따라서 페이지로 이동됩니다. 지금까지 클래스들의 흐름을 정리해보면 다음과 같습니다.
@@ -704,15 +703,10 @@ init()메서드를 호출하여 초기화된 parameter를 ‘name / value’형�
         </a>
         
         
-                <a data-sort="0014" 
+                <a data-sort="0004" 
                     href="/archive/?tag=Java"
                     title="Java"
-                    rel="5">Java</a>
-        
-                <a data-sort="0009" 
-                    href="/archive/?tag=JAVA"
-                    title="JAVA"
-                    rel="10">JAVA</a>
+                    rel="15">Java</a>
         
                 <a data-sort="0009" 
                     href="/archive/?tag=Spring+Boot"

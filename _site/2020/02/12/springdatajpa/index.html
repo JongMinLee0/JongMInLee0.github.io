@@ -24,7 +24,7 @@
     
     <meta property="article:tag" content="JPA">
     
-    <meta property="article:tag" content="JAVA">
+    <meta property="article:tag" content="Java">
     
     <meta property="article:tag" content="Spring Boot">
     
@@ -112,11 +112,11 @@
                     
                     
                     
+                    
+                    
                     <li>
                         <a href="/portfolio/">Portfolio</a>
                     </li>
-                    
-                    
                     
                     
                     
@@ -221,7 +221,7 @@
                         
                         <a class="tag" href="/archive/?tag=JPA" title="JPA">JPA</a>
                         
-                        <a class="tag" href="/archive/?tag=JAVA" title="JAVA">JAVA</a>
+                        <a class="tag" href="/archive/?tag=Java" title="Java">Java</a>
                         
                         <a class="tag" href="/archive/?tag=Spring+Boot" title="Spring Boot">Spring Boot</a>
                         
@@ -259,10 +259,10 @@
 
 <h2 id="1spring-data-jpa">1.Spring Data JPA</h2>
 
-<p>Spring Data JPA의 핵심은 <code class="highlighter-rouge">Repository</code>에 있습니다. 아래의 그림을 보겠습니다.
+<p>Spring Data JPA의 핵심은 <code class="language-plaintext highlighter-rouge">Repository</code>에 있습니다. 아래의 그림을 보겠습니다.
 <img src="/img/in-post/spring-data/interface.png" /></p>
 
-<p><strong>Repository</strong>는 <strong>Spring Data Interface</strong>의 중앙 저장소 역할을 합니다. T는 <strong>엔터티의 클래스</strong> 유형이고, Id는 <strong>@Id의 타입</strong>입니다. 아래는 <code class="highlighter-rouge">CrudRepository</code>의 모습입니다.</p>
+<p><strong>Repository</strong>는 <strong>Spring Data Interface</strong>의 중앙 저장소 역할을 합니다. T는 <strong>엔터티의 클래스</strong> 유형이고, Id는 <strong>@Id의 타입</strong>입니다. 아래는 <code class="language-plaintext highlighter-rouge">CrudRepository</code>의 모습입니다.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
@@ -289,26 +289,26 @@
 23
 24
 </pre></td><td class="rouge-code"><pre><span class="nd">@NoRepositoryBean</span>
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CrudRepository</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">ID</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="n">Repository</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">ID</span><span class="o">&gt;</span> <span class="o">{</span>
-    <span class="o">&lt;</span><span class="n">S</span> <span class="kd">extends</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">S</span> <span class="nf">save</span><span class="o">(</span><span class="n">S</span> <span class="n">var1</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CrudRepository</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">ID</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">Repository</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">ID</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="o">&lt;</span><span class="no">S</span> <span class="kd">extends</span> <span class="no">T</span><span class="o">&gt;</span> <span class="no">S</span> <span class="nf">save</span><span class="o">(</span><span class="no">S</span> <span class="n">var1</span><span class="o">);</span>
 
-    <span class="o">&lt;</span><span class="n">S</span> <span class="kd">extends</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">S</span><span class="o">&gt;</span> <span class="nf">saveAll</span><span class="o">(</span><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">S</span><span class="o">&gt;</span> <span class="n">var1</span><span class="o">);</span>
+    <span class="o">&lt;</span><span class="no">S</span> <span class="kd">extends</span> <span class="no">T</span><span class="o">&gt;</span> <span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">S</span><span class="o">&gt;</span> <span class="nf">saveAll</span><span class="o">(</span><span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">S</span><span class="o">&gt;</span> <span class="n">var1</span><span class="o">);</span>
 
-    <span class="n">Optional</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">findById</span><span class="o">(</span><span class="n">ID</span> <span class="n">var1</span><span class="o">);</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">findById</span><span class="o">(</span><span class="no">ID</span> <span class="n">var1</span><span class="o">);</span>
 
-    <span class="kt">boolean</span> <span class="nf">existsById</span><span class="o">(</span><span class="n">ID</span> <span class="n">var1</span><span class="o">);</span>
+    <span class="kt">boolean</span> <span class="nf">existsById</span><span class="o">(</span><span class="no">ID</span> <span class="n">var1</span><span class="o">);</span>
 
-    <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">();</span>
+    <span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">();</span>
 
-    <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">findAllById</span><span class="o">(</span><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">ID</span><span class="o">&gt;</span> <span class="n">var1</span><span class="o">);</span>
+    <span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">findAllById</span><span class="o">(</span><span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">ID</span><span class="o">&gt;</span> <span class="n">var1</span><span class="o">);</span>
 
     <span class="kt">long</span> <span class="nf">count</span><span class="o">();</span>
 
-    <span class="kt">void</span> <span class="nf">deleteById</span><span class="o">(</span><span class="n">ID</span> <span class="n">var1</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">deleteById</span><span class="o">(</span><span class="no">ID</span> <span class="n">var1</span><span class="o">);</span>
 
-    <span class="kt">void</span> <span class="nf">delete</span><span class="o">(</span><span class="n">T</span> <span class="n">var1</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">delete</span><span class="o">(</span><span class="no">T</span> <span class="n">var1</span><span class="o">);</span>
 
-    <span class="kt">void</span> <span class="nf">deleteAll</span><span class="o">(</span><span class="n">Iterable</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">var1</span><span class="o">);</span>
+    <span class="kt">void</span> <span class="nf">deleteAll</span><span class="o">(</span><span class="nc">Iterable</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="no">T</span><span class="o">&gt;</span> <span class="n">var1</span><span class="o">);</span>
 
     <span class="kt">void</span> <span class="nf">deleteAll</span><span class="o">();</span>
 <span class="o">}</span>
@@ -459,18 +459,18 @@ NOCACHE;
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Member</span> <span class="o">{</span>
 
     <span class="nd">@Id</span>
-    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">SEQUENCE</span><span class="o">,</span> <span class="n">generator</span> <span class="o">=</span> <span class="s">"MEM_SEQ"</span><span class="o">)</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">SEQUENCE</span><span class="o">,</span> <span class="n">generator</span> <span class="o">=</span> <span class="s">"MEM_SEQ"</span><span class="o">)</span>
     <span class="nd">@SequenceGenerator</span><span class="o">(</span><span class="n">sequenceName</span> <span class="o">=</span> <span class="s">"MEMBER_SEQ"</span><span class="o">,</span> <span class="n">allocationSize</span> <span class="o">=</span> <span class="mi">1</span><span class="o">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"MEM_SEQ"</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
 
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
 
-    <span class="kd">private</span> <span class="n">LocalDateTime</span> <span class="n">updateTime</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">LocalDateTime</span> <span class="n">updateTime</span><span class="o">;</span>
 
     <span class="kd">public</span> <span class="nf">Member</span><span class="o">(){</span>
-        <span class="k">if</span><span class="o">(</span><span class="n">StringUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">updateTime</span><span class="o">)){</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">updateTime</span> <span class="o">=</span> <span class="n">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+        <span class="k">if</span><span class="o">(</span><span class="nc">StringUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">updateTime</span><span class="o">)){</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">updateTime</span> <span class="o">=</span> <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
         <span class="o">}</span>
     <span class="o">}</span>
 
@@ -481,7 +481,7 @@ NOCACHE;
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
-</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MemberRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MemberRepository</span> <span class="kd">extends</span> <span class="nc">JpaRepository</span><span class="o">&lt;</span><span class="nc">Member</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span>
 
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
@@ -509,16 +509,16 @@ NOCACHE;
 <span class="kd">class</span> <span class="nc">MemberRepositoryTest</span> <span class="o">{</span>
 
     <span class="nd">@Autowired</span>
-    <span class="n">MemberRepository</span> <span class="n">memberRepository</span><span class="o">;</span>
+    <span class="nc">MemberRepository</span> <span class="n">memberRepository</span><span class="o">;</span>
     
     <span class="nd">@Test</span>
     <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Member 저장"</span><span class="o">)</span>
     <span class="kt">void</span> <span class="nf">memberSaveTest</span><span class="o">(){</span>
-        <span class="n">Member</span> <span class="n">member</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Member</span><span class="o">();</span>
+        <span class="nc">Member</span> <span class="n">member</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Member</span><span class="o">();</span>
         <span class="n">member</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">);</span>
         <span class="n">member</span><span class="o">.</span><span class="na">setEmail</span><span class="o">(</span><span class="s">"test@test.com"</span><span class="o">);</span>
 
-        <span class="n">Member</span> <span class="n">member1</span> <span class="o">=</span> <span class="n">memberRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">member</span><span class="o">);</span>
+        <span class="nc">Member</span> <span class="n">member1</span> <span class="o">=</span> <span class="n">memberRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">member</span><span class="o">);</span>
         <span class="n">assertEquals</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">,</span> <span class="n">member1</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
     <span class="o">}</span>
 
@@ -535,7 +535,7 @@ NOCACHE;
 </pre></td><td class="rouge-code"><pre><span class="nd">@Test</span>
 <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Member 조회"</span><span class="o">)</span>
 <span class="kt">void</span> <span class="nf">findMemberJongminTest</span><span class="o">(){</span>
-    <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">&gt;</span> <span class="n">member</span> <span class="o">=</span> <span class="n">memberRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="mi">1L</span><span class="o">);</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Member</span><span class="o">&gt;</span> <span class="n">member</span> <span class="o">=</span> <span class="n">memberRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="mi">1L</span><span class="o">);</span>
 
     <span class="n">assertEquals</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">,</span> <span class="n">member</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
 <span class="o">}</span>
@@ -548,9 +548,9 @@ NOCACHE;
 3
 4
 5
-</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MemberRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MemberRepository</span> <span class="kd">extends</span> <span class="nc">JpaRepository</span><span class="o">&lt;</span><span class="nc">Member</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span>
 
-    <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">&gt;</span> <span class="nf">findByNameAndAndEmail</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">email</span><span class="o">);</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Member</span><span class="o">&gt;</span> <span class="nf">findByNameAndAndEmail</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">String</span> <span class="n">email</span><span class="o">);</span>
 
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
@@ -572,9 +572,9 @@ NOCACHE;
 </pre></td><td class="rouge-code"><pre><span class="nd">@Test</span>
 <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"메소드 이용"</span><span class="o">)</span>
 <span class="kt">void</span> <span class="nf">findMemberByMethod</span><span class="o">(){</span>
-    <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"jongmin"</span><span class="o">;</span>
-    <span class="n">String</span> <span class="n">email</span> <span class="o">=</span> <span class="s">"test@test.com"</span><span class="o">;</span>
-    <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">&gt;</span> <span class="n">member</span> <span class="o">=</span> <span class="n">memberRepository</span><span class="o">.</span><span class="na">findByNameAndAndEmail</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">email</span><span class="o">);</span>
+    <span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"jongmin"</span><span class="o">;</span>
+    <span class="nc">String</span> <span class="n">email</span> <span class="o">=</span> <span class="s">"test@test.com"</span><span class="o">;</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Member</span><span class="o">&gt;</span> <span class="n">member</span> <span class="o">=</span> <span class="n">memberRepository</span><span class="o">.</span><span class="na">findByNameAndAndEmail</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">email</span><span class="o">);</span>
 
     <span class="n">assertEquals</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">member</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
     <span class="n">assertEquals</span><span class="o">(</span><span class="n">email</span><span class="o">,</span> <span class="n">member</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">getEmail</span><span class="o">());</span>
@@ -607,12 +607,12 @@ NOCACHE;
 6
 7
 8
-</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MemberRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MemberRepository</span> <span class="kd">extends</span> <span class="nc">JpaRepository</span><span class="o">&lt;</span><span class="nc">Member</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span>
 
-    <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">&gt;</span> <span class="nf">findByNameAndAndEmail</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">email</span><span class="o">);</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Member</span><span class="o">&gt;</span> <span class="nf">findByNameAndAndEmail</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">String</span> <span class="n">email</span><span class="o">);</span>
 
     <span class="nd">@Query</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"SELECT m.* FROM MEMBER m WHERE m.email = ?1"</span><span class="o">,</span> <span class="n">nativeQuery</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
-    <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">&gt;</span> <span class="nf">findMemberUseEmailAddress</span><span class="o">(</span><span class="n">String</span> <span class="n">email</span><span class="o">);</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Member</span><span class="o">&gt;</span> <span class="nf">findMemberUseEmailAddress</span><span class="o">(</span><span class="nc">String</span> <span class="n">email</span><span class="o">);</span>
 
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
@@ -628,8 +628,8 @@ NOCACHE;
 </pre></td><td class="rouge-code"><pre><span class="nd">@Test</span>
 <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"쿼리 이용"</span><span class="o">)</span>
 <span class="kt">void</span> <span class="nf">findMemberByEmail</span><span class="o">(){</span>
-    <span class="n">String</span> <span class="n">email</span> <span class="o">=</span> <span class="s">"test@test.com"</span><span class="o">;</span>
-    <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Member</span><span class="o">&gt;</span> <span class="n">member</span> <span class="o">=</span> <span class="n">memberRepository</span><span class="o">.</span><span class="na">findMemberUseEmailAddress</span><span class="o">(</span><span class="n">email</span><span class="o">);</span>
+    <span class="nc">String</span> <span class="n">email</span> <span class="o">=</span> <span class="s">"test@test.com"</span><span class="o">;</span>
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Member</span><span class="o">&gt;</span> <span class="n">member</span> <span class="o">=</span> <span class="n">memberRepository</span><span class="o">.</span><span class="na">findMemberUseEmailAddress</span><span class="o">(</span><span class="n">email</span><span class="o">);</span>
 
     <span class="n">assertEquals</span><span class="o">(</span><span class="s">"jongmin"</span><span class="o">,</span> <span class="n">member</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
 <span class="o">}</span>
@@ -718,15 +718,10 @@ NOCACHE;
         </a>
         
         
-                <a data-sort="0014" 
+                <a data-sort="0004" 
                     href="/archive/?tag=Java"
                     title="Java"
-                    rel="5">Java</a>
-        
-                <a data-sort="0009" 
-                    href="/archive/?tag=JAVA"
-                    title="JAVA"
-                    rel="10">JAVA</a>
+                    rel="15">Java</a>
         
                 <a data-sort="0009" 
                     href="/archive/?tag=Spring+Boot"

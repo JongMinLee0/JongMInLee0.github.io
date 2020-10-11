@@ -15,7 +15,6 @@
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="들어가며
-
 ">
     
     <meta property="article:published_time" content="2019-06-15T00:00:00Z">
@@ -112,11 +111,11 @@
                     
                     
                     
+                    
+                    
                     <li>
                         <a href="/portfolio/">Portfolio</a>
                     </li>
-                    
-                    
                     
                     
                     
@@ -258,8 +257,8 @@
 <p>저번 글에서는 static에 대해 간단하게 알아보았습니다.
 (안보고 오셨다면 여기로! -&gt; <a href="http://JongMinLee0.github.io/2019/06/15/static1/">static 완전정복(1</a>))</p>
 
-<p>지금까지의 내용을 요약해보자면 <code class="highlighter-rouge">프로그램이 실행될 때 Java메모리에 할당되며, 프로그램이종료될 때 해체된다.</code>
-또한 <code class="highlighter-rouge">main메소드에서 사용하는 이유는 JVM에 편의를 제공하기 위함</code>이라 할 수 있겠습니다.</p>
+<p>지금까지의 내용을 요약해보자면 <code class="language-plaintext highlighter-rouge">프로그램이 실행될 때 Java메모리에 할당되며, 프로그램이종료될 때 해체된다.</code>
+또한 <code class="language-plaintext highlighter-rouge">main메소드에서 사용하는 이유는 JVM에 편의를 제공하기 위함</code>이라 할 수 있겠습니다.</p>
 
 <p>이번에는 static을 사용하는 다양한 경우에 대해 보겠습니다!!</p>
 
@@ -313,25 +312,25 @@
     <span class="kd">static</span> <span class="kt">int</span> <span class="n">staticVariables</span><span class="o">;</span>
 
     <span class="kd">static</span><span class="o">{</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"StaticComponents SIB"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"StaticComponents SIB"</span><span class="o">);</span>
         <span class="n">staticVariable</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
     <span class="o">}</span>
     
     <span class="kd">static</span> <span class="kt">void</span> <span class="nf">staticMethod</span><span class="o">(){</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"From StaticMethod"</span><span class="o">);</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">staticVariable</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"From StaticMethod"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">staticVariable</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainClass</span><span class="o">{</span>
     <span class="kd">static</span><span class="o">{</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"MainClass SIB"</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"MainClass SIB"</span><span class="o">);</span>
     <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
         <span class="c1">// Static Members directlyaccessed with Class Name</span>
-        <span class="n">StaticComponents</span><span class="o">.</span><span class="na">staticVariable</span> <span class="o">=</span> <span class="mi">20</span><span class="o">;</span>
-        <span class="n">StaticComponents</span><span class="o">.</span><span class="na">staticMethod</span><span class="o">();</span>
+        <span class="nc">StaticComponents</span><span class="o">.</span><span class="na">staticVariable</span> <span class="o">=</span> <span class="mi">20</span><span class="o">;</span>
+        <span class="nc">StaticComponents</span><span class="o">.</span><span class="na">staticMethod</span><span class="o">();</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
@@ -353,7 +352,7 @@
 2
 3
 </pre></td><td class="rouge-code"><pre><span class="kd">static</span><span class="o">{</span>
-    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"MainClass SIB"</span><span class="o">);</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"MainClass SIB"</span><span class="o">);</span>
 <span class="o">}</span>
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>이 부분을 실행해서 ‘MainClass SIB’를 콘솔창에 띄운 후 Stack메모리에서 벗어납니다.</p>
@@ -363,7 +362,7 @@
 <h4 id="3단계">3단계</h4>
 
 <p>이제 java command(자바 명렁어)는 실행을 위해 main메소드를 호출합니다.(main메소드가 스택에 들어갑니다.)
-가장 먼저 <code class="highlighter-rouge">StaticComponents.staticVariable=20;</code> 가 실행됩니다.
+가장 먼저 <code class="language-plaintext highlighter-rouge">StaticComponents.staticVariable=20;</code> 가 실행됩니다.
 여기서 먼저 StaticComponents 클래스가 메모리에 load되었는지 확인합니다.
 load되어 있지 않으면 먼저 load작업을 수행합니다. 임의의 메모리가 StaticComponents클래스에 할당되면 StaticComponents의 모든 정적 멤버(변수, 메소드)가 Class 메모리에 load됩니다. StaticVariable은 전역변수이고 기본값은 0(초기화)으로 할당됩니다.</p>
 
@@ -372,7 +371,7 @@ load되어 있지 않으면 먼저 load작업을 수행합니다. 임의의 메�
 <h4 id="4단계">4단계</h4>
 
 <p>StaticComponents의 모든 static 멤버를 load하면 SIB가 실행됩니다. 마찬가지로
-StaticComponents클래스의 SIB가 실행을 위해 Static에 들어갑니다. 가장 먼저 <code class="highlighter-rouge">System.out.println("StaticComponents SIB");</code>가 실행됩니다.
+StaticComponents클래스의 SIB가 실행을 위해 Static에 들어갑니다. 가장 먼저 <code class="language-plaintext highlighter-rouge">System.out.println("StaticComponents SIB");</code>가 실행됩니다.
 콘솔에 ‘StaticComponents SIB’을 띄운 후 staticVariable에 10이라는 값을 넣어 줍니다. 이제 다른 명령문이 없으므로 스택 메모리에 남겨 둡니다.</p>
 
 <p><br /></p>
@@ -401,7 +400,7 @@ StaticComponents클래스의 SIB가 실행을 위해 Static에 들어갑니다. 
 
 <p>출력순서는 다음과 같습니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -498,15 +497,10 @@ import할 때도 사용이 됩니다. 그러나 지금까지의 글을 알고 �
         </a>
         
         
-                <a data-sort="0014" 
+                <a data-sort="0004" 
                     href="/archive/?tag=Java"
                     title="Java"
-                    rel="5">Java</a>
-        
-                <a data-sort="0009" 
-                    href="/archive/?tag=JAVA"
-                    title="JAVA"
-                    rel="10">JAVA</a>
+                    rel="15">Java</a>
         
                 <a data-sort="0009" 
                     href="/archive/?tag=Spring+Boot"
