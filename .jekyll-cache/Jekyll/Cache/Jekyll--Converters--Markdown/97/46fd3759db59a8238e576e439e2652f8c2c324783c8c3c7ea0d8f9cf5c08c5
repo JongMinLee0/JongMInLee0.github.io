@@ -1,0 +1,14 @@
+I"�<p>기존 Java를 이용하여 개발하고 현재는 PHP를 사용하여 업무를 하고 있습니다. 그렇다보니 두 언어의 차이점이 존재하고 그 차이점에 대해 궁금하였습니다. 그 중 PHP의 Fast-CGI를 맞닥드렸습니다. 이 CGI라는 것이 무엇인지 처음 접하고 Servelt에 대한 언급도 있었기에 글을 작성하게 되었습니다.</p>
+<blockquote>
+  <p>참고로 Fast-CGI는 CGI와 다르게 동작합니다.(나중에 알게 되었습니다…)</p>
+</blockquote>
+
+<h2 id="cgicommon-gateway-interface">CGI(Common Gateway Interface)</h2>
+
+<p>사실 이 <strong>CGI</strong>라는 것을 알아가며 큰 어려움이 있었습니다. 정의가 굉장이 <strong>둥실?</strong>하다고 느꼈기 때문입니다. CGI에 대해서는 <strong><a href="https://kldp.org/node/73386">이 글</a></strong>을 추천 드립니다. 굉장이 오래된 2006년의 글이지만 사람들의 토론을 보며 얻는 것이 있으리라 생각됩니다. 사실 이 글을 읽고도 머릿속이 제대로 정리가 안된 것은 사살입니다. 이 글을 맞칠 때쯤은 제가 제대로 알고 있었으면 하는 바람입니다.</p>
+
+<p>CGI는 말 그대로 <strong>인터페이스</strong> 입니다. 동작방식이나 특정 프로그램을 지칭하는 것이 아닌 데이터를 주고 받는 표준적인 규약이라고 보는 것이 맞습니다. Web Server에서 외부 프로그램(CGI scripts)처리하는 인터페이스 입니다.</p>
+
+<p>CGI에 대해 한줄로 정의하자면 <code class="language-plaintext highlighter-rouge">외부 프로그램을 띄워서 그 결과값을 반환하는 방식에 대한 규약이며, 이 때 쓰이는 외부 프로그램을 통상 CGI 프로그램이라 한다.</code> 입니다.</p>
+
+:ET

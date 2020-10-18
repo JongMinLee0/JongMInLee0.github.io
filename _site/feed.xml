@@ -5,17 +5,96 @@
     <description>description</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 11 Oct 2020 19:20:08 +0900</pubDate>
-    <lastBuildDate>Sun, 11 Oct 2020 19:20:08 +0900</lastBuildDate>
+    <pubDate>Sun, 18 Oct 2020 22:02:17 +0900</pubDate>
+    <lastBuildDate>Sun, 18 Oct 2020 22:02:17 +0900</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
         <title>[Server] CGI와 Servlet에 대해서</title>
-        <description>&lt;p&gt;기존 Java를 이용하여 개발하고 현재는 PHP를 사용하여 업무를 하고 있습니다. 그렇다보니 두 언어의 차이점이 존재하고 그 차이점에 대해 궁금하였습니다.&lt;/p&gt;
+        <description>&lt;p&gt;기존 Java를 이용하여 개발하고 현재는 PHP를 사용하여 업무를 하고 있습니다. 그렇다보니 두 언어의 차이점이 존재하고 그 차이점에 대해 궁금하였습니다. 그 중 PHP의 Fast-CGI를 맞닥드렸습니다. 이 CGI라는 것이 무엇인지 처음 접하고 Servelt에 대한 언급도 있었기에 글을 작성하게 되었습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;참고로 Fast-CGI는 CGI와 다르게 동작합니다.(나중에 알게 되었습니다…)&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;h2 id=&quot;1-cgicommon-gateway-interface&quot;&gt;1. CGI(Common Gateway Interface)&lt;/h2&gt;
+&lt;h2 id=&quot;cgicommon-gateway-interface&quot;&gt;CGI(Common Gateway Interface)&lt;/h2&gt;
 
-&lt;p&gt;CGI는 Server의 다른 프로그램들과 Communication하는 Web Server의 일부분 입니다.&lt;/p&gt;
+&lt;p&gt;사실 이 &lt;strong&gt;CGI&lt;/strong&gt;라는 것을 알아가며 큰 어려움이 있었습니다. 정의가 굉장이 &lt;strong&gt;둥실?&lt;/strong&gt;하다고 느꼈기 때문입니다. CGI에 대해서는 &lt;strong&gt;&lt;a href=&quot;https://kldp.org/node/73386&quot;&gt;이 글&lt;/a&gt;&lt;/strong&gt;을 추천 드립니다. 굉장이 오래된 2006년의 글이지만 사람들의 토론을 보며 얻는 것이 있으리라 생각됩니다. 사실 이 글을 읽고도 머릿속이 제대로 정리가 안된 것은 사살입니다. 이 글을 맞칠 때쯤은 제가 제대로 알고 있었으면 하는 바람입니다.&lt;/p&gt;
+
+&lt;p&gt;CGI는 말 그대로 &lt;strong&gt;인터페이스&lt;/strong&gt; 입니다. 동작방식이나 특정 프로그램을 지칭하는 것이 아닌 데이터를 주고 받는 표준적인 규약이라고 보는 것이 맞습니다. Web Server에서 외부 프로그램(CGI scripts)처리하는 인터페이스 입니다.&lt;/p&gt;
+
+&lt;p&gt;CGI에 대해 한줄로 정의하자면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;외부 프로그램을 띄워서 그 결과값을 반환하는 방식에 대한 규약이며, 이 때 쓰이는 외부 프로그램을 통상 CGI 프로그램이라 한다.&lt;/code&gt; 입니다.&lt;/p&gt;
+
+&lt;p&gt;이전에는 &lt;strong&gt;CGI Program&lt;/strong&gt;을 작성하는데 &lt;strong&gt;shell Script&lt;/strong&gt;와 &lt;strong&gt;perl&lt;/strong&gt;이 많이 사용되었기 때문에 &lt;strong&gt;CGI Script&lt;/strong&gt;라고 부르곤 했습니다. 그러나 이제는 C, C++, Perl, Visual Basic, Python등 모든 언어를 사용할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;servlet&quot;&gt;Servlet&lt;/h2&gt;
+
+&lt;p&gt;Servlet은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Java를 사용하여 웹 페이지를 동적으로 생성하는 서버 측 프로그램 혹은 그 사양을 말합니다.&lt;/code&gt; Servlet은 core java class로서 HTTP request를 다룹니다. Servlet 등장 이전에는 CGI가 Server-side Programming에 주를 이루었습니다. 그러나 많은 단점들로 인해서 Servlet이 등장하게 되었습니다.&lt;br /&gt;
+&lt;img src=&quot;https://user-images.githubusercontent.com/48028667/96367746-ad903400-118a-11eb-8dcb-52c5dc8c68f4.PNG&quot; /&gt;
+위의 사진은 Web Application에서 Servlet의 위치를 보여줍니다. HTTP request 혹은 HTTP server와 DataBase 또는 응용프로그램 사이에서 Middle Layer 역할을 하고 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/48028667/96367851-360ed480-118b-11eb-86b4-bee8b368aed1.PNG&quot; /&gt;
+Servlet은 위와 같은 &lt;strong&gt;Life Cycle&lt;/strong&gt;을 가집니다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;init()&lt;/strong&gt; : 매 request가 아닌 처음 load될 때 한번 실행 됩니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;service()&lt;/strong&gt; : 매 request마다 새로운 thread에 의해 호출 됩니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;destroy()&lt;/strong&gt; : servlet instance를 삭제할 때 호출됩니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;CGI&lt;/strong&gt;와 &lt;strong&gt;Servlet&lt;/strong&gt;의 자세한 구조까지는 다루지 않겠습니다. 기회가 된다면 확인해보도록 하겠습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;disadvantage-of-cgi&quot;&gt;Disadvantage of CGI&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/48028667/96367241-969c1280-1187-11eb-9863-b5bcbf4c81f9.PNG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위의 그림을 참고하여 보도록 하겠습니다.&lt;br /&gt;
+CGI는 매번 request가 올때마다 새로운 &lt;strong&gt;Process&lt;/strong&gt;를 생성합니다. 대표적인 단점은 다음과 같습니다.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;클라이언트 수가 증가하면 응답을 보내는데 더 많은 시간이 걸립니다.&lt;/li&gt;
+  &lt;li&gt;각 요청에 대해 새로운 Process를 시작합니다.&lt;/li&gt;
+  &lt;li&gt;C, C++, Perl과 같은 Platform 종속 언어를 사용합니다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Httpd&lt;/strong&gt; : Apache Hypertext Transfer Protocol / HTTP Daemon, 즉 Web Server의 Background에서 실행되어, 들어오는 서버 요청을 대기하는 소프트웨어 프로그램입니다. 자체(standalone) 데몬 프로세스로 실행하도록 설계되었습니다. 원한다면 요청을 처리하기 위해 process와 thread들을 만듭니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;advantages-of-servlet&quot;&gt;Advantages of Servlet&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/48028667/96367242-97cd3f80-1187-11eb-9961-5fcc3ff30d80.PNG&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Web Container는 Servlet에 대한 여러 요청을 처리하기 위해 thread를 생성합니다. thread는 공통 메모리 영역을 공유하고 가벼우며, thread간 통신 비용이 낮다는 장점이 있습니다.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Better performance&lt;/strong&gt; : 매 request에 process가 아닌 thread를 생성합니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Portability&lt;/strong&gt; : Java언어를 사용하기 때문입니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Robust&lt;/strong&gt; : JVM의 GC(Garbage Collector)가 있기 때문에 매모리 누수를 걱정할 필요가 없습니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Secure&lt;/strong&gt; : Java를 사용하기 때문에 Script보단 안전합니다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Web Container&lt;/strong&gt; : Web Server의 Component 중 하나로 Java Servlet과 상호작용합니다. Web Container는 Servlet의 Life Cycle을 관리하고, URL과 특정 Servlet을 Mapping하여 URL 요청이 올바른 접근 권한을 갖도록 보장합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;현재 &lt;strong&gt;PHP&lt;/strong&gt;를 통해 업무를 진행하며 어떻게 보면 &lt;strong&gt;CGI Program&lt;/strong&gt;을 다루고 있습니다. 이로 인해 CGI를 처음 접하게 되었고, &lt;strong&gt;Servlet&lt;/strong&gt;과의 차이를 보며 기존 알고 있던 Servlet을 좀 더 알게 된 것 같습니다.&lt;br /&gt;
+&lt;strong&gt;CGI&lt;/strong&gt;와 &lt;strong&gt;Servlet&lt;/strong&gt;에 대해 간단하게 개념과 차이점 등을 알아봤습니다. 잘못된 점이 있다면 댓글로 남겨주시면 감사하겠습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;ref&quot;&gt;Ref&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.javatpoint.com/servlet-tutorial&quot;&gt;Java point&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.slideshare.net/lavanyamarichamy/java-servlets-and-cgi&quot;&gt;Side Share&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://techdifferences.com/difference-between-cgi-and-servlet.html&quot;&gt;techdifferences&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         <pubDate>Sat, 10 Oct 2020 00:00:00 +0900</pubDate>
         <link>http://localhost:4000/2020/10/10/cgivsservlet/</link>
