@@ -1,0 +1,85 @@
+I"i<p><br /></p>
+
+<p>Windows 10 환경에서 php를 사용하기 위해 흔히 <strong>APM(Apache, PHP, Mysql)</strong> 중 Apache와 php를 설치 하여 구동까지 해보도록 하겠습니다.</p>
+
+<p><br /></p>
+
+<h2 id="install">Install</h2>
+
+<h3 id="apache">Apache</h3>
+
+<p>먼저 <a href="https://www.apachelounge.com/download/">Apache Lounge</a>에서 Apache copy를 다운로드 받습니다.<br />
+<img src="https://user-images.githubusercontent.com/48028667/97100221-8975ab00-16d4-11eb-83c8-3187224c791c.PNG" /></p>
+
+<p>저는 64bit 이기 때문에 <a href="https://www.apachelounge.com/download/VS16/binaries/httpd-2.4.46-win64-VS16.zip">httpd-2.4.46-win64-VS16.zip</a>을 다운 받았습니다. Apache를 다운 받고 폴더를 원하는 위치에 옮겨 줍니다.<br />
+폴더를 옮길 때 위치시키면 안되는 위치가 존재 합니다.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Program Files</code> Folder</li>
+  <li><code class="language-plaintext highlighter-rouge">User</code> Folder</li>
+  <li><code class="language-plaintext highlighter-rouge">AppData</code> Folder
+저는 <code class="language-plaintext highlighter-rouge">C:\Apache24</code>에 위치 시켰습니다.</li>
+</ul>
+
+<p>다운로드과 완료되었다면 적절한 <a href="&quot;https://aka.ms/vs/16/release/VC_redist.x64.exe">Visual Studio redist</a>를 다운 받아 줍니다.</p>
+<blockquote>
+  <p>VC_redist는 Microsoft사에서 배포하는 Visual C++ 재배포 가능 패키지 입니다. 보통 Miscrosoft Visual Studio로 컴파일 된 Windows 응용 프로그램을 지원하는 런타임 구성요소 입니다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h3 id="php">PHP</h3>
+
+<p><strong>Apache</strong> 설치가 완료되었다면, <a href="https://windows.php.net/download/">Windows PHP</a>에서 <strong>php</strong>를 설치해 줍니다. 버전이 여러 종류가 있지만 저는 최신 버전을 설치해 주도록 하겠습니다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/48028667/97100222-8aa6d800-16d4-11eb-8b1d-85ac7fa2aab9.PNG" /></p>
+
+<p><strong>7.4 version Thread Safe</strong> PHP를 설치해 주었습니다.(Apache와 사용을 위해 <strong>Thread Safe</strong>한 버전을 다운 받아야 합니다.)  다운이 완료되었다면 Aapache와 마찬가지로 폴더를 원하는 위치에 옮겨 줍니다. 저는 역시 <code class="language-plaintext highlighter-rouge">C:\php-7.4.11</code>에 옮겨 주었습니다.</p>
+
+<p><br /></p>
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="aapache">Aapache</h3>
+
+<p>Apache를 설치한 폴더에 들어가 설치를 확인해 보겠습니다. 저의 경우 <code class="language-plaintext highlighter-rouge">C:\Apache24\bin\httpd.exe</code>를 실행시켜 보았습니다. <strong>Console</strong>창이 열린 후 <strong>localhost</strong> 혹은 <strong>127.0.0.1</strong>로 브라우저를 통해 접속한다면 <strong>It works!</strong>라는 글을 만날 수 있을 것 입니다.<br />
+그렇다면 <strong>It works!</strong>는 어디에 작성되어 있는 것일까요?? Apache의 default Document Root는 <strong>htdocs</strong> 입니다. <code class="language-plaintext highlighter-rouge">C:\Apache24\htdocs</code>에 들어가보면 <strong>index.html</strong>에 <strong>It works!</strong>가 작성되어 있는걸 보실 수 있습니다.</p>
+
+<h3 id="php-1">PHP</h3>
+
+<p>PHP를 설치한 <code class="language-plaintext highlighter-rouge">C:\php-7.4.11</code>에 보면 두 가지의 설정 파일이 존재 합니다. <strong>php.ini-development</strong>와 <strong>php.ini-production</strong> 입니다. 이름에서 알 수 있듯 하나는 개발, 하나는 상용으로 사용하기위한 설정 입니다. 둘 중 원하는 것을 하나 복사하며 <strong>php.ini</strong>로 이름을 바꿔줍니다. 이렇게 하면 PHP의 기본적인 설정은 끝납니다. PHP는 기본적으로 설정이 되어 있어 추가적인 모듈을 사용하는 것이 아니라면 따로 설정해 줄 것이 없습니다. 추가적인 설정은 <strong>php.ini</strong>에서 해주시면 됩니다.<br />
+그 다음 <code class="language-plaintext highlighter-rouge">C:\Apache24\conf\</code>로 가줍니다. 여기서 <strong>httpd.conf</strong>를 수정해줍니다. 가장 아래 줄에 다음을 추가해줍니다.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre># -------- PHP Configuration --------
+LoadModule php7_module "c:/php-7.4.11/php7apache2_4.dll"
+AddHandler application/x-httpd-php .php
+
+# Configure the path to php.ini
+
+PHPIniDir "c:/php-7.4.11"
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><strong>httpd.conf</strong> 파일에서 기본적인 port 및 Root path변경 등 Apache에 대한 설정을 하실 수 있습니다. 이제 Apache와 PHP의 연결을 확인해 보겠습니다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">C\Apache24\htdocs</code>에 들어가서 <strong>version.php</strong>를 생성해 줍니다. 이름은 자유 입니다. <strong>version.php</strong>는 다음 과 같이 작성합니다.</p>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
+
+<span class="nb">phpinfo</span><span class="p">();</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Apache를 다시 실행시키고 <strong>http://localhost/version.php</strong>에 접속하면 php정보가 아래와 같이 출력됩니다.
+<img src="https://user-images.githubusercontent.com/48028667/97100701-9b0d8180-16d9-11eb-88a3-c1499961ac81.PNG" /></p>
+
+<p>이로써 php 와 Apache가 연동된걸 확인할 수 있습니다. 이제 원하는 입맛대로 설정을 변경하여 사용하시면 됩니다. 감사합니다.</p>
+<blockquote>
+  <p>추후에 서버를 구성할일이 있으면 설정에 대해서도 다뤄보겠습니다.</p>
+</blockquote>
+:ET
