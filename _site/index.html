@@ -85,10 +85,6 @@
                     
                     
                     
-                    <li>
-                        <a href="/about/">About</a>
-                    </li>
-                    
                     
                     
                     <li>
@@ -104,8 +100,6 @@
                     <li>
                         <a href="/portfolio/">Portfolio</a>
                     </li>
-                    
-                    
                     
                     
                     
@@ -215,6 +209,30 @@
     <meta name="google-site-verification" content="H19-YRRp-wb2YS7vX2kI-D95Wb3Aa0Y7o1yqAoAAkXY" />
     <script data-ad-client="ca-pub-5608650077917985" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
+
+<div class="post-preview">
+    <a href="/2021/01/23/cachebusting/">
+        <h2 class="post-title">
+            [Web] Cache와 Cache Busting이란?
+        </h2>
+        
+        <h3 class="post-subtitle">
+            About Cache & Cache Busting
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                들어가며
+
+문제 있던 파일을 배포한 직후, 문제가 발생했었습니다. 새로고침 혹은 Cache를 지운 컴퓨터의 브라우저에서는 수정된 정상적인 파일로 보이게 되지만, 그렇지 않다면 기존의 문제된 파일이 보이게 됩니다. 이러한 현상은 Cache에 의해 발생하게 되는데 왜 발생하고, 어떻게 해결해야 하는지 알아 보도록 하겠습니다. Cache에 대해 전체적으로도...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by JongMin-Lee on January 23, 2021
+    </p>
+</div>
+<hr>
 
 <div class="post-preview">
     <a href="/2020/10/23/phpapache/">
@@ -455,28 +473,6 @@ REST API라는 말을 많이 들어보셨을 겁니다. 얼핏 보고 구현한 
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2020/02/12/springdatajpa/">
-        <h2 class="post-title">
-            [SpringBoot] Spring Data JPA
-        </h2>
-        
-        <h3 class="post-subtitle">
-             About Spring Data JPA
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                이전에 이 글에서 JPA를 다뤘었습니다. Spring Boot에서의 JPA사용은 그 때의 JPA사용과는 다를 수 있습니다. 왜냐하면 JPA의 동작을 좀더 자세하게 알고자 EntityManager를 이용해 수동적으로 Transaction을 다뤘기 때문입니다. 그러나 Spring에서 JPA를 종더 편리하게 사용하고자 Spring Data JPA를 만들었습...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by JongMin-Lee on February 12, 2020
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -513,17 +509,17 @@ REST API라는 말을 많이 들어보셨을 겁니다. 얼핏 보고 구현한 
         </a>
         
         
-                <a data-sort="0006" 
+                <a data-sort="0007" 
                     href="/archive/?tag=Java"
                     title="Java"
                     rel="15">Java</a>
         
-                <a data-sort="0011" 
+                <a data-sort="0012" 
                     href="/archive/?tag=Spring+Boot"
                     title="Spring Boot"
                     rel="10">Spring Boot</a>
         
-                <a data-sort="0015" 
+                <a data-sort="0016" 
                     href="/archive/?tag=JPA"
                     title="JPA"
                     rel="6">JPA</a>
@@ -531,19 +527,24 @@ REST API라는 말을 많이 들어보셨을 겁니다. 얼핏 보고 구현한 
                 <a data-sort="0017" 
                     href="/archive/?tag=Web"
                     title="Web"
-                    rel="4">Web</a>
+                    rel="5">Web</a>
         
-                <a data-sort="0019" 
+                <a data-sort="0020" 
+                    href="/archive/?tag=HTTP"
+                    title="HTTP"
+                    rel="2">HTTP</a>
+        
+                <a data-sort="0020" 
                     href="/archive/?tag=Servlet"
                     title="Servlet"
                     rel="2">Servlet</a>
         
-                <a data-sort="0019" 
+                <a data-sort="0020" 
                     href="/archive/?tag=Static"
                     title="Static"
                     rel="2">Static</a>
         
-                <a data-sort="0019" 
+                <a data-sort="0020" 
                     href="/archive/?tag=php"
                     title="php"
                     rel="2">php
@@ -554,7 +555,7 @@ REST API라는 말을 많이 들어보셨을 겁니다. 얼핏 보고 구현한 
                 <!-- Short About -->
                 <section class="visible-md visible-lg">
   <hr>
-  <h5><a href="/about/">ABOUT ME</a></h5>
+  <h5><a href="/about/"></a>ABOUT ME</h5>
   <div class="short-about">
     
     
@@ -639,7 +640,7 @@ REST API라는 말을 많이 들어보셨을 겁니다. 얼핏 보고 구현한 
 </ul>
 
                 <p class="copyright text-muted">
-                    All Contents Copyright &copy; Jongmin's Blog 2020
+                    All Contents Copyright &copy; Jongmin's Blog 2021
                     <br>
                     Powered by <a href="http://JongMinLee0.github.io">JongMin's Blog</a> |
                     <iframe
