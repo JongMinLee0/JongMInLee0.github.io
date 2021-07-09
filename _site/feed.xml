@@ -5,9 +5,90 @@
     <description>description</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 28 Feb 2021 01:18:43 +0900</pubDate>
-    <lastBuildDate>Sun, 28 Feb 2021 01:18:43 +0900</lastBuildDate>
+    <pubDate>Sun, 04 Apr 2021 21:27:04 +0900</pubDate>
+    <lastBuildDate>Sun, 04 Apr 2021 21:27:04 +0900</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>[mysql] Mysql Architecture(with Storage-engine)</title>
+        <description>&lt;p&gt;&lt;strong&gt;Mysql&lt;/strong&gt;은 다른 데이터베이스와 다른 특징들을 갖고 있습니다. 이 특징들은 사용자들이 사용하기 편하게 도와주며 애플리케이션에 적합하게 적용할 수 있도록 해 줍니다. &lt;strong&gt;Mysql&lt;/strong&gt;의 특징들 중 가장 중요한 것은 &lt;strong&gt;Storage-engine&lt;/strong&gt;입니다. 따라서 Mysql의 전반적인 구조와 Storage-engine에 대해 알아보고자 합니다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;현재 Mysql 5.7 버전을 사용하고 있어 최신 버전과는 다를 수 있습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;1-mysql-architecture&quot;&gt;1. Mysql Architecture&lt;/h1&gt;
+&lt;h2 id=&quot;1-1-mysql-logical-architecture&quot;&gt;1-1. Mysql Logical Architecture&lt;/h2&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;img src=&quot;https://user-images.githubusercontent.com/48028667/113501085-def49480-955d-11eb-9acd-6b55b8576085.png&quot; /&gt;
+&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Client&lt;/strong&gt; : Mysql server에 접속하기 위한 유틸리티&lt;br /&gt;
+ex) connection handling, authentication, security etc..&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Server&lt;/strong&gt; : Mysql에서 data를 저장하고, 가져오는 등 Mysql instance 입니다.&lt;br /&gt;
+ex) query parsing, stored procedures, triggers, views, optimization, caching, built-in functions etc..&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;mysqld&lt;/strong&gt; : &lt;strong&gt;Mysql Server Daemon Program&lt;/strong&gt;으로 client의 요청, 응답을 관리 합니다. mysqld는 multi-threaded process로 모든 연결을 감시하고 있습니다.
+    &lt;blockquote&gt;
+      &lt;p&gt;&lt;strong&gt;Daemon Program&lt;/strong&gt; : 사용자가 직접적으로 제거하지 않고 background에서 돌면서 여러 작업을 하는 Program을 말합니다.&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Mysql memory allocation&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;1-2-mysql-physical-architecture&quot;&gt;1-2. Mysql Physical Architecture&lt;/h2&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;ref&quot;&gt;Ref&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;https://lalitvc.wordpress.com/2016/11/03/mysql-architecture-and-components/&lt;/li&gt;
+  &lt;li&gt;https://www.oreilly.com/library/view/high-performance-mysql/9781449332471/ch01.html&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 04 Apr 2021 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2021/04/04/mysqlarchitecture/</link>
+        <guid isPermaLink="true">http://localhost:4000/2021/04/04/mysqlarchitecture/</guid>
+        
+        <category>Mysql</category>
+        
+        <category>Database</category>
+        
+        <category>Architecture</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>[mysql] 데이터 베이스 인덱스(index &amp; index hint)</title>
+        <description>&lt;p&gt;최근 업무를 진행하며 곤란했던 일이 있었습니다. 기존 Table과 비슷한 다른 Table을 만들고, Query를 테스트하는데 같은 Query임에도 불구하고, 상당한 속도 차이가 있었습니다. 처음에는 Query를 잘 못 작성하였다고 생각했으나, 아무리 생각해도 같은 Query였습니다. 여러 문제점을 찾던 중 번뜩하고 생각이 떠올라 Table의 구조를 살펴 봤습니다. 역시나 Index의 차이 였습니다.&lt;br /&gt;
+이전 작업시에는 Table의 구조를 복사 하거나 이미 제작된 Table로 작업을 하다보니 간과했던 부분이었습니다. 이를 계기로 Index에 대해 정리해보자 합니다.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;제가 현재 사용하고 있는, Mysql을 기준으로 작성하였습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;ref&quot;&gt;Ref&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;https://dev.mysql.com/doc/refman/8.0/en/create-index.html&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Tue, 30 Mar 2021 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2021/03/30/mysqlindex/</link>
+        <guid isPermaLink="true">http://localhost:4000/2021/03/30/mysqlindex/</guid>
+        
+        <category>Mysql</category>
+        
+        <category>Database</category>
+        
+        <category>Index</category>
+        
+        
+      </item>
     
       <item>
         <title>[Algorithm] Tree(트리)와 Graph(그래프)</title>
@@ -2330,331 +2411,6 @@ Entity는 객체와 분리되어 값에 의해 전달된다. 때문에 Entity cl
         <guid isPermaLink="true">http://localhost:4000/2020/03/15/serializable/</guid>
         
         <category>Java</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>[SpringBoot] REST API란?</title>
-        <description>&lt;h1 id=&quot;rest-api&quot;&gt;REST API&lt;/h1&gt;
-
-&lt;p&gt;REST API라는 말을 많이 들어보셨을 겁니다. 얼핏 보고 구현한 다음 RESTful 하다고 하는 경우가 많습니다. 물론 저도 그랬습니다. RESTful하게 만들기 위해 공부를 더했고, 그 과정에서 배운 것을 합쳐 REST API에 대해 알아보겠습니다.&lt;br /&gt;
-먼저 &lt;strong&gt;API&lt;/strong&gt;란 &lt;strong&gt;Application Programming Interface&lt;/strong&gt;의 약자 입니다. API는 응용 프로그램이 서로 통신할 수 있도록하는 일련의 규칙입니다. 개발자는 서버에서 API를 만들어 클라이언트와 대화할 수 있습니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;REST&lt;/strong&gt;는 &lt;strong&gt;Representational State Transfer&lt;/strong&gt;의 약자로 분산 네트워크 프로그래밍의 아키텍처 스타일입니다. REST는 API의 구조(모양) 중 하나라고 생각하면 됩니다. 방식은 간단합니다. 예를 들어 네이버 검색창에 무엇인가를 검색하면 결과가 출력됩니다. 이 처럼 검색창에 입력하여 전송하는 것이 request, 검색된 결과를 서버에서 보내주는 것이 response 입니다. 가장 기초적인 것부터 알아보도록 하겠습니다.&lt;/p&gt;
-
-&lt;h5 id=&quot;request&quot;&gt;Request&lt;/h5&gt;
-&lt;p&gt;request는 4가지로 구성되는데 이는 상당히 중요합니다.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;The endpoint&lt;/li&gt;
-  &lt;li&gt;The method&lt;/li&gt;
-  &lt;li&gt;The headers&lt;/li&gt;
-  &lt;li&gt;The data(or body)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h6 id=&quot;엔드-포인트the-endpoint&quot;&gt;엔드 포인트(The endpoint)&lt;/h6&gt;
-&lt;p&gt;엔드 포인트는 요청한 url입니다.&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;root-endpoint/?
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;root-endpoint는 클라이언트가 요청한 API의 시작점 입니다. 네이버 API의 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://openapi.naver.com&lt;/code&gt;이 root-endpoint 입니다. 뒤의 &lt;strong&gt;’?’&lt;/strong&gt;는 &lt;strong&gt;path&lt;/strong&gt;입니다. path는 요청한 리소스를 결정해 줍니다. 예를 들어 1번 버튼을 누르면 서비스1이 실행되고 2번 버튼을 누르면 서비스2가 실행되는 느낌입니다. path를 붙이면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://openapi.naver.com/v1/search/blog&lt;/code&gt;와 같습니다. 이는 블로그 검색을 호출한다는 의미 입니다. 사용가능한 path에 대해서는 API 문서를 확인해 봐야 합니다.&lt;br /&gt;
-path에 값(변수)를 대입하거나 query string(parameter)를 이용하는 경우도 있습니다.&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;/user/:username/friend
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;만약 위와 같은 path가 있다면 :username에 결과를 원하는 사용자 이름을 대입하여 요청을 보내야 합니다.&lt;br /&gt;
-query string은 사용법이 정말 많은 경우도 있습니다. query string은 기본적으로 ?로 시작하여 &amp;amp;로 구분하여 parameter를 이어 갑니다.&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;/v1/search/book.xml?query=%EC%A3%BC%EC%8B%9D&amp;amp;display=10&amp;amp;start=1
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;위의 query string을 보게 되면 3개의 parameter가 있습니다. query는 검색하고자하는 문자열, display는 검색 결과 갯수 지정, start는 검색위치로 부터 갯수입니다. 이렇게 query string을 지정하여 더욱 상세한 조회가 가능합니다.&lt;/p&gt;
-
-&lt;h5 id=&quot;method&quot;&gt;Method&lt;/h5&gt;
-&lt;p&gt;메소드는 총 5개가 존재합니다.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;GET&lt;/li&gt;
-  &lt;li&gt;POST&lt;/li&gt;
-  &lt;li&gt;PUT&lt;/li&gt;
-  &lt;li&gt;PATCH&lt;/li&gt;
-  &lt;li&gt;DELETE
-그러나 PATCH를 제외하고 4개를 사용합니다. 이 4개의 메소드는 CRUD(Create, Read, Update, Delete)의 기능을 수행합니다. 이 메소드들의 사용에 대해 알아보겠습니다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Method&lt;/th&gt;
-      &lt;th&gt;Meaning&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;GET&lt;/td&gt;
-      &lt;td&gt;Get 메소드는 서버로부터 정보를 가져올 때 사용이 됩니다.(Read)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;POST&lt;/td&gt;
-      &lt;td&gt;리소스를 생성할 때 사용이 됩니다.(Create)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;PUT&lt;/td&gt;
-      &lt;td&gt;리소스를 수정(update) 할 때 사용이 됩니다.(Update)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;DELETE&lt;/td&gt;
-      &lt;td&gt;리소스를 제거할 때 사용이 됩니다.(Delete)&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;이름과 의미가 일치? 하는 부분이 어느 정도 있어서 외우기 쉬운편 입니다. 한 가지 알아둬야 할 것은 GET은 기본적으로 요청에 대해서 같은 응답임을 보장합니다. 그러나 POST의 경우에는 같은 응답을 보장하지 않습니다. 때문에 브라우저에서 GET방식으로 요청을 하고 난 뒤에 뒤로가기를 해도 아무런 변화가 없지만, POST일 때 뒤로가기를 클릭하면 ‘양식 다시 제출 확인’이란 문구가 모든 브라우저에서 공통적으로 나타납니다.&lt;/p&gt;
-
-&lt;h5 id=&quot;headers&quot;&gt;Headers&lt;/h5&gt;
-&lt;p&gt;Header는 서버와 클라이언트 모두에게 정보를 제공해 줍니다. 다양한 정보가 담겨 있고, 다양한 목적으로 사용이 됩니다. 예를 들어 body에 담겨 있는 &lt;strong&gt;Content-Type&lt;/strong&gt;이나 인증 정보 &lt;strong&gt;Authorization&lt;/strong&gt; 등이 담겨 있습니다.&lt;br /&gt;
-또한 클라이언트에서 헤더 정보를 먼저 읽을 수 있으므로 본문 내용을 읽을 필요가 없어 통신 효율이 좋습니다.&lt;/p&gt;
-
-&lt;h5 id=&quot;data&quot;&gt;Data&lt;/h5&gt;
-&lt;p&gt;Data는 body나 message로 불리기도 합니다. 서버에 요청하기 위한 데이터가 담겨 있습니다. Get 메소드의 경우에는 body가 없지만 POST의 경우에는 요청이 body가 되므로 URL을 직접 호출할 수 없습니다.&lt;/p&gt;
-
-&lt;p&gt;지금까지 기본적인 &lt;strong&gt;Request&lt;/strong&gt;에 대해 알아봤습니다. 이제 본격적으로 &lt;strong&gt;REST&lt;/strong&gt;에 대해 알아보겠습니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;rest&quot;&gt;REST&lt;/h2&gt;
-&lt;h4 id=&quot;rest의-특징&quot;&gt;REST의 특징&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;클라이언트/서버 : 클라이언트와 서버가 서로 독립적이어야 하고, 서로 의존성 때문에 확장에 문제 되는 일이 없어야 한다.&lt;/li&gt;
-  &lt;li&gt;상태 없음 : 서버는 클라이언트의 상태를 기억할 필요가 없다.&lt;/li&gt;
-  &lt;li&gt;레이어드 아키텍처(Layered Architecture) : 서버와 클라이언트 사이에 다계층 형태로 레이어를 추가,수정, 삭제 등 확장성이 있어야 한다.&lt;/li&gt;
-  &lt;li&gt;캐시(cache) : 캐시를 가지고 있을 경우 클라이언트가 이를 통해 응답을 재사용하여 서버의 부하를 낮출 수 있다.&lt;/li&gt;
-  &lt;li&gt;코드 온 디멘드(code on demand) : 요청이 오면 코드를 준다는 말 그대로 클라이언트에서 서버를 동작시켜 원하는 기능을 수행하도록 하는 것이다.&lt;/li&gt;
-  &lt;li&gt;통합 인터페이스 : 서버와 클라이언트간의 상호 작용은 일관된 인터페이스들 위에서 이뤄줘야 한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;rest-인터페이스-규칙&quot;&gt;REST 인터페이스 규칙&lt;/h4&gt;
-&lt;p&gt;통합 인터페이스를 위한 4가지 규칙&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;리소스 식별 : URI와 같은 고유 식별자를 통해 서보 구분할 수 있다.&lt;/li&gt;
-  &lt;li&gt;표현을 통한 리소스 처리 : JSON, XML, HTML과 다양한 콘텐츠가 있어도 데이터는 변경되지 않는다.&lt;/li&gt;
-  &lt;li&gt;자기 묘사 메세지 : HTTP Header에 데이터에 대한 설명을 나타내는 정보를 담을 수 있다.&lt;/li&gt;
-  &lt;li&gt;애플리케이션의 상태에 대한 하이퍼미디어 : 단순 데이터만 전달하지 않고, 링크 정보까지 포함하면 웹에 좀더 친숙한 API가 될 수 있다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;위의 사항들을 준수한 경우 RESTful하다고 하며 RESTful한 API를 REST API라고 한다. 그러나 반드시 REST한 특성을 모두 준수할 필요는 없다.(준수하기 어려워서 이기도 하다.)&lt;/p&gt;
-
-&lt;p&gt;여기 RESTful에 대한 좋은 글이 있다.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;13 Best Practices(RESTful API Design)&lt;/strong&gt;(https://florimond.dev/blog/articles/2018/08/restful-api-design-13-best-practices-to-make-your-users-happy/)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;이 글에서 작성자가 직접 여러 API를 사용해보고 만들어 보며 느낀 RESTful에 대한 권장사항을 말하고 있습니다. 한번 읽어보면 큰 도움이 될 것 입니다. REST API에 대한 실습은 추후에 진행하도록 하겠습니다. 감사합니다!&lt;/p&gt;
-
-&lt;p&gt;참고&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;MDN HTTP header(https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)&lt;/li&gt;
-  &lt;li&gt;Understanding REST APIs(https://www.smashingmagazine.com/2018/01/understanding-using-rest-api/)&lt;/li&gt;
-  &lt;li&gt;스프링부트로 배우는 자바 웹 개발(저자 : 윤석진)&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Fri, 13 Mar 2020 00:00:00 +0900</pubDate>
-        <link>http://localhost:4000/2020/03/13/restapi/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/03/13/restapi/</guid>
-        
-        <category>Spring Boot</category>
-        
-        <category>REST API</category>
-        
-        <category>Web</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>[SpringBoot] 정적자원관리(Resource handle)</title>
-        <description>&lt;h2 id=&quot;정적-자원static-resource&quot;&gt;정적 자원(Static Resource)&lt;/h2&gt;
-&lt;p&gt;정적자원이란 html, css, image, javascript와 같이 컴파일이 필요없는 파일들을 말합니다.&lt;br /&gt;
-스프링 부트에서 Web MVC 설정을 담당하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WebMvcAutoConfiguration&lt;/code&gt; 클래스는 기본 설정으로 웹 리소스 폴더에서 정적 자원들을 찾습니다. 이 때 템플릿 엔진(Thymeleaf, Groovy, FreeMarker)등을 추가하면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;src/main/resources/templates&lt;/code&gt; 경로를 기본 경로로 인식하게 됩니다.&lt;br /&gt;
-간단하게 확인해 보겠습니다. 의존성은 웹을 실행시키기 위해서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spring-boot-starter-web&lt;/code&gt;만을 추가 하였습니다.&lt;br /&gt;
-&lt;img src=&quot;/img/in-post/resou/r1.png&quot; /&gt;
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;src/main/static/image&lt;/code&gt;경로에 &lt;strong&gt;git_img.png&lt;/strong&gt; 이미지 파일을 추가 했습니다. 이제 프로젝트를 실행시키고 이미지를 불러와 보겠습니다.
-&lt;img src=&quot;/img/in-post/resou/r2.png&quot; /&gt;
-이미지가 화면에 잘 나오는 것을 보실 수 있습니다.&lt;br /&gt;
-여기서 중요한 것은 경로 입니다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;localhost:8081/image/git_img.png&lt;/code&gt;로써 이미지를 불러옵니다.(8081포트는 제가 application.properties에서 따로 변경한 것 입니다.) 다음과 같은 경로로 불러오는 이유에 대해 알아보겠습니다. 
-어떻게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/resources/static/image&lt;/code&gt;에 있는 이미지를 &lt;strong&gt;image&lt;/strong&gt;부터 가져 올 수 있는지 확인하려면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WebMvcAutoConfiguration&lt;/code&gt;을 참고 해야 합니다.&lt;/p&gt;
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addResourceHandlers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;ResourceHandlerRegistry&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;resourceProperties&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isAddMappings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Default resource handling disabled&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nc&quot;&gt;Duration&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cachePeriod&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;resourceProperties&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCache&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPeriod&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;nc&quot;&gt;CacheControl&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cacheControl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;resourceProperties&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCache&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCachecontrol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toHttpCacheControl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hasMappingForPattern&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/webjars/**&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;customizeResourceHandlerRegistration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addResourceHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/webjars/**&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addResourceLocations&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;classpath:/META-INF/resources/webjars/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCachePeriod&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSeconds&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cachePeriod&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCacheControl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cacheControl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staticPathPattern&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mvcProperties&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getStaticPathPattern&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hasMappingForPattern&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;staticPathPattern&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;customizeResourceHandlerRegistration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addResourceHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;staticPathPattern&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addResourceLocations&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;WebMvcAutoConfiguration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getResourceLocations&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;resourceProperties&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getStaticLocations&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCachePeriod&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSeconds&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cachePeriod&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setCacheControl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cacheControl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;위의 메소드는 WebMvcAutoConfiguraion의 한 부분인 addResourceHandlers입니다. 아마 정적 파일 설정을 해보신 분들에게는 익숙한 메소드이실 겁니다. 정적파일의 위치를 등록시켜주는 메소드입니다. 여기서 참조하고 있는 것 중에 resourceProperties가 있습니다.&lt;/p&gt;
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ResourceProperties&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;CLASSPATH_RESOURCE_LOCATIONS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 
-    &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;classpath:/META-INF/resources/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;s&quot;&gt;&quot;classpath:/resources/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;classpath:/static/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;classpath:/public/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;};&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ResourceProperties&lt;/code&gt;를 확인해 보시면 첫 줄에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CLASSPATH_RESOURCE_LOCATIONS&lt;/code&gt;가 선언되어 있습니다. 여기서 &lt;strong&gt;/resources/&lt;/strong&gt;와 &lt;strong&gt;/static/&lt;/strong&gt; 이 선언되어 있는 걸 볼 수 있습니다. 때문에 &lt;strong&gt;/static/&lt;/strong&gt; 까지는 Default로 정적파일경로를 인지 할 수 있다는 것 입니다. 따라서 우리는 /static 하위인 /image부터 시작하여 정적파일에 접근할 수 있습니다.&lt;br /&gt;
-그렇다면 스프링 부트의 기본 설정 대신 다른 경로를 추가하기 위해서는 어떻게 해야 할까요? &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WebMvcConfigurerAdapter&lt;/code&gt;을 이용하여 설정해 보겠습니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/in-post/resou/r3.png&quot; /&gt;
-resources폴더 밑에 testImage 폴더를 추가하고, 이미지를 추가해보겠습니다. 그 다음 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WebMvcConfig&lt;/code&gt;클래스에서 설정을 해보겠습니다.&lt;/p&gt;
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nd&quot;&gt;@Configuration&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;WebMvcConfig&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;WebMvcConfigurer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-
-    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addResourceHandlers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;ResourceHandlerRegistry&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addResourceHandler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/testImage/**&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addResourceLocations&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;classpath:/testImage/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/testImage/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WebMvcConfigurer&lt;/code&gt;를 implements하여 addResourceHandlers 메소드를 재정의 했습니다. (위에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WebMvcConfigereAdapter&lt;/code&gt;를 이용한다고 했지만 변경했습니다. 뒤에서 다뤄보겠습니다.)&lt;br /&gt;
-먼저 &lt;strong&gt;addResourceHandler&lt;/strong&gt;는 &lt;strong&gt;http://localhost:8081/testImage&lt;/strong&gt; 와 같이 호출경로로 사용될 URI값을 입력합니다. &lt;strong&gt;addResourceLocations&lt;/strong&gt;는 실제 파일이 위치할 경로를 입력합니다.&lt;br /&gt;
-&lt;img src=&quot;/img/in-post/resou/r4.png&quot; /&gt;
-위의 결과로 확인해 보실수 있습니다.&lt;/p&gt;
-
-&lt;p&gt;위에서 말한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WebMvcConfigurerAdapter&lt;/code&gt;에 대해서 보겠습니다.&lt;/p&gt;
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nd&quot;&gt;@Configuration&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;WebMvcConfig&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;WebMvcConfigurerAdapter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;기존에 설정을 위해서 위와 같이 선언 했습니다. 그런데 &lt;strong&gt;WebMvcConfigurerAdapter deprecated&lt;/strong&gt; 라는 경고가 뜨는 경우가 있습니다. 이것은 Spring5, Spring Boot2 버전에서 발생하는 경고 입니다. 기존의 WebMvcConfigurerAdapter클래스는 WebMvcConfigurer를 implements한 추상 클래스 였습니다. 또한 상속된 모든 메서드는 비어있는 메서드 입니다. 그러나 Java8이 추가되고 interface에서 default methods에 대한 개념이 추가 되었습니다. 이로 인해 Spring team에서 위의 버전부터 이것을 반영한 것 입니다.&lt;br /&gt;
-결과적으로 WebMvcConfigurer 인터페이스는 모든 메소드의 default 구현을 포함하고 있기 때문에 Spring5, SpringBoot2 버전부터는 WebMvcConfigurer를 사용하여 웹 설정을 진행해야 합니다.&lt;/p&gt;
-
-&lt;h5 id=&quot;default-methods-in-java8&quot;&gt;Default Methods In Java8&lt;/h5&gt;
-
-&lt;p&gt;기존의 자바에서 인터페이스는 추상메소드만을 가질 수 있었습니다. 때문에 메소드를 만들기 위해서는 인터페이스를 구현하여 사용해야 했습니다. 그러나 Default Methods라는 개념이 추가되어 인터페이스에서 구현클래스에 영향을 끼치지 않고 메소드를 선언할 수 있게 되었습니다.&lt;/p&gt;
-
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;c1&quot;&gt;// A simple program to Test Interface default &lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// methods in java &lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TestInterface&lt;/span&gt; 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; 
-    &lt;span class=&quot;c1&quot;&gt;// abstract method &lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;square&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; 
-  
-    &lt;span class=&quot;c1&quot;&gt;// default method &lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; 
-      &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Default Method Executed&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
-  
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TestClass&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TestInterface&lt;/span&gt; 
-&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; 
-    &lt;span class=&quot;c1&quot;&gt;// implementation of square abstract method &lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;square&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; 
-        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
-  
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[])&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; 
-        &lt;span class=&quot;nc&quot;&gt;TestClass&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;TestClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; 
-        &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;square&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; 
-  
-        &lt;span class=&quot;c1&quot;&gt;// default method executed &lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
-2
-3
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;go&quot;&gt;output :
-16
-Default Method Executed
-&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h5 id=&quot;참고&quot;&gt;참고&lt;/h5&gt;
-&lt;ul&gt;
-  &lt;li&gt;스프링 부트로 배우는 자바 웹 개발(저자 : 윤석진)&lt;/li&gt;
-  &lt;li&gt;Baeldung(https://www.baeldung.com/web-mvc-configurer-adapter-deprecated)&lt;/li&gt;
-  &lt;li&gt;Geeksforgeeks(https://www.geeksforgeeks.org/default-methods-java/)&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Fri, 13 Mar 2020 00:00:00 +0900</pubDate>
-        <link>http://localhost:4000/2020/03/13/resource/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/03/13/resource/</guid>
-        
-        <category>Spring Boot</category>
-        
-        <category>resource</category>
-        
-        <category>Web</category>
         
         
       </item>

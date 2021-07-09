@@ -1,0 +1,26 @@
+I"�<p><strong>Mysql</strong>은 다른 데이터베이스와 다른 특징들을 갖고 있습니다. 이 특징들은 사용자들이 사용하기 편하게 도와주며 애플리케이션에 적합하게 적용할 수 있도록 해 줍니다. <strong>Mysql</strong>의 특징들 중 가장 중요한 것은 <strong>Storage-engine</strong>입니다. 따라서 Mysql의 전반적인 구조와 Storage-engine에 대해 알아보고자 합니다.</p>
+
+<blockquote>
+  <p>현재 Mysql 5.7 버전을 사용하고 있어 최신 버전과는 다를 수 있습니다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<h1 id="1-mysql-architecture">1. Mysql Architecture</h1>
+<h2 id="1-1-mysql-logical-architecture">1-1. Mysql Logical Architecture</h2>
+<p align="center">
+<img src="https://user-images.githubusercontent.com/48028667/113501085-def49480-955d-11eb-9acd-6b55b8576085.png" />
+</p>
+
+<p><br /></p>
+
+<h2 id="1-2-mysql-physical-architecture">1-2. Mysql Physical Architecture</h2>
+
+<p><br /></p>
+
+<h3 id="ref">Ref</h3>
+<ul>
+  <li>https://lalitvc.wordpress.com/2016/11/03/mysql-architecture-and-components/</li>
+  <li>https://www.oreilly.com/library/view/high-performance-mysql/9781449332471/ch01.html</li>
+</ul>
+:ET
