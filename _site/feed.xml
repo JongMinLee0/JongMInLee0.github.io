@@ -5,87 +5,166 @@
     <description>description</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 04 Apr 2021 21:27:04 +0900</pubDate>
-    <lastBuildDate>Sun, 04 Apr 2021 21:27:04 +0900</lastBuildDate>
+    <pubDate>Sat, 07 Aug 2021 19:02:18 +0900</pubDate>
+    <lastBuildDate>Sat, 07 Aug 2021 19:02:18 +0900</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
-        <title>[mysql] Mysql Architecture(with Storage-engine)</title>
-        <description>&lt;p&gt;&lt;strong&gt;Mysql&lt;/strong&gt;은 다른 데이터베이스와 다른 특징들을 갖고 있습니다. 이 특징들은 사용자들이 사용하기 편하게 도와주며 애플리케이션에 적합하게 적용할 수 있도록 해 줍니다. &lt;strong&gt;Mysql&lt;/strong&gt;의 특징들 중 가장 중요한 것은 &lt;strong&gt;Storage-engine&lt;/strong&gt;입니다. 따라서 Mysql의 전반적인 구조와 Storage-engine에 대해 알아보고자 합니다.&lt;/p&gt;
+        <title>[Java] Template Method Pattern(템플릿 메소드 패턴)</title>
+        <description>&lt;h1 id=&quot;template-method-pattern&quot;&gt;Template Method Pattern&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;Template Method Pattern&lt;/strong&gt;은 알고리즘의 뼈대만을 정의 하고 각 단계에서 수행할 구체적인 처리는 SubClass 쪽으로 미룹니다. 알고리즘의 구조 자체는 그대로 놔둔 채 알고리즘 &lt;strong&gt;각 단계 처리&lt;/strong&gt;를 SubClass에서 재정의할 수 있게 합니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;현재 Mysql 5.7 버전을 사용하고 있어 최신 버전과는 다를 수 있습니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;h4 id=&quot;활용&quot;&gt;활용&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;어떤 한 알고리즘을 이루는 부분 중 변하지 않는 부분을 한 번 정의해 놓고 다양해질 수 있는 부분은 SubClass에서 정의할 수 있도록 남겨두고자 할 때&lt;/li&gt;
+  &lt;li&gt;SubClass 사이의 공통적인 행동을 추출하여 하나의 공통 클래스에 몰아둠으로써 &lt;strong&gt;코드 중복&lt;/strong&gt;을 피하고 싶을 때&lt;/li&gt;
+  &lt;li&gt;SubClass의 확장을 제어할 수 있습니다. Template Method가 어떤 특정한 시점에 &lt;strong&gt;hook연산&lt;/strong&gt;을 호출하도록 정의함으로써, 그 특정 시점에서만 확장되도록 합니다&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h1 id=&quot;1-mysql-architecture&quot;&gt;1. Mysql Architecture&lt;/h1&gt;
-&lt;h2 id=&quot;1-1-mysql-logical-architecture&quot;&gt;1-1. Mysql Logical Architecture&lt;/h2&gt;
+&lt;h2 id=&quot;example&quot;&gt;Example&lt;/h2&gt;
 &lt;p align=&quot;center&quot;&gt;
-&lt;img src=&quot;https://user-images.githubusercontent.com/48028667/113501085-def49480-955d-11eb-9acd-6b55b8576085.png&quot; /&gt;
+&lt;img src=&quot;https://user-images.githubusercontent.com/48028667/128596291-f1bafeac-9df9-4a7e-863a-633d7c02b36c.jpg&quot; /&gt;
 &lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Client&lt;/strong&gt; : Mysql server에 접속하기 위한 유틸리티&lt;br /&gt;
-ex) connection handling, authentication, security etc..&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Server&lt;/strong&gt; : Mysql에서 data를 저장하고, 가져오는 등 Mysql instance 입니다.&lt;br /&gt;
-ex) query parsing, stored procedures, triggers, views, optimization, caching, built-in functions etc..&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;mysqld&lt;/strong&gt; : &lt;strong&gt;Mysql Server Daemon Program&lt;/strong&gt;으로 client의 요청, 응답을 관리 합니다. mysqld는 multi-threaded process로 모든 연결을 감시하고 있습니다.
-    &lt;blockquote&gt;
-      &lt;p&gt;&lt;strong&gt;Daemon Program&lt;/strong&gt; : 사용자가 직접적으로 제거하지 않고 background에서 돌면서 여러 작업을 하는 Program을 말합니다.&lt;/p&gt;
-    &lt;/blockquote&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Mysql memory allocation&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;ClubBuilder&lt;/strong&gt; : 알고리즘의 뼈대를 정의하는 Template Method를 정의합니다. 또한 SubClass들이 재정의 해야할 연산을 정의 합니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;SoccerClub, BasketBallClub&lt;/strong&gt; : SubClass로써 각각 다른 알고리즘 처리 단계를 수행하기 위한 기본연산을 구현합니다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ClubBuilder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
 
-&lt;h2 id=&quot;1-2-mysql-physical-architecture&quot;&gt;1-2. Mysql Physical Architecture&lt;/h2&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Template Method&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;buildClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Common Logic.......&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;addClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;addMemberToClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addMemberToClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;abstract&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
 
-&lt;h3 id=&quot;ref&quot;&gt;Ref&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;https://lalitvc.wordpress.com/2016/11/03/mysql-architecture-and-components/&lt;/li&gt;
-  &lt;li&gt;https://www.oreilly.com/library/view/high-performance-mysql/9781449332471/ch01.html&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Sun, 04 Apr 2021 00:00:00 +0900</pubDate>
-        <link>http://localhost:4000/2021/04/04/mysqlarchitecture/</link>
-        <guid isPermaLink="true">http://localhost:4000/2021/04/04/mysqlarchitecture/</guid>
-        
-        <category>Mysql</category>
-        
-        <category>Database</category>
-        
-        <category>Architecture</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>[mysql] 데이터 베이스 인덱스(index &amp; index hint)</title>
-        <description>&lt;p&gt;최근 업무를 진행하며 곤란했던 일이 있었습니다. 기존 Table과 비슷한 다른 Table을 만들고, Query를 테스트하는데 같은 Query임에도 불구하고, 상당한 속도 차이가 있었습니다. 처음에는 Query를 잘 못 작성하였다고 생각했으나, 아무리 생각해도 같은 Query였습니다. 여러 문제점을 찾던 중 번뜩하고 생각이 떠올라 Table의 구조를 살펴 봤습니다. 역시나 Index의 차이 였습니다.&lt;br /&gt;
-이전 작업시에는 Table의 구조를 복사 하거나 이미 제작된 Table로 작업을 하다보니 간과했던 부분이었습니다. 이를 계기로 Index에 대해 정리해보자 합니다.&lt;/p&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SoccerClub&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ClubBuilder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addMemberToClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Add John to Soccer Club&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Add Soccer Club!&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BaskballClub&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ClubBuilder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addMemberToClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Add Jack to Basketball Club&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Add Basketball Club&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;blockquote&gt;
-  &lt;p&gt;제가 현재 사용하고 있는, Mysql을 기준으로 작성하였습니다.&lt;/p&gt;
+  &lt;p&gt;Template Method를 final로 선언한 것은 Overriding되는 것을 방지하기 위함 입니다.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h3 id=&quot;ref&quot;&gt;Ref&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;https://dev.mysql.com/doc/refman/8.0/en/create-index.html&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
+&lt;p&gt;&lt;strong&gt;출력 결과&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nc&quot;&gt;SoccerClub&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;soccerClub&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SoccerClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;soccerClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;-------------------------&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;nc&quot;&gt;BaskballClub&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;baskballClub&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BaskballClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;baskballClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildClub&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;Common Logic.......
+Add Soccer Club!
+Add John to Soccer Club
+-------------------------
+Common Logic.......
+Add Basketball Club
+Add Jack to Basketball Club
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;reference&quot;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;GoF Design Pattern&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.baeldung.com/java-template-method-pattern&quot;&gt;Implementing the Template Method Pattern In Java&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.tutorialspoint.com/design_pattern/template_pattern.htm&quot;&gt;Design Patterns - Template Pattern&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://dzone.com/articles/using-template-method-design-pattern-in-java&quot;&gt;Using Template Method Design Pattern In Java&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
-        <pubDate>Tue, 30 Mar 2021 00:00:00 +0900</pubDate>
-        <link>http://localhost:4000/2021/03/30/mysqlindex/</link>
-        <guid isPermaLink="true">http://localhost:4000/2021/03/30/mysqlindex/</guid>
+        <pubDate>Sat, 07 Aug 2021 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2021/08/07/templatemethod/</link>
+        <guid isPermaLink="true">http://localhost:4000/2021/08/07/templatemethod/</guid>
         
-        <category>Mysql</category>
+        <category>Pattern</category>
         
-        <category>Database</category>
-        
-        <category>Index</category>
+        <category>Java</category>
         
         
       </item>
@@ -2411,6 +2490,139 @@ Entity는 객체와 분리되어 값에 의해 전달된다. 때문에 Entity cl
         <guid isPermaLink="true">http://localhost:4000/2020/03/15/serializable/</guid>
         
         <category>Java</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>[SpringBoot] REST API란?</title>
+        <description>&lt;h1 id=&quot;rest-api&quot;&gt;REST API&lt;/h1&gt;
+
+&lt;p&gt;REST API라는 말을 많이 들어보셨을 겁니다. 얼핏 보고 구현한 다음 RESTful 하다고 하는 경우가 많습니다. 물론 저도 그랬습니다. RESTful하게 만들기 위해 공부를 더했고, 그 과정에서 배운 것을 합쳐 REST API에 대해 알아보겠습니다.&lt;br /&gt;
+먼저 &lt;strong&gt;API&lt;/strong&gt;란 &lt;strong&gt;Application Programming Interface&lt;/strong&gt;의 약자 입니다. API는 응용 프로그램이 서로 통신할 수 있도록하는 일련의 규칙입니다. 개발자는 서버에서 API를 만들어 클라이언트와 대화할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;REST&lt;/strong&gt;는 &lt;strong&gt;Representational State Transfer&lt;/strong&gt;의 약자로 분산 네트워크 프로그래밍의 아키텍처 스타일입니다. REST는 API의 구조(모양) 중 하나라고 생각하면 됩니다. 방식은 간단합니다. 예를 들어 네이버 검색창에 무엇인가를 검색하면 결과가 출력됩니다. 이 처럼 검색창에 입력하여 전송하는 것이 request, 검색된 결과를 서버에서 보내주는 것이 response 입니다. 가장 기초적인 것부터 알아보도록 하겠습니다.&lt;/p&gt;
+
+&lt;h5 id=&quot;request&quot;&gt;Request&lt;/h5&gt;
+&lt;p&gt;request는 4가지로 구성되는데 이는 상당히 중요합니다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;The endpoint&lt;/li&gt;
+  &lt;li&gt;The method&lt;/li&gt;
+  &lt;li&gt;The headers&lt;/li&gt;
+  &lt;li&gt;The data(or body)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6 id=&quot;엔드-포인트the-endpoint&quot;&gt;엔드 포인트(The endpoint)&lt;/h6&gt;
+&lt;p&gt;엔드 포인트는 요청한 url입니다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;root-endpoint/?
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;root-endpoint는 클라이언트가 요청한 API의 시작점 입니다. 네이버 API의 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://openapi.naver.com&lt;/code&gt;이 root-endpoint 입니다. 뒤의 &lt;strong&gt;’?’&lt;/strong&gt;는 &lt;strong&gt;path&lt;/strong&gt;입니다. path는 요청한 리소스를 결정해 줍니다. 예를 들어 1번 버튼을 누르면 서비스1이 실행되고 2번 버튼을 누르면 서비스2가 실행되는 느낌입니다. path를 붙이면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://openapi.naver.com/v1/search/blog&lt;/code&gt;와 같습니다. 이는 블로그 검색을 호출한다는 의미 입니다. 사용가능한 path에 대해서는 API 문서를 확인해 봐야 합니다.&lt;br /&gt;
+path에 값(변수)를 대입하거나 query string(parameter)를 이용하는 경우도 있습니다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;/user/:username/friend
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;만약 위와 같은 path가 있다면 :username에 결과를 원하는 사용자 이름을 대입하여 요청을 보내야 합니다.&lt;br /&gt;
+query string은 사용법이 정말 많은 경우도 있습니다. query string은 기본적으로 ?로 시작하여 &amp;amp;로 구분하여 parameter를 이어 갑니다.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;/v1/search/book.xml?query=%EC%A3%BC%EC%8B%9D&amp;amp;display=10&amp;amp;start=1
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;위의 query string을 보게 되면 3개의 parameter가 있습니다. query는 검색하고자하는 문자열, display는 검색 결과 갯수 지정, start는 검색위치로 부터 갯수입니다. 이렇게 query string을 지정하여 더욱 상세한 조회가 가능합니다.&lt;/p&gt;
+
+&lt;h5 id=&quot;method&quot;&gt;Method&lt;/h5&gt;
+&lt;p&gt;메소드는 총 5개가 존재합니다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;GET&lt;/li&gt;
+  &lt;li&gt;POST&lt;/li&gt;
+  &lt;li&gt;PUT&lt;/li&gt;
+  &lt;li&gt;PATCH&lt;/li&gt;
+  &lt;li&gt;DELETE
+그러나 PATCH를 제외하고 4개를 사용합니다. 이 4개의 메소드는 CRUD(Create, Read, Update, Delete)의 기능을 수행합니다. 이 메소드들의 사용에 대해 알아보겠습니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Method&lt;/th&gt;
+      &lt;th&gt;Meaning&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;GET&lt;/td&gt;
+      &lt;td&gt;Get 메소드는 서버로부터 정보를 가져올 때 사용이 됩니다.(Read)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;POST&lt;/td&gt;
+      &lt;td&gt;리소스를 생성할 때 사용이 됩니다.(Create)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;PUT&lt;/td&gt;
+      &lt;td&gt;리소스를 수정(update) 할 때 사용이 됩니다.(Update)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;DELETE&lt;/td&gt;
+      &lt;td&gt;리소스를 제거할 때 사용이 됩니다.(Delete)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;이름과 의미가 일치? 하는 부분이 어느 정도 있어서 외우기 쉬운편 입니다. 한 가지 알아둬야 할 것은 GET은 기본적으로 요청에 대해서 같은 응답임을 보장합니다. 그러나 POST의 경우에는 같은 응답을 보장하지 않습니다. 때문에 브라우저에서 GET방식으로 요청을 하고 난 뒤에 뒤로가기를 해도 아무런 변화가 없지만, POST일 때 뒤로가기를 클릭하면 ‘양식 다시 제출 확인’이란 문구가 모든 브라우저에서 공통적으로 나타납니다.&lt;/p&gt;
+
+&lt;h5 id=&quot;headers&quot;&gt;Headers&lt;/h5&gt;
+&lt;p&gt;Header는 서버와 클라이언트 모두에게 정보를 제공해 줍니다. 다양한 정보가 담겨 있고, 다양한 목적으로 사용이 됩니다. 예를 들어 body에 담겨 있는 &lt;strong&gt;Content-Type&lt;/strong&gt;이나 인증 정보 &lt;strong&gt;Authorization&lt;/strong&gt; 등이 담겨 있습니다.&lt;br /&gt;
+또한 클라이언트에서 헤더 정보를 먼저 읽을 수 있으므로 본문 내용을 읽을 필요가 없어 통신 효율이 좋습니다.&lt;/p&gt;
+
+&lt;h5 id=&quot;data&quot;&gt;Data&lt;/h5&gt;
+&lt;p&gt;Data는 body나 message로 불리기도 합니다. 서버에 요청하기 위한 데이터가 담겨 있습니다. Get 메소드의 경우에는 body가 없지만 POST의 경우에는 요청이 body가 되므로 URL을 직접 호출할 수 없습니다.&lt;/p&gt;
+
+&lt;p&gt;지금까지 기본적인 &lt;strong&gt;Request&lt;/strong&gt;에 대해 알아봤습니다. 이제 본격적으로 &lt;strong&gt;REST&lt;/strong&gt;에 대해 알아보겠습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;rest&quot;&gt;REST&lt;/h2&gt;
+&lt;h4 id=&quot;rest의-특징&quot;&gt;REST의 특징&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;클라이언트/서버 : 클라이언트와 서버가 서로 독립적이어야 하고, 서로 의존성 때문에 확장에 문제 되는 일이 없어야 한다.&lt;/li&gt;
+  &lt;li&gt;상태 없음 : 서버는 클라이언트의 상태를 기억할 필요가 없다.&lt;/li&gt;
+  &lt;li&gt;레이어드 아키텍처(Layered Architecture) : 서버와 클라이언트 사이에 다계층 형태로 레이어를 추가,수정, 삭제 등 확장성이 있어야 한다.&lt;/li&gt;
+  &lt;li&gt;캐시(cache) : 캐시를 가지고 있을 경우 클라이언트가 이를 통해 응답을 재사용하여 서버의 부하를 낮출 수 있다.&lt;/li&gt;
+  &lt;li&gt;코드 온 디멘드(code on demand) : 요청이 오면 코드를 준다는 말 그대로 클라이언트에서 서버를 동작시켜 원하는 기능을 수행하도록 하는 것이다.&lt;/li&gt;
+  &lt;li&gt;통합 인터페이스 : 서버와 클라이언트간의 상호 작용은 일관된 인터페이스들 위에서 이뤄줘야 한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;rest-인터페이스-규칙&quot;&gt;REST 인터페이스 규칙&lt;/h4&gt;
+&lt;p&gt;통합 인터페이스를 위한 4가지 규칙&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;리소스 식별 : URI와 같은 고유 식별자를 통해 서보 구분할 수 있다.&lt;/li&gt;
+  &lt;li&gt;표현을 통한 리소스 처리 : JSON, XML, HTML과 다양한 콘텐츠가 있어도 데이터는 변경되지 않는다.&lt;/li&gt;
+  &lt;li&gt;자기 묘사 메세지 : HTTP Header에 데이터에 대한 설명을 나타내는 정보를 담을 수 있다.&lt;/li&gt;
+  &lt;li&gt;애플리케이션의 상태에 대한 하이퍼미디어 : 단순 데이터만 전달하지 않고, 링크 정보까지 포함하면 웹에 좀더 친숙한 API가 될 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;위의 사항들을 준수한 경우 RESTful하다고 하며 RESTful한 API를 REST API라고 한다. 그러나 반드시 REST한 특성을 모두 준수할 필요는 없다.(준수하기 어려워서 이기도 하다.)&lt;/p&gt;
+
+&lt;p&gt;여기 RESTful에 대한 좋은 글이 있다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;13 Best Practices(RESTful API Design)&lt;/strong&gt;(https://florimond.dev/blog/articles/2018/08/restful-api-design-13-best-practices-to-make-your-users-happy/)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이 글에서 작성자가 직접 여러 API를 사용해보고 만들어 보며 느낀 RESTful에 대한 권장사항을 말하고 있습니다. 한번 읽어보면 큰 도움이 될 것 입니다. REST API에 대한 실습은 추후에 진행하도록 하겠습니다. 감사합니다!&lt;/p&gt;
+
+&lt;p&gt;참고&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;MDN HTTP header(https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)&lt;/li&gt;
+  &lt;li&gt;Understanding REST APIs(https://www.smashingmagazine.com/2018/01/understanding-using-rest-api/)&lt;/li&gt;
+  &lt;li&gt;스프링부트로 배우는 자바 웹 개발(저자 : 윤석진)&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Fri, 13 Mar 2020 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2020/03/13/restapi/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/03/13/restapi/</guid>
+        
+        <category>Spring Boot</category>
+        
+        <category>REST API</category>
+        
+        <category>Web</category>
         
         
       </item>

@@ -1,0 +1,20 @@
+I"�<h1 id="template-method-pattern">Template Method Pattern</h1>
+<p><strong>Template Method Pattern</strong>은 알고리즘의 뼈대만을 정의 하고 각 단계에서 수행할 구체적인 처리는 SubClass 쪽으로 미룹니다. 알고리즘의 구조 자체는 그대로 놔둔 채 알고리즘 각 단계 처리를 SubClass에서 재정의할 수 있게 합니다.</p>
+
+<p><br /></p>
+
+<h3 id="사용하는-경우">사용하는 경우</h3>
+<ul>
+  <li>어떤 한 알고리즘을 이루는 부분 중 변하지 않는 부분을 한 번 정의해 놓고 다양해질 수 있는 부분은 SubClass에서 정의할 수 있도록 남겨두고자 할 때</li>
+  <li>SubClass 사이의 공통적인 행동을 추출하여 하나의 공통 클래스에 몰아둠으로써 코드 중복을 피하고 싶을 때</li>
+  <li>SubClass의 확장을 제어할 수 있습니다. Template Method가 어떤 특정한 시점에 hook연산을 호출하도록 정의함으로써, 그 특정 시점에서만 확장되도록 합니다</li>
+</ul>
+
+<h2 id="reference">Reference</h2>
+<ul>
+  <li>GoF Design Pattern</li>
+  <li><a href="https://www.baeldung.com/java-template-method-pattern">Implementing the Template Method Pattern In Java</a></li>
+  <li><a href="https://www.tutorialspoint.com/design_pattern/template_pattern.htm">Design Patterns - Template Pattern</a></li>
+  <li><a href="https://dzone.com/articles/using-template-method-design-pattern-in-java">Using Template Method Design Pattern In Java</a></li>
+</ul>
+:ET
