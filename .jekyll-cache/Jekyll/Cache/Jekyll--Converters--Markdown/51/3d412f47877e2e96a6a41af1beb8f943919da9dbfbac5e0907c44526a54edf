@@ -1,0 +1,60 @@
+I"�<h1 id="template-method-pattern">Template Method Pattern</h1>
+<p><strong>Template Method Pattern</strong>은 알고리즘의 뼈대만을 정의 하고 각 단계에서 수행할 구체적인 처리는 SubClass 쪽으로 미룹니다. 알고리즘의 구조 자체는 그대로 놔둔 채 알고리즘 <strong>각 단계 처리</strong>를 SubClass에서 재정의할 수 있게 합니다.</p>
+
+<h4 id="활용">활용</h4>
+<ul>
+  <li>어떤 한 알고리즘을 이루는 부분 중 변하지 않는 부분을 한 번 정의해 놓고 다양해질 수 있는 부분은 SubClass에서 정의할 수 있도록 남겨두고자 할 때</li>
+  <li>SubClass 사이의 공통적인 행동을 추출하여 하나의 공통 클래스에 몰아둠으로써 <strong>코드 중복</strong>을 피하고 싶을 때</li>
+  <li>SubClass의 확장을 제어할 수 있습니다. Template Method가 어떤 특정한 시점에 <strong>hook연산</strong>을 호출하도록 정의함으로써, 그 특정 시점에서만 확장되도록 합니다</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="example">Example</h2>
+<p align="center">
+<img src="https://user-images.githubusercontent.com/48028667/128596291-f1bafeac-9df9-4a7e-863a-633d7c02b36c.jpg" />
+</p>
+
+<ul>
+  <li><strong>ClubBuilder</strong> : 알고리즘의 뼈대를 정의하는 Template Method를 정의합니다. 또한 SubClass들이 재정의 해야할 연산을 정의 합니다.</li>
+  <li><strong>SoccerClub, BasketBallClub</strong> : SubClass로써 각각 다른 알고리즘 처리 단계를 수행하기 위한 기본연산을 구현합니다.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">ClubBuilder</span> <span class="o">{</span>
+
+    <span class="c1">// Template Method</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">buildClub</span><span class="o">(){</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Common Logic......."</span><span class="o">);</span>
+        <span class="n">addClub</span><span class="o">();</span>
+        <span class="n">addMemberToClub</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">addMemberToClub</span><span class="o">();</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">addClub</span><span class="o">();</span>
+
+<span class="o">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="reference">Reference</h2>
+<ul>
+  <li>GoF Design Pattern</li>
+  <li><a href="https://www.baeldung.com/java-template-method-pattern">Implementing the Template Method Pattern In Java</a></li>
+  <li><a href="https://www.tutorialspoint.com/design_pattern/template_pattern.htm">Design Patterns - Template Pattern</a></li>
+  <li><a href="https://dzone.com/articles/using-template-method-design-pattern-in-java">Using Template Method Design Pattern In Java</a></li>
+</ul>
+:ET
