@@ -1,3 +1,0 @@
-I"�<h1 id="template-method-pattern">Template Method Pattern</h1>
-<p>Template Method Pattern은 알고리즘의 뼈대만을 정의 하고 각 단계에서 수행할 구체적인 처리는 SubClass 쪽으로 미룹니다.</p>
-:ET

@@ -8,7 +8,7 @@ header-mask: 0.3
 comments: true
 catalog:  true
 tags:
-  - Pattern
+  - Method Pattern
   - Java
 ---
 
@@ -98,6 +98,11 @@ Common Logic.......
 Add Basketball Club
 Add Jack to Basketball Club
 ```
+
+<br />
+
+#### 관련된 글
+- **[[Java] Factory Method Pattern(팩토리 메소드 패턴)](/2021/08/08/factorymethod)**
 
 <br />
 
