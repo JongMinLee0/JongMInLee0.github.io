@@ -5,60 +5,250 @@ layout: default
 
 <!DOCTYPE html>
 <html class="no-js">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Portfolio - Jongmin's Blog</title>
-		<link rel="stylesheet" type="text/css" href="css/timeline.css" />
-		<script src="js/modernizr.custom.js"></script>
-	</head>
-	<body>
-		<div class="container" style="margin:0;padding:0;width:100%;">
-			<header>
-				<img width="175" height="175" style="border-radius:50%;" src="images/my_img.jpeg">
-				<h1>JongMin-Lee</h1>
-			</header>
-			<div class="main">
-				<h1>Info</h1><br />
-					<ul>
-						<li>
-							<h4>E-Mail : jongminlee0218@gmail.com</h4>
-						</li>
-						<li>
-							<h4>GitHub : <a href="https://github.com/jongminlee0">jongminlee0</a></h4>
-						</li>
-						<li>
-							<h4>Linked-In : <a href="https://www.linkedin.com/in/jongmin-lee-0b07871b3/">jongmin-lee</a></h4>
-						</li>
-					</ul>
 
-				<br /><hr>
-				<h1>Career</h1><br />
-				<ul>
-					<li>
-						<h4>2013.03 ~ 2019.02 &nbsp;&nbsp;Hansung Univ</h4>
-					</li>
-					<li>
-						<h4>2019.04 ~ 2019.10 &nbsp;&nbsp;KH Infomation Academy</h4>
-					</li>
-					<li>
-						<h4>2019.11 ~ 2020.01 &nbsp;&nbsp;<a href="http://tomatosystem.co.kr/index.tomato">Tomato System</a></h4>
-						<ul>
-							<li><h5>Konkuk Univ Infomation System dev team</h5></li>
-						</ul>
-					</li>
-					<li>
-						<h4>2020.05 ~ now &nbsp;&nbsp;<a href="https://www.feelway.com/">Feelway</a></h4>
-						<ul>
-							<li><h5>Backend Software Engineering Team</h5></li>
-						</ul>
-					</li>
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Portfolio - Jongmin's Blog</title>
+	<link rel="stylesheet" type="text/css" href="css/timeline.css" />
+	<link rel="stylesheet" type="text/css" href="css/portfolio.css" />
+	<script src="js/modernizr.custom.js"></script>
+</head>
+
+<body>
+	<div class="portfolio-page">
+		<main class="page">
+			<section class="hero" id="about">
+				<div class="hero-media">
+					<img class="profile-image" src="images/my_img.jpeg" alt="이종민 프로필 사진" />
+				</div>
+
+				<div class="hero-content">
+					<h1>이종민</h1>
+					<p class="role">Backend Engineer</p>
+					<p class="intro">
+						성능 병목을 줄이고, 운영 환경에서 안정적으로 동작하는 구조를 만드는 데 강점이 있는 백엔드 개발자입니다.
+						서비스 개발뿐 아니라 운영 자동화, 구조 개선, 예외 케이스 정리, QA 협업까지 포함해 실제 서비스 품질을 높이는 방향으로 일해왔습니다.
+					</p>
+
+					<ul class="contact-list" id="contact">
+						<li>Email : jongminlee0218@gmail.com</li>
+						<li>GitHub : <a href="https://github.com/JongMinLee0" target="_blank"
+								rel="noreferrer">github.com/JongMinLee0</a></li>
+						<li>Blog : <a href="https://jongminlee0.github.io/" target="_blank"
+								rel="noreferrer">jongminlee0.github.io</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<section id="strength">
+				<h2>Introduce</h2>
+				<p class="summary">
+					사람인에서는 성능 개선, Java 전환, Redis 이관, AI 유료화 기능 개발, 운영 안정화 업무를 맡아왔고,
+					필웨이에서는 상품 할인 정책 시스템과 이미지 변환 자동화 프로세스를 개발했으며,
+					토마토시스템에서는 학사정보 시스템 재구축 프로젝트에 참여해 기존 문제점을 개선하고 기존 기능을 신규 환경에 맞게 재구현했습니다.
+				</p>
+			</section>
+
+			<section id="experience">
+				<h2>Experience</h2>
+
+				<article class="career-item">
+					<h3>사람인</h3>
+					<p class="meta">2022.03 - 현재 · Backend Developer</p>
+					<p>
+						성능 개선, 운영 안정화, Java 전환, Redis 이관, AI 서비스 유료화 기능 개발을 중심으로 백엔드 업무를 수행하고 있습니다.
+						특히 성능 병목 분석과 운영 중 발생 가능한 예외 상황을 줄이는 구조 개선에 강점을 가지고 있습니다.
+					</p>
+
+					<div class="project-group">
+						<article class="project">
+							<h4>이력서 PDF 다운로드 속도 개선</h4>
+							<p class="meta">Node.js, Puppeteer, Kubernetes, Grafana</p>
+							<p>
+								이력서 PDF 생성 과정에서 브라우저 재실행과 렌더링 대기 시간이 누적되며 처리 속도가 느려지는 문제가 있었습니다.
+								브라우저 재사용 구조로 변경하고 BrowserContext를 분리했으며, 자동 재시작 로직과 모니터링 대시보드를 적용해 성능과 운영 안정성을 함께
+								개선했습니다.
+							</p>
+							<p class="achievement">성과 : PDF 및 HTML 생성 평균 처리시간 약 51% 단축</p>
+							<ul>
+								<li>브라우저 인스턴스 재사용 구조 설계 및 적용</li>
+								<li>렌더링 대기 조건, 요청 차단, 안정화 로직 최적화</li>
+								<li>운영 중 장애 대응을 위한 모니터링 및 재기동 구조 반영</li>
+							</ul>
+						</article>
+
+						<article class="project">
+							<h4>맞춤법 검사 API Java 모듈 전환</h4>
+							<p class="meta">Java, Spring Boot</p>
+							<p>
+								기존 PHP 기반 맞춤법 검사 모듈을 Java 기반 구조로 전환했습니다. 기존 로직을 단순 이관하는 데 그치지 않고,
+								부하 테스트와 JVM 옵션 조정을 통해 응답시간과 메모리 안정성을 함께 점검하며 신규 버전 적용 기반을 마련했습니다.
+							</p>
+							<p class="achievement">성과 : 4000자 기준 응답시간 7.98초 → 3.71초, 약 53% 개선</p>
+							<ul>
+								<li>PHP 모듈 구조 분석 및 Java 전환 설계</li>
+								<li>병렬 처리 수준 조정 및 부하 테스트 수행</li>
+								<li>jstat 모니터링과 JVM 튜닝을 통한 OOM 가능성 검토</li>
+							</ul>
+						</article>
+
+						<article class="project">
+							<h4>AI 자기소개서 유료화 서비스 개발</h4>
+							<p class="meta">Java, Spring Boot, JPA, React</p>
+							<p>
+								AI 자기소개서 기능의 유료화 과정에서 정책 정의, 이용권 차감 로직, 예외 케이스 정리, QA 대응을 함께 진행했습니다.
+								기능 개발뿐 아니라 FE, LAB, QA 간 해석 차이가 생기지 않도록 요청·응답 흐름과 상세 정책을 먼저 정리해 안정적인 출시를 지원했습니다.
+							</p>
+							<p class="achievement">성과 : 정책 정리와 로그 기반 QA 지원으로 일정 내 안정적 런칭</p>
+							<ul>
+								<li>기능 정책 및 예외 케이스 정의</li>
+								<li>중계 API 로그 및 추적 가능한 구조 설계</li>
+								<li>부서 간 협업 기준 정리 및 QA 주도</li>
+							</ul>
+						</article>
+
+						<article class="project">
+							<h4>Redis 서버 분리 및 확장</h4>
+							<p class="meta">PHP, Redis, MySQL</p>
+							<p>
+								Redis 신규 서버 이관 과정에서 동일한 수정 작업이 반복되고 있어 공통 코드와 호출 구조를 정리했습니다.
+								이를 통해 이관 공수를 줄이고, 여러 개발자가 동시에 참여해도 병목이 생기지 않도록 작업 단위를 정리했습니다.
+							</p>
+							<p class="achievement">성과 : 이관 공수 절감 및 확장 가능한 구조 확보</p>
+							<ul>
+								<li>공통 Redis 처리 코드 정리</li>
+								<li>호출 클라이언트 리팩토링</li>
+								<li>작업 진척도와 배포 준비 상태 정리</li>
+							</ul>
+						</article>
+
+						<article class="project">
+							<h4>PC 개인 MY 홈 성능 개선</h4>
+							<p class="meta">PHP, MySQL</p>
+							<p>
+								페이지 진입 시 반복적으로 호출되던 API를 분석하고 제거해 데이터 흐름을 단순화했습니다.
+								단순한 속도 개선뿐 아니라 코드 리팩토링을 함께 진행해 가독성과 유지보수성도 높였습니다.
+							</p>
+							<p class="achievement">성과 : TTFB 3초 → 1초 이하 개선</p>
+							<ul>
+								<li>반복 호출 구간 식별 및 제거</li>
+								<li>불필요한 처리 흐름 정리</li>
+								<li>기존 코드 구조 리팩토링</li>
+							</ul>
+						</article>
+					</div>
+				</article>
+
+				<article class="career-item">
+					<h3>필웨이</h3>
+					<p class="meta">2020.05 - 2022.03 · Backend Developer</p>
+					<p>
+						상품 할인 정책과 이미지 처리 자동화 기능을 개발하며 반복 업무를 줄이고 실제 운영 효율을 높이는 백엔드 업무를 수행했습니다.
+						운영 정책을 코드로 구조화하고, 수작업 프로세스를 자동화하는 경험을 쌓았습니다.
+					</p>
+
+					<div class="project-group">
+						<article class="project">
+							<h4>이미지 변환 프로세스 자동화</h4>
+							<p class="meta">PHP, Laravel, Shell Script, Inotify, MySQL</p>
+							<p>
+								상품 등록 과정에서 반복적으로 수행되던 이미지 변환 작업을 자동화하고 처리 서버를 분리해 운영 효율을 높였습니다.
+								파일 변경 감지 기반으로 변환과 후처리가 자동으로 수행되도록 구성하여 실제 운영 프로세스에 바로 적용 가능한 형태로 구현했습니다.
+							</p>
+							<p class="achievement">성과 : 이미지 처리 자동화 및 서버 분리를 통해 상품 등록 효율 향상</p>
+							<ul>
+								<li>이미지 업로드 이후 후처리 자동화 구조 설계</li>
+								<li>파일 변경 감지 기반 자동 처리 로직 구현</li>
+								<li>운영 프로세스와 연계 가능한 구조 개발</li>
+							</ul>
+						</article>
+
+						<article class="project">
+							<h4>상품 할인 정책 시스템 개발</h4>
+							<p class="meta">PHP, Laravel, MySQL</p>
+							<p>
+								상품 운영에 필요한 할인 정책 로직을 개발하고, 운영 과정에서 반복적으로 발생하는 수기 처리를 줄일 수 있도록 구조를 정리했습니다.
+								정책 조건을 명확히 관리할 수 있는 형태로 구현하여 운영 효율과 유지보수성을 높였습니다.
+							</p>
+							<p class="achievement">성과 : 운영 정책 반영 효율 향상 및 관리 편의성 개선</p>
+							<ul>
+								<li>할인 정책 적용 로직 개발</li>
+								<li>운영 요구사항을 반영한 정책 구조 정리</li>
+								<li>유지보수 가능한 형태로 기능 개선</li>
+							</ul>
+						</article>
+					</div>
+				</article>
+
+				<article class="career-item">
+					<h3>토마토시스템</h3>
+					<p class="meta">2019.11 - 2020.02 · Backend Developer</p>
+					<p>
+						건국대학교 학사정보 시스템 재구축 프로젝트에 참여했습니다.
+						기존 문제점을 분석하고 기능을 신규 환경에 맞게 안정적으로 재구현하는 업무를 맡았습니다.
+					</p>
+
+					<div class="project-group">
+						<article class="project">
+							<h4>건국대학교 학사정보 시스템 재구축</h4>
+							<p class="meta">Java, Spring MVC, Oracle, exBuilder6</p>
+							<p>
+								건국대학교 학사정보 시스템 재구축 프로젝트에 참여하여 기존 시스템의 문제점을 분석하고 개선했습니다.
+								기존 기능을 신규 환경에 맞게 안정적으로 재구현하여 기능 연속성을 유지하면서 유지보수성과 시스템 안정성 향상에 기여했습니다.
+							</p>
+							<p class="achievement">성과 : 기존 문제점 개선 및 기존 기능의 안정적 재구현</p>
+							<ul>
+								<li>기존 구조 분석 및 기능 개발</li>
+								<li>데이터 처리 로직 구현</li>
+								<li>재구축 과정의 개선 포인트 반영</li>
+							</ul>
+						</article>
+					</div>
+				</article>
+			</section>
+
+			<section id="skills">
+				<h2>Skills</h2>
+
+				<h4>Backend</h4>
+				<ul class="stack-list">
+					<li>Java</li>
+					<li>Spring Boot</li>
+					<li>Spring MVC</li>
+					<li>PHP</li>
+					<li>Laravel</li>
+					<li>Node.js</li>
+					<li>JPA</li>
 				</ul>
 
-				<br />
-				<hr>
-			</div>
-		</div>
-	</body>
+				<h4>Database / Infra</h4>
+				<ul class="stack-list">
+					<li>MySQL</li>
+					<li>Oracle</li>
+					<li>Redis</li>
+					<li>Kubernetes</li>
+					<li>Grafana</li>
+					<li>ArgoCD</li>
+					<li>SigNoz</li>
+				</ul>
+
+				<h4>ETC</h4>
+				<ul class="stack-list">
+					<li>Puppeteer</li>
+					<li>React</li>
+					<li>Shell Script</li>
+					<li>Inotify</li>
+					<li>Git</li>
+				</ul>
+			</section>
+
+			<footer class="footer">
+				<p>문제를 빠르게 파악하고, 실제 운영 환경에서 안전하게 동작하는 구조로 개선하는 개발자를 지향합니다.</p>
+			</footer>
+		</main>
+	</div>
+</body>
+
 </html>

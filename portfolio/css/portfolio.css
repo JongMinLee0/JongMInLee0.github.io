@@ -1,0 +1,241 @@
+:root {
+    --portfolio-text: #2f2f2f;
+    --portfolio-muted: #666;
+    --portfolio-line: #e9e9e9;
+    --portfolio-point: #2f6fda;
+    --portfolio-max-width: 860px;
+}
+
+.portfolio-page * {
+    box-sizing: border-box;
+}
+
+.portfolio-page {
+    color: var(--portfolio-text);
+}
+
+.portfolio-page .page {
+    max-width: var(--portfolio-max-width);
+    margin: 0 auto;
+    padding: 56px 24px 0px;
+}
+
+.portfolio-page a {
+    color: var(--portfolio-point);
+    text-decoration: none;
+}
+
+.portfolio-page a:hover {
+    text-decoration: underline;
+}
+
+.portfolio-page .top-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 44px;
+    font-size: 14px;
+    color: var(--portfolio-muted);
+}
+
+.portfolio-page .top-nav a {
+    color: var(--portfolio-muted);
+}
+
+.portfolio-page .hero {
+    display: flex;
+    align-items: flex-start;
+    gap: 48px;
+    margin-bottom: 56px;
+}
+
+.portfolio-page .hero-media {
+    flex: 0 0 180px;
+}
+
+.portfolio-page .hero-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.portfolio-page .profile-image {
+    display: block;
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 1px solid #e7e7e7;
+}
+
+.portfolio-page .hero h1 {
+    margin: 0 0 8px;
+    font-size: 40px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    color: var(--portfolio-text);
+    text-align: left;
+}
+
+.portfolio-page .hero .role {
+    margin: 0 0 18px;
+    font-size: 20px;
+    color: var(--portfolio-muted);
+    font-weight: 500;
+    text-align: left;
+}
+
+.portfolio-page .hero .intro {
+    margin: 0 0 24px;
+    color: #444;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.portfolio-page .contact-list {
+    margin: 0;
+    padding-left: 20px;
+    max-width: none;
+}
+
+.portfolio-page section {
+    padding-top: 18px;
+    margin-top: 28px;
+}
+
+.portfolio-page section+section {
+    border-top: 1px solid var(--portfolio-line);
+    padding-top: 34px;
+}
+
+.portfolio-page h2 {
+    margin: 0 0 18px;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    color: var(--portfolio-text);
+}
+
+.portfolio-page h3 {
+    margin: 0 0 8px;
+    font-size: 21px;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+    color: var(--portfolio-text);
+}
+
+.portfolio-page h4 {
+    margin: 18px 0 8px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #444;
+}
+
+.portfolio-page p {
+    margin: 0 0 14px;
+    line-height: 1.8;
+    color: #444;
+}
+
+.portfolio-page ul {
+    margin: 0 0 10px;
+    padding-left: 20px;
+}
+
+.portfolio-page li+li {
+    margin-top: 6px;
+}
+
+.portfolio-page .summary {
+    margin: 0 0 18px;
+    color: #444;
+}
+
+.portfolio-page .keyword-line {
+    color: var(--portfolio-muted);
+    font-size: 15px;
+}
+
+.portfolio-page .project,
+.portfolio-page .career-item {
+    margin-bottom: 34px;
+}
+
+.portfolio-page .meta {
+    margin: 0 0 10px;
+    color: var(--portfolio-muted);
+    font-size: 14px;
+}
+
+.portfolio-page .achievement {
+    margin: 12px 0 14px;
+    padding-left: 14px;
+    border-left: 3px solid #d9e6ff;
+    color: #3b4f73;
+    font-weight: 600;
+}
+
+.portfolio-page .stack-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    padding: 0;
+    list-style: none;
+    margin: 10px 0 0;
+}
+
+.portfolio-page .stack-list li {
+    margin: 0;
+    color: #444;
+}
+
+.portfolio-page .stack-list li::after {
+    content: "·";
+    margin-left: 10px;
+    color: #bbb;
+}
+
+.portfolio-page .stack-list li:last-child::after {
+    content: "";
+    margin: 0;
+}
+
+.portfolio-page .footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--portfolio-line);
+    color: var(--portfolio-muted);
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .portfolio-page .page {
+        padding: 36px 18px 72px;
+    }
+
+    .portfolio-page .hero {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .portfolio-page .hero-media {
+        flex: none;
+    }
+
+    .portfolio-page .profile-image {
+        width: 140px;
+        height: 140px;
+    }
+
+    .portfolio-page .hero h1 {
+        font-size: 32px;
+    }
+
+    .portfolio-page h2 {
+        font-size: 24px;
+    }
+
+    .portfolio-page h3 {
+        font-size: 19px;
+    }
+}
