@@ -8,50 +8,42 @@
 
 // SW Version Upgrade Ref: <https://youtu.be/Gb9uI67tqV0>
 
-function handleRegistration(registration){
-  console.log('Service Worker Registered. ', registration)
-  /**
-   * ServiceWorkerRegistration.onupdatefound
-   * The service worker registration's installing worker changes.
-   */
-  registration.onupdatefound = (e) => {
+function handleRegistration(registration) {
+  console.log('Service Worker Registered.', registration);
+
+  registration.onupdatefound = () => {
     const installingWorker = registration.installing;
-    installingWorker.onstatechange = (e) => {
+    if (!installingWorker) return;
+
+    installingWorker.onstatechange = () => {
+      console.log('Service Worker state:', installingWorker.state);
+
       if (installingWorker.state !== 'installed') return;
+
       if (navigator.serviceWorker.controller) {
-        console.log('SW is updated');
+        console.log('New Service Worker installed. It will activate automatically.');
       } else {
-        console.log('A Visit without previous SW');
-        createSnackbar({
-          message: 'App ready for offline use.',
-          duration: 3000
-        })
+        console.log('Service Worker installed for the first time.');
       }
     };
-  }
+  };
 }
 
-if(navigator.serviceWorker){
-  // For security reasons, a service worker can only control the pages
-  // that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+if ('serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('/sw.js')
-    .then((registration) => handleRegistration(registration))
-    .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    .then(handleRegistration)
+    .catch((error) => {
+      console.log('ServiceWorker registration failed:', error);
+    });
 
-  // register message receiver
-  // https://dbwriteups.wordpress.com/2015/11/16/service-workers-part-3-communication-between-sw-and-pages/
-  navigator.serviceWorker.onmessage = (e) => {
-    console.log('SW: SW Broadcasting:', event);
-    const data = e.data
-    
-    if(data.command == "UPDATE_FOUND"){
-      console.log("UPDATE_FOUND_BY_SW", data);
-      createSnackbar({
-        message: "Content updated.",
-        actionText:"refresh",
-        action: function(e){location.reload()}
-      })
-    }
-  }
+  let refreshing = false;
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (refreshing) return;
+    refreshing = true;
+
+    console.log('New Service Worker has taken control. Reloading page...');
+    window.location.reload();
+  });
 }
