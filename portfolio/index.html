@@ -203,34 +203,62 @@
 
 					<div class="project-group">
 						<article class="project">
-							<h4>이미지 변환 프로세스 자동화</h4>
-							<p class="project-date">2025.09 - 2025.10</p>
-							<p class="meta">PHP, Laravel, Shell Script, Inotify, MySQL</p>
+							<h4>이미지 등록 API 및 변환 프로세스 자동화</h4>
+							<p class="project-date">2020.11 - 2021.01, 2021.09 - 2021.10</p>
+							<p class="meta">PHP, Laravel, MySQL, Shell Script, Inotify, ImageMagick</p>
 							<p>
-								상품 등록 과정에서 반복적으로 수행되던 이미지 변환 작업을 자동화하고 처리 서버를 분리해 운영 효율을 높였습니다.
-								파일 변경 감지 기반으로 변환과 후처리가 자동으로 수행되도록 구성하여 실제 운영 프로세스에 바로 적용 가능한 형태로 구현했습니다.
+								상품 등록/수정 과정의 이미지 업로드, 변환, 워터마크 처리 과정을 자동화하고 분산 처리 구조를 적용해 대량 상품 등록 시 발생하던 처리 병목을 개선
 							</p>
-							<p class="achievement">성과 : 이미지 처리 자동화 및 서버 분리를 통해 상품 등록 효율 향상</p>
+							<p class="achievement">성과 : 시간당 최대 처리 가능 이미지 수 3,600개에서 1,080,000개로 개선</p>
 							<ul>
-								<li>이미지 업로드 이후 후처리 자동화 구조 설계</li>
-								<li>파일 변경 감지 기반 자동 처리 로직 구현</li>
-								<li>운영 프로세스와 연계 가능한 구조 개발</li>
+								<li>Laravel 기반 이미지 등록 및 수정 API 개발</li>
+								<li>Inotify, ImageMagick 기반 이미지 변환 및 워터마크 처리 스크립트 구현</li>
+								<li>이미지명을 md5 기준으로 분산 처리해 여러 inotify 프로세스에서 병렬 처리 가능하도록 개선</li>
 							</ul>
 						</article>
 
 						<article class="project">
-							<h4>상품 할인 정책 시스템 개발</h4>
-							<p class="project-date">2025.09 - 2025.10</p>
-							<p class="meta">PHP, Laravel, MySQL</p>
+							<h4>상품 할인 시스템 개발</h4>
+							<p class="project-date">2021.01 - 2021.03, 2021.05 - 2021.07</p>
+							<p class="meta">PHP, Laravel, MySQL, jQuery</p>
 							<p>
-								상품 운영에 필요한 할인 정책 로직을 개발하고, 운영 과정에서 반복적으로 발생하는 수기 처리를 줄일 수 있도록 구조를 정리했습니다.
-								정책 조건을 명확히 관리할 수 있는 형태로 구현하여 운영 효율과 유지보수성을 높였습니다.
+								상품 운영에 필요한 할인 정책을 관리할 수 있도록 어드민과 데이터 구조를 설계하고, 자동 할인과 외부 연동까지 포함한 할인 관리 기능을 개발
 							</p>
-							<p class="achievement">성과 : 운영 정책 반영 효율 향상 및 관리 편의성 개선</p>
+							<p class="achievement">성과 : 운영 정책 반영 효율 향상 및 할인 관리 자동화 기반 구축</p>
 							<ul>
-								<li>할인 정책 적용 로직 개발</li>
-								<li>운영 요구사항을 반영한 정책 구조 정리</li>
-								<li>유지보수 가능한 형태로 기능 개선</li>
+								<li>할인 관리 어드민 페이지 개발</li>
+								<li>할인 상품 관리 및 주문 관련 MySQL 테이블 설계</li>
+								<li>Laravel Totem 기반 자동 할인 추가 및 네이버 EP 연동</li>
+							</ul>
+						</article>
+
+						<article class="project">
+							<h4>주문서 및 배송지 관리 개발</h4>
+							<p class="project-date">2021.10 - 2021.12</p>
+							<p class="meta">PHP, Laravel, MySQL, jQuery</p>
+							<p>
+								PC와 모바일 주문서 및 배송지 관리 기능을 개발하며 주문 유효성 검증부터 배송지 등록·수정·관리 흐름까지 사용자 구매 경험에 필요한 기능을 구현
+							</p>
+							<p class="achievement">성과 : 주문 및 배송지 관리 기능 구축을 통한 구매 플로우 완성도 향상</p>
+							<ul>
+								<li>PC·모바일 주문서 페이지 및 배송지 관리 기능 개발</li>
+								<li>주문서 진입 시 유효성 체크 및 초기 데이터 처리 로직 구현</li>
+								<li>배송지 관련 MySQL 테이블 설계 및 프론트 기능 개발</li>
+							</ul>
+						</article>
+
+						<article class="project">
+							<h4>데이터베이스 암호화 적용</h4>
+							<p class="project-date">2020.07 - 2020.10</p>
+							<p class="meta">PHP, MySQL, Penta Security Solution</p>
+							<p>
+								개인정보가 저장되는 데이터베이스 영역에 암·복호화 처리를 적용해 보안 요건을 충족하고 인증 대응에 필요한 기반을 마련
+							</p>
+							<p class="achievement">성과 : 개인정보 암·복호화 적용을 통해 ISMS 인증 대응에 기여</p>
+							<ul>
+								<li>개인정보 데이터 암·복호화 처리 적용</li>
+								<li>Raw Query 및 ORM 방식 CRUD에 보안 솔루션 함수 반영</li>
+								<li>기존 데이터 접근 로직 전반에 대한 적용 범위 점검 및 수정</li>
 							</ul>
 						</article>
 					</div>
@@ -256,17 +284,17 @@
 					<div class="project-group">
 						<article class="project">
 							<h4>건국대학교 학사정보 시스템 재구축</h4>
-							<p class="project-date">2019.11 - 2020.02</p>
-							<p class="meta">Java, Spring MVC, Oracle, exBuilder6</p>
+							<p class="project-date">2019.11 - 2020.01</p>
+							<p class="meta">Java, Spring MVC, Oracle, eXbuilder6, JavaScript</p>
 							<p>
-								건국대학교 학사정보 시스템 재구축 프로젝트에 참여하여 기존 시스템의 문제점을 분석하고 개선했습니다.
-								기존 기능을 신규 환경에 맞게 안정적으로 재구현하여 기능 연속성을 유지하면서 유지보수성과 시스템 안정성 향상에 기여했습니다.
+								건국대학교 학사정보 시스템 재구축 프로젝트에서 국제협력 및 대학원 파트를 맡아 UI와 화면 기능, 데이터 처리 로직을 개발하며 기존 레거시 구조를 신규 환경에
+								맞게 재구현
 							</p>
-							<p class="achievement">성과 : 기존 문제점 개선 및 기존 기능의 안정적 재구현</p>
+							<p class="achievement">성과 : 기존 기능의 안정적 재구현 및 유지보수 가능한 구조로 전환</p>
 							<ul>
-								<li>기존 구조 분석 및 기능 개발</li>
-								<li>데이터 처리 로직 구현</li>
-								<li>재구축 과정의 개선 포인트 반영</li>
+								<li>eXbuilder6 기반 학사정보 시스템 UI 개발</li>
+								<li>JavaScript 기반 CRUD 요청 및 화면 기능 개발</li>
+								<li>Spring MVC Controller와 Repository, MyBatis SqlSession 기반 데이터 처리 구현</li>
 							</ul>
 						</article>
 					</div>
@@ -277,26 +305,75 @@
 				<h2>Engineering Contributions</h2>
 
 				<article class="contribution-item">
-					<h3>운영 안정성</h3>
+					<h3>운영 및 VOC 대응</h3>
 					<ul>
-						<li>브라우저 자동 재시작 구조와 모니터링 대시보드 반영</li>
-						<li>운영 중 장애 대응을 위한 재기동 및 추적 체계 정리</li>
+						<li>2024년 운영업무 62건, VOC 17건, VOE 2건 처리</li>
+						<li>2025년 운영업무 58건, VOC 14건, VOE 1건 처리</li>
+						<li>Works, ITS 등을 상시 모니터링하며 사용자 불편 사항과 개발 필요 이슈를 선제적으로 파악</li>
+						<li>도메인과 관계없이 원인을 분석하고 빠르게 대응해 서비스 품질 유지에 기여</li>
 					</ul>
 				</article>
 
 				<article class="contribution-item">
-					<h3>협업 및 정책 정리</h3>
+					<h3>모니터링 및 장애 대응</h3>
 					<ul>
-						<li>AI 자기소개서 유료화 과정에서 요청·응답 흐름 및 예외 케이스 정의</li>
-						<li>FE, LAB, QA 간 해석 차이를 줄이기 위한 협업 기준 정리</li>
+						<li>2025년 03.21 ~ 11.12 동안 기업 인증 국세청 API 모니터링 이슈 8건 대응</li>
+						<li>관제 채널 로그, 공공데이터 포털 공지, 관리자와 사용자 서비스 상태를 함께 확인하며 영향 범위 점검</li>
+						<li>미인증 가입 회원의 자동 처리 및 수동 처리 가능 여부를 확인해 운영 공백 최소화</li>
+						<li>서비스 로그와 랜덤 테스트를 통해 발견한 화면 깨짐, 리다이렉트, 레이어 오류 등을 지속적으로 수정</li>
 					</ul>
 				</article>
 
 				<article class="contribution-item">
-					<h3>운영 효율화</h3>
+					<h3>운영 효율화 및 품질 개선</h3>
 					<ul>
-						<li>Redis 이관 시 공통 코드 정리와 호출 구조 리팩토링으로 작업 공수 절감</li>
-						<li>이미지 처리 자동화와 운영 프로세스 연계 구조 개발</li>
+						<li>SMS 전송 프로세스 점검 및 고도화를 통해 관리 효율성과 데이터 정확성 개선</li>
+						<li>Redis 서버 분리 및 확장 과정에서 공통 코드 정리와 호출 구조 리팩토링으로 이관 공수 절감</li>
+						<li>배포 목록 자동화, Swagger 링크 공유 개선, SonarQube 이슈 수정, 미사용 레이아웃 정리 등 업무 효율화 작업 수행</li>
+						<li>로그 기반 분석과 모니터링을 통해 타임아웃, 특수문자 파싱, 레디스 재연결 등 운영 이슈 개선</li>
+					</ul>
+				</article>
+
+				<article class="contribution-item">
+					<h3>협업 지원 및 조직 기여</h3>
+					<ul>
+						<li>2024년 코드리뷰 54건, 2025년 코드리뷰 59건 참여</li>
+						<li>2024년 ITS/WIKI 계정관리 156건, 2025년 상반기 ITS/WIKI 계정관리 37건 수행</li>
+						<li>기획 확인과 개발 QA를 함께 진행하며 오류를 사전에 방지하고 영향 범위를 크로스 체크</li>
+						<li>문서 작성, 계정 및 권한 관리, 팀 내 QA 지원을 통해 협업 환경과 운영 편의성 향상</li>
+					</ul>
+				</article>
+			</section>
+
+			<section id="blog">
+				<h2>Technical Blog</h2>
+
+				<div class="stats-row">
+					<div class="stat-card">
+						<p class="stat-label">Clicks</p>
+						<p class="stat-value">1,113</p>
+					</div>
+					<div class="stat-card">
+						<p class="stat-label">Impressions</p>
+						<p class="stat-value">20,178</p>
+					</div>
+					<div class="stat-card">
+						<p class="stat-label">Average CTR</p>
+						<p class="stat-value">5.5%</p>
+					</div>
+					<div class="stat-card">
+						<p class="stat-label">Average Position</p>
+						<p class="stat-value">15.4</p>
+					</div>
+				</div>
+
+				<article class="contribution-item">
+					<h3>기술 블로그 운영</h3>
+					<ul>
+						<li>공부한 내용과 실무에서 겪은 문제 해결 과정을 블로그에 꾸준히 정리</li>
+						<li>2024.11 ~ 2026.03 조회 데이터 기준 Google Search Console 총 클릭 1,113, 총 노출 20,178 기록</li>
+						<li>캐시 버스팅, Thymeleaf, 정적 리소스 처리 등 실무형 주제의 글이 검색을 통해 지속적으로 조회</li>
+						<li>작성한 글의 성과를 지표로 확인하며 어떤 주제가 실제로 도움이 되는지 점검</li>
 					</ul>
 				</article>
 			</section>
@@ -309,30 +386,43 @@
 					<li>Java</li>
 					<li>Spring Boot</li>
 					<li>Spring MVC</li>
+					<li>JPA</li>
+					<li>MyBatis</li>
 					<li>PHP</li>
 					<li>Laravel</li>
 					<li>Node.js</li>
-					<li>JPA</li>
+					<li>JavaScript</li>
 				</ul>
 
-				<h4>Database / Infra</h4>
+				<h4>Database</h4>
 				<ul class="stack-list">
 					<li>MySQL</li>
 					<li>Oracle</li>
 					<li>Redis</li>
-					<li>Kubernetes</li>
-					<li>Grafana</li>
-					<li>ArgoCD</li>
-					<li>SigNoz</li>
 				</ul>
 
-				<h4>ETC</h4>
+				<h4>Infra / DevOps / Observability</h4>
+				<ul class="stack-list">
+					<li>Kubernetes</li>
+					<li>ArgoCD</li>
+					<li>GitLab CI/CD</li>
+					<li>Grafana</li>
+					<li>SigNoz</li>
+					<li>Elastic</li>
+				</ul>
+
+				<h4>Tools / ETC</h4>
 				<ul class="stack-list">
 					<li>Puppeteer</li>
 					<li>React</li>
 					<li>Shell Script</li>
 					<li>Inotify</li>
+					<li>ImageMagick</li>
 					<li>Git</li>
+					<li>jQuery</li>
+					<li>eXbuilder6</li>
+					<li>Jira</li>
+					<li>Confluence</li>
 				</ul>
 			</section>
 
