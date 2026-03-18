@@ -336,3 +336,16 @@
     line-height: 1.2;
     color: var(--portfolio-text);
 }
+
+.portfolio-page .sub-list {
+	margin-top: 6px;
+	padding-left: 18px;
+	list-style-type: circle;
+}
+
+.portfolio-page .sub-list li {
+	margin-top: 4px;
+	color: #666;
+	font-size: 14px;
+	line-height: 1.3;
+}
