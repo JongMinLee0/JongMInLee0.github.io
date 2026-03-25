@@ -449,7 +449,7 @@
 
 							<section class="case-study-group">
 								<article class="case-study">
-									<h6>1. 수동 중심의 즉시할인 운영을 이벤트 기반 구조로 재설계해 정책 관리와 데이터 정합성을 개선</h6>
+									<h6>1. 수동 중심의 즉시할인 운영을 이벤트 기반 구조로 개선해 정책 관리와 데이터 정합성을 높임</h6>
 									<div class="case-block">
 										<strong class="case-label">문제</strong>
 										<ul>
@@ -462,10 +462,10 @@
 										<strong class="case-label">해결</strong>
 										<ul>
 											<li><code>price_event</code>, <code>price_event_condition</code>,
-												<code>price_event_goods</code> 테이블 구조를 설계해 이벤트·조건·상품을 분리함
+												<code>price_event_goods</code> 구조를 기반으로 이벤트·조건·상품이 분리된 운영 방식을 반영함
 											</li>
-											<li>조건 내부는 AND, 조건 그룹 간에는 OR로 동작하도록 이벤트 적용 구조를 설계함</li>
-											<li>상품번호 기준으로 활성 할인(<code>active_flag=1</code>)은 1건만 유지되도록 중복 제어 정책을 반영함
+											<li>조건 내부는 AND, 조건 그룹 간에는 OR로 동작하는 이벤트 적용 기준을 구현에 반영함</li>
+											<li>상품번호 기준으로 활성 할인(<code>active_flag=1</code>)은 1건만 유지되도록 중복 제어 정책을 적용함
 											</li>
 											<li>즉시할인 관리자(신) 어드민을 개발해 수동/자동 등록, 이벤트 상세 조회, 수정/삭제 기능을 제공함</li>
 										</ul>
@@ -473,7 +473,7 @@
 									<div class="case-block">
 										<strong class="case-label">결과</strong>
 										<ul>
-											<li>수동 운영 위주의 할인 정책을 이벤트 기반 구조로 전환해 운영 효율과 유지보수성을 높임</li>
+											<li>수동 운영 위주의 할인 정책을 이벤트 기반 방식으로 개선해 운영 효율과 유지보수성을 높임</li>
 											<li>중복 활성화 방지와 상태 기준 정리를 통해 할인 데이터 정합성을 높임</li>
 										</ul>
 									</div>
@@ -559,27 +559,31 @@
 									<div class="case-image-wrap">
 										<img src="images/feelway_inotify.png" alt="이미지 변환 흐름도" class="case-image" />
 									</div>
+
 									<div class="case-block">
 										<strong class="case-label">문제</strong>
 										<ul>
-											<li>리사이징, 품질 조정, 워터마크 처리를 동기적으로 수행하면 대량 업로드 시 병목이 발생할 수 있었음</li>
-											<li>이미지 수가 많아질수록 단일 처리 흐름으로는 확장성 확보가 어려웠음</li>
+											<li>리사이징, 품질 조정, 워터마크 처리를 요청 흐름 내에서 동기적으로 수행할 경우 대량 업로드 시 처리 병목이 발생할 수 있었음
+											</li>
+											<li>이미지 수가 증가할수록 단일 처리 흐름만으로는 안정적인 확장성 확보에 한계가 있었음</li>
 										</ul>
 									</div>
+
 									<div class="case-block">
 										<strong class="case-label">해결</strong>
 										<ul>
-											<li>Inotify와 Shell Script, ImageMagick을 이용해 파일 생성 이벤트를 감지하고 리사이징·워터마크·품질 조정을
-												비동기로 처리함</li>
-											<li>대표 이미지는 small 이미지를 별도로 생성하고, 옵션에 따라 워터마크를 자동 적용하도록 구현함</li>
-											<li>파일명 기반 분산 저장 경로를 적용하고, 처리 완료 후 API 호출로 실제 저장 경로를 기록하도록 연동함</li>
+											<li>Inotify, Shell Script, ImageMagick을 활용해 파일 생성 이벤트를 감지하고 리사이징, 워터마크 적용,
+												품질 조정을 비동기로 처리하도록 구성함</li>
+											<li>대표 이미지는 small 이미지를 별도로 생성하고, 옵션에 따라 워터마크를 자동 적용할 수 있도록 구현함</li>
+											<li>파일명 기반 분산 저장 경로를 적용하고, 처리 완료 후 API 호출을 통해 실제 저장 경로를 기록하도록 연동함</li>
 										</ul>
 									</div>
+
 									<div class="case-block">
 										<strong class="case-label">결과</strong>
 										<ul>
 											<li><strong>시간당 최대 처리 가능 이미지 수를 3,600개에서 1,080,000개로 개선</strong>함</li>
-											<li>수동 대응이 필요하던 후처리 작업을 자동화해 운영 부담을 줄이고 대량 이미지 처리 대응력을 높임</li>
+											<li>동기적으로 수행되던 후처리 작업을 자동화해 운영 부담을 줄이고 대량 이미지 처리 대응력을 높임</li>
 										</ul>
 									</div>
 								</article>
