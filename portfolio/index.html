@@ -44,7 +44,8 @@
 			<section id="strength">
 				<h2>Introduce</h2>
 				<p class="summary">
-					Java, Spring Boot, Node.js, PHP 기반으로 <strong>서비스 백엔드 개발, 성능 개선, 운영 자동화</strong>를 수행해온 7년차 백엔드 개발자입니다.
+					Java, Spring Boot, Node.js, PHP 기반으로 <strong>서비스 백엔드 개발, 성능 개선, 운영 자동화</strong>를 수행해온 7년차 백엔드
+					개발자입니다.
 					<br>채용 서비스, 커머스, 학사정보 시스템 등 다양한 도메인에서 <strong>실제 운영 중인 서비스를 더 빠르고 안정적으로 동작하도록 구조를 개선</strong>해왔습니다.
 					<br>
 					<br>사람인에서는 이력서 PDF 다운로드 구조 개선, 맞춤법 검사 API Java 전환, AI 자기소개서 유료화 기능 개발 등을 수행했습니다.
@@ -55,7 +56,8 @@
 					또한 개인정보 암호화 전환 프로젝트에서 대규모 컬럼 변경과 데이터 마이그레이션을 검토·적용하며 <strong>운영 리스크를 줄이는 작업</strong>도 수행했습니다.
 					<br>
 					<br>문제의 원인을 구조적으로 파악하고, <strong>성능·운영·확장성 관점에서 개선안을 설계해 실제 서비스에 반영</strong>하는 데 강점이 있습니다.
-					정책 정의, 예외 케이스 정리, 로그 기반 추적 구조 설계, QA 대응 등 협업 중심의 업무도 함께 수행하며 <strong>개발 효율과 서비스 운영 안정성을 함께 높이는 방향</strong>으로 일해왔습니다.
+					정책 정의, 예외 케이스 정리, 로그 기반 추적 구조 설계, QA 대응 등 협업 중심의 업무도 함께 수행하며 <strong>개발 효율과 서비스 운영 안정성을 함께 높이는
+						방향</strong>으로 일해왔습니다.
 				</p>
 			</section>
 
@@ -88,7 +90,9 @@
 								기존 2대의 변환 서버 환경에서 발생하던 <strong>브라우저 재실행·렌더링 대기 병목</strong>을 개선하고,
 								<strong>공용 PDF 변환 인프라와 운영 체계</strong>를 재구성
 							</p>
-							<p class="achievement">성과 : <strong>PDF·HTML 생성 평균 처리시간 약 51% 단축</strong>, <strong>Kubernetes 기반 공용 변환 구조 구축</strong></p>
+							<p class="achievement">성과 : <strong>PDF·HTML 생성 평균 처리시간 약 51% 단축</strong>,
+								<strong>Kubernetes 기반 공용 변환 구조 구축</strong>
+							</p>
 
 							<section class="case-study-group">
 								<article class="case-study">
@@ -107,7 +111,8 @@
 									<div class="case-block">
 										<strong class="case-label">해결</strong>
 										<ul>
-											<li>GitLab CI 기반으로 빌드·테스트·배포 파이프라인을 구성하고 Harbor·SonarQube·Helm·ArgoCD를 연계한 배포 흐름을 구축함</li>
+											<li>GitLab CI 기반으로 빌드·테스트·배포 파이프라인을 구성하고 Harbor·SonarQube·Helm·ArgoCD를 연계한
+												배포 흐름을 구축함</li>
 											<li>기존 2대의 변환 서버를 신규 서버 노드 4대, Pod 10~20 규모의 Kubernetes 운영 구조로 확장함</li>
 											<li>사람인 외 신규 서비스에서도 공통으로 사용할 수 있도록 PDF 변환 구조를 전환함</li>
 										</ul>
@@ -125,7 +130,8 @@
 								<article class="case-study">
 									<h6>2. 브라우저 생명주기 충돌과 렌더링 병목을 제어해 처리 성능과 안정성을 함께 개선</h6>
 									<div class="case-image-wrap">
-										<img src="images/saramin_pj2.png" alt="브라우저 종료 타이밍 충돌 방지 흐름도" class="case-image" />
+										<img src="images/saramin_pj2.png" alt="브라우저 종료 타이밍 충돌 방지 흐름도"
+											class="case-image" />
 									</div>
 									<div class="case-block">
 										<strong class="case-label">문제</strong>
@@ -140,7 +146,8 @@
 										<ul>
 											<li>유휴 시간 기반 자동 종료 및 재실행 로직을 적용하고, 작업 중인 요청이 있을 경우 브라우저가 종료되지 않도록 보완함</li>
 											<li>브라우저 종료 중에는 신규 요청이 기존 브라우저를 사용하지 않고 대기하도록 제어함</li>
-											<li>CDP 기반 요청 차단 방식을 적용해 불필요한 요청 비용을 줄이고, HTML 로딩 대기 조건을 실제 렌더링 흐름에 맞게 최적화함</li>
+											<li>CDP 기반 요청 차단 방식을 적용해 불필요한 요청 비용을 줄이고, HTML 로딩 대기 조건을 실제 렌더링 흐름에 맞게 최적화함
+											</li>
 											<li>User-Agent를 추가해 방화벽 차단 이슈를 해결함</li>
 										</ul>
 									</div>
@@ -202,41 +209,39 @@
 							<p class="project-summary">
 								노후화된 맞춤법 검사 API를 PHP에서 Java로 전환하고, <strong>Java 실행 방식에 맞는 구조로 재설계</strong>해 성능을 개선
 							</p>
-							<p class="achievement">성과 : <strong>4000자 기준 응답시간 7.98초 → 3.71초</strong>, <strong>약 53% 개선</strong></p>
+							<p class="achievement">성과 : <strong>4000자 기준 응답시간 7.98초 → 3.71초</strong>, <strong>약 53%
+									개선</strong></p>
 
 							<section class="case-study-group">
 								<article class="case-study">
-									<h6>1. PHP 처리 방식을 그대로 옮기지 않고 Java 실행 방식에 맞는 구조 전환 기준을 정립</h6>
-									<!-- <div class="case-image-wrap">
-										<img src="images/saramin_pj5.png" alt="PHP 구조와 Java 구조 비교 이미지"
-											class="case-image" />
-									</div> -->
+									<h6>1. PHP 구조를 그대로 이식하지 않고 Java 실행 방식에 맞는 전환 기준을 수립</h6>
 									<div class="case-block">
 										<strong class="case-label">문제</strong>
 										<ul>
 											<li>기존 PHP 기반 맞춤법 검사 API가 노후화되어 유지보수성과 확장성이 떨어졌음</li>
-											<li>기존 PHP 모듈 구조를 그대로 Java로 이식하면 오히려 처리 성능이 저하되는 문제가 있었음</li>
+											<li>기존 PHP 모듈 구조를 그대로 Java로 옮기면 오히려 처리 성능이 저하되는 문제가 있었음</li>
 										</ul>
 									</div>
 									<div class="case-block">
 										<strong class="case-label">해결</strong>
 										<ul>
-											<li>기존 모듈의 처리 방식을 분석해 PHP와 Java가 강점을 가지는 입력 형태가 다르다는 점을 확인함</li>
-											<li>PHP는 줄글 형태 단락 처리에, Java는 나뉜 문장·문단 처리에 더 적합하다는 점을 바탕으로 구조 전환 방향을 재정의함</li>
-											<li>단순 포팅이 아니라 Java 런타임에 맞는 분할 처리 중심 구조로 재설계 기준을 수립함</li>
+											<li>기존 모듈의 처리 흐름을 분석해 PHP와 Java가 강점을 가지는 입력 형태와 실행 방식이 다르다는 점을 확인함</li>
+											<li>PHP는 긴 단락 단위 처리에, Java는 문장·문단 단위 분할 처리에 더 적합하다는 점을 바탕으로 구조 전환 방향을 재정의함
+											</li>
+											<li>단순 포팅이 아니라 Java 런타임 특성에 맞는 분할 처리 중심 구조로 재설계 기준을 수립함</li>
 										</ul>
 									</div>
 									<div class="case-block">
 										<strong class="case-label">결과</strong>
 										<ul>
-											<li>단순 이식이 아닌 Java 특성에 맞는 구조 전환 필요성을 명확히 확인함</li>
-											<li>이후 문장 분할·병렬 처리 구조를 설계할 수 있는 기술적 근거를 마련함</li>
+											<li>단순 이식이 아닌 Java 특성에 맞는 구조 전환 필요성을 명확히 정의함</li>
+											<li>이후 문장 분할·병렬 처리 구조를 설계할 수 있는 기술적 기준을 마련함</li>
 										</ul>
 									</div>
 								</article>
 
 								<article class="case-study">
-									<h6>2. 긴 텍스트 지연을 줄이기 위해 문장 분할·청크 병렬 처리와 순서 보장 구조를 설계</h6>
+									<h6>2. 긴 텍스트 지연을 줄이기 위해 문장 분할·청크 병렬 처리와 순서 보장 구조를 구현</h6>
 									<div class="case-image-wrap">
 										<img src="images/saramin_pj6.png" alt="문단 분할 병렬 처리 구조도" class="case-image" />
 									</div>
@@ -259,37 +264,40 @@
 										<strong class="case-label">결과</strong>
 										<ul>
 											<li>긴 텍스트에 적합한 병렬 처리 아키텍처를 구현함</li>
-											<li>처리 성능 향상과 결과 순서 보장을 함께 만족하는 실행 구조를 마련함</li>
+											<li>응답시간 단축의 핵심이 된 실행 구조를 마련하면서도 결과 순서 보장을 함께 달성함</li>
 										</ul>
 									</div>
 								</article>
 
 								<article class="case-study">
-									<h6>3. 속도·부하 테스트와 JVM 메모리 점검으로 성능 개선 효과와 운영 안정성을 함께 검증</h6>
+									<h6>3. 성능 테스트와 JVM 지표 점검으로 구조 개선 효과와 운영 안정성을 검증</h6>
 									<div class="case-image-wrap">
 										<img src="images/saramin_pj7.png" alt="맞춤법 검사 성능 테스트 결과" class="case-image" />
 									</div>
 									<div class="case-block">
 										<strong class="case-label">문제</strong>
 										<ul>
-											<li>요청 글자 수와 동시 요청 수 증가 시 실제 처리 성능과 안정성을 함께 검증할 필요가 있었음</li>
-											<li>응답시간뿐 아니라 GC 상태와 Metaspace 사용량까지 포함해 운영 환경 안정성을 확인해야 했음</li>
+											<li>구조 전환과 병렬 처리 적용 이후 실제 응답시간이 얼마나 개선됐는지 정량적으로 검증할 필요가 있었음</li>
+											<li>동시 요청 증가 상황에서도 GC, Old 영역, Metaspace 상태를 포함해 운영 안정성을 함께 확인해야 했음</li>
 										</ul>
 									</div>
 									<div class="case-block">
 										<strong class="case-label">해결</strong>
 										<ul>
-											<li>500자·2000자·4000자 기준 속도 및 부하 테스트를 수행해 버전별 처리 성능을 비교함</li>
-											<li>jstat 로그를 바탕으로 Young GC, Full GC, Old 영역, Metaspace 상태를 함께 점검함</li>
-											<li>Metaspace 확장 필요성과 운영 환경 메모리 튜닝 포인트를 도출함</li>
+											<li>500자·2000자·4000자 기준 속도 및 부하 테스트를 수행해 PHP 상용 버전과 Java 전환 구조의 응답시간을 비교함
+											</li>
+											<li>jstat 로그를 기반으로 Young GC, Full GC, Old 영역, Metaspace 사용량을 함께 점검해 운영 환경에서의
+												메모리 동작을 확인함</li>
+											<li>성능 개선의 주요 원인이 Java 구조 전환과 병렬 처리 방식에 있음을 수치로 검증하고, 메모리 관리 포인트는 운영 관점에서
+												별도로 정리함</li>
 										</ul>
 									</div>
 									<div class="case-block">
 										<strong class="case-label">결과</strong>
 										<ul>
 											<li><strong>4000자 기준 응답시간을 7.98초에서 3.71초로 약 53% 개선</strong>함</li>
-											<li>PHP 상용 대비 Java 전환 구조의 성능 향상 효과를 수치로 검증함</li>
-											<li>Full GC 없이 운영 가능함을 확인하고, Metaspace 관리 필요성까지 함께 점검함</li>
+											<li>PHP 상용 대비 Java 전환 구조의 성능 향상 효과를 정량적으로 검증함</li>
+											<li>Full GC 없이 운영 가능함을 확인했고, Metaspace 관리 필요성 등 운영 안정화 포인트도 함께 도출함</li>
 										</ul>
 									</div>
 								</article>
@@ -338,9 +346,11 @@
 							<p class="project-date">2025.07 - 2025.08</p>
 							<p class="meta">Java, Spring Boot, JPA, React</p>
 							<p class="project-summary">
-								AI 자기소개서 서비스 유료화 과정에서 <strong>이용권 차감 로직</strong>과 <strong>코칭 중계 API</strong>를 개발하고, 로그 기반 QA 지원 체계를 정리
+								AI 자기소개서 서비스 유료화 과정에서 <strong>이용권 차감 로직</strong>과 <strong>코칭 중계 API</strong>를 개발하고, 로그
+								기반 QA 지원 체계를 정리
 							</p>
-							<p class="achievement">성과 : <strong>정책·예외 기준 정리</strong>와 <strong>로그 기반 QA 지원</strong>을 통해 일정 내 안정적 런칭</p>
+							<p class="achievement">성과 : <strong>정책·예외 기준 정리</strong>와 <strong>로그 기반 QA 지원</strong>을 통해
+								일정 내 안정적 런칭</p>
 
 							<section class="case-study-group">
 								<article class="case-study">
@@ -375,7 +385,8 @@
 							<h4>Redis 서버 분리 및 확장</h4>
 							<p class="project-date">2024.08 - 2024.12</p>
 							<p class="meta">PHP, Redis, MySQL</p>
-							<p class="project-summary">Redis 서버 분리와 신규 서버 이관 구조를 정리하고, <strong>반복 수정 없이 확장 가능한 호출 구조</strong>로 개선</p>
+							<p class="project-summary">Redis 서버 분리와 신규 서버 이관 구조를 정리하고, <strong>반복 수정 없이 확장 가능한 호출
+									구조</strong>로 개선</p>
 							<p class="achievement">성과 : <strong>이관 공수 절감</strong> 및 병목 없는 확장 작업 기반 마련</p>
 
 							<section class="case-study-group">
@@ -432,7 +443,8 @@
 								즉시할인 이벤트 구조를 재설계하고, 네이버 EP 생성 및 최저가 반영 프로세스를 자동화해 <strong>대량 상품 가격 운영 체계</strong>를 개선
 							</p>
 							<p class="achievement">
-								성과 : <strong>하루 평균 약 87만 건 규모의 EP 자동 생성</strong>, <strong>네이버 최저가 상품 약 8만 건 대응 체계 구축</strong>
+								성과 : <strong>하루 평균 약 87만 건 규모의 EP 자동 생성</strong>, <strong>네이버 최저가 상품 약 8만 건 대응 체계
+									구축</strong>
 							</p>
 
 							<section class="case-study-group">
@@ -449,9 +461,12 @@
 									<div class="case-block">
 										<strong class="case-label">해결</strong>
 										<ul>
-											<li><code>price_event</code>, <code>price_event_condition</code>, <code>price_event_goods</code> 테이블 구조를 설계해 이벤트·조건·상품을 분리함</li>
+											<li><code>price_event</code>, <code>price_event_condition</code>,
+												<code>price_event_goods</code> 테이블 구조를 설계해 이벤트·조건·상품을 분리함
+											</li>
 											<li>조건 내부는 AND, 조건 그룹 간에는 OR로 동작하도록 이벤트 적용 구조를 설계함</li>
-											<li>상품번호 기준으로 활성 할인(<code>active_flag=1</code>)은 1건만 유지되도록 중복 제어 정책을 반영함</li>
+											<li>상품번호 기준으로 활성 할인(<code>active_flag=1</code>)은 1건만 유지되도록 중복 제어 정책을 반영함
+											</li>
 											<li>즉시할인 관리자(신) 어드민을 개발해 수동/자동 등록, 이벤트 상세 조회, 수정/삭제 기능을 제공함</li>
 										</ul>
 									</div>
@@ -467,7 +482,8 @@
 								<article class="case-study">
 									<h6>2. 네이버 EP 생성과 최저가 반영 프로세스를 자동화해 대량 상품 가격 운영 체계를 구축</h6>
 									<div class="case-image-wrap">
-										<img src="images/feelway_ep.png" alt="ep 작업 흐름도" class="case-image" style="height: 450px;" />
+										<img src="images/feelway_ep.png" alt="ep 작업 흐름도" class="case-image"
+											style="height: 450px;" />
 									</div>
 									<div class="case-block">
 										<strong class="case-label">문제</strong>
@@ -480,9 +496,13 @@
 									<div class="case-block">
 										<strong class="case-label">해결</strong>
 										<ul>
-											<li>전체 EP 생성 배치에서 임시 테이블 기반으로 상품을 수집하고, 제외 조건과 상품명 정제 로직을 반영해 네이버 전송 데이터를 생성함</li>
-											<li>변경 상품만 추출하는 요약 EP를 1시간 단위로 운영하고, 즉시할인 테이블의 <code>naver_price</code>가 EP 가격에 반영되도록 연동함</li>
-											<li>네이버 최저가 엑셀 데이터를 적재한 뒤 내부 가격과 비교해 할인 대상 여부를 판단하고, 결과를 <code>price_event_goods</code>에 반영하도록 구성함</li>
+											<li>전체 EP 생성 배치에서 임시 테이블 기반으로 상품을 수집하고, 제외 조건과 상품명 정제 로직을 반영해 네이버 전송 데이터를
+												생성함</li>
+											<li>변경 상품만 추출하는 요약 EP를 1시간 단위로 운영하고, 즉시할인 테이블의 <code>naver_price</code>가 EP
+												가격에 반영되도록 연동함</li>
+											<li>네이버 최저가 엑셀 데이터를 적재한 뒤 내부 가격과 비교해 할인 대상 여부를 판단하고, 결과를
+												<code>price_event_goods</code>에 반영하도록 구성함
+											</li>
 										</ul>
 									</div>
 									<div class="case-block">
@@ -520,7 +540,8 @@
 										<strong class="case-label">해결</strong>
 										<ul>
 											<li>이미지를 먼저 temp 영역에 업로드하고, 실제 상품 등록 시 사용처 디렉토리로 이동시키는 API 기반 구조로 변경함</li>
-											<li><code>fw_attach_image</code> 테이블을 두어 업로드 이미지 정보와 처리 완료 이력을 관리하도록 구성함</li>
+											<li><code>fw_attach_image</code> 테이블을 두어 업로드 이미지 정보와 처리 완료 이력을 관리하도록 구성함
+											</li>
 											<li>기존 출력 로직에 신규 테이블 참조 분기를 추가해 구방식과 신방식이 함께 동작할 수 있도록 설계함</li>
 										</ul>
 									</div>
@@ -548,7 +569,8 @@
 									<div class="case-block">
 										<strong class="case-label">해결</strong>
 										<ul>
-											<li>Inotify와 Shell Script, ImageMagick을 이용해 파일 생성 이벤트를 감지하고 리사이징·워터마크·품질 조정을 비동기로 처리함</li>
+											<li>Inotify와 Shell Script, ImageMagick을 이용해 파일 생성 이벤트를 감지하고 리사이징·워터마크·품질 조정을
+												비동기로 처리함</li>
 											<li>대표 이미지는 small 이미지를 별도로 생성하고, 옵션에 따라 워터마크를 자동 적용하도록 구현함</li>
 											<li>파일명 기반 분산 저장 경로를 적용하고, 처리 완료 후 API 호출로 실제 저장 경로를 기록하도록 연동함</li>
 										</ul>
@@ -570,9 +592,11 @@
 							<p class="meta">PHP, MySQL, Legacy PHP, AES256, ENC_B64, Batch Script, Data Migration</p>
 							<p class="project-summary">
 								ISMS 심사 대응을 위해 주민번호 중심 암호화 범위를 계좌번호, 전화번호, 이메일까지 확대하고,
-								레거시 암호화 방식(ndc/cdc)을 <strong>신규 AES256 기반 암호화 체계</strong>로 전환할 수 있도록 DB 구조 변경, 데이터 마이그레이션, 소스 적용을 수행
+								레거시 암호화 방식(ndc/cdc)을 <strong>신규 AES256 기반 암호화 체계</strong>로 전환할 수 있도록 DB 구조 변경, 데이터
+								마이그레이션, 소스 적용을 수행
 							</p>
-							<p class="achievement">성과 : <strong>약 70개 테이블 대상 암호화 적용 기준 수립</strong>, <strong>최대 약 851만 건 규모 시뮬레이션 수행</strong></p>
+							<p class="achievement">성과 : <strong>약 70개 테이블 대상 암호화 적용 기준 수립</strong>, <strong>최대 약 851만 건
+									규모 시뮬레이션 수행</strong></p>
 
 							<section class="case-study-group">
 								<article class="case-study">
@@ -580,7 +604,8 @@
 									<div class="case-block">
 										<strong class="case-label">문제</strong>
 										<ul>
-											<li>기존 시스템은 <code>inc_ndc</code>, <code>inc_cdc</code> 기반의 레거시 암호화와 평문/마스킹 데이터가 혼재되어 있었음</li>
+											<li>기존 시스템은 <code>inc_ndc</code>, <code>inc_cdc</code> 기반의 레거시 암호화와 평문/마스킹
+												데이터가 혼재되어 있었음</li>
 											<li>초기에는 주민번호 중심으로 검토했으나, ISMS 심사 과정에서 계좌번호, 전화번호, 이메일까지 암호화 범위가 확대됨</li>
 											<li>실제 개인정보를 저장·조회·수정하는 테이블과 컬럼이 명확히 정리되어 있지 않아 일괄 적용 시 장애 위험이 컸음</li>
 										</ul>
@@ -588,9 +613,12 @@
 									<div class="case-block">
 										<strong class="case-label">해결</strong>
 										<ul>
-											<li>개인정보 유형과 암호화 방식을 기준화하고, 약 70개 테이블의 컬럼 사용 현황·ALTER 대상·UPDATE 쿼리를 정리해 적용 범위를 문서화함</li>
-											<li>주민번호 대상 6개 테이블 9개 컬럼에 대해 우선 시뮬레이션을 진행하고, 테이블별 row 수·컬럼 변경 시간·암호화 처리 시간을 측정함</li>
-											<li>대량 변경이 예상되는 파일 중 실제 영향 파일을 선별해 적용 범위를 축소하고, 화면·배치·정산·환불 흐름 기준으로 영향도를 분석함</li>
+											<li>개인정보 유형과 암호화 방식을 기준화하고, 약 70개 테이블의 컬럼 사용 현황·ALTER 대상·UPDATE 쿼리를 정리해 적용
+												범위를 문서화함</li>
+											<li>주민번호 대상 6개 테이블 9개 컬럼에 대해 우선 시뮬레이션을 진행하고, 테이블별 row 수·컬럼 변경 시간·암호화 처리 시간을
+												측정함</li>
+											<li>대량 변경이 예상되는 파일 중 실제 영향 파일을 선별해 적용 범위를 축소하고, 화면·배치·정산·환불 흐름 기준으로 영향도를 분석함
+											</li>
 										</ul>
 									</div>
 									<div class="case-block">
@@ -605,7 +633,8 @@
 								<article class="case-study">
 									<h6>2. 레거시 암호화 데이터를 복호화·재암호화하고, 소스코드까지 연계 적용해 운영 가능한 전환 체계를 구축</h6>
 									<div class="case-image-wrap">
-										<img src="images/feelway_db.png" alt="암호화 처리 업무 흐름도" class="case-image" style="height: 500px;" />
+										<img src="images/feelway_db.png" alt="암호화 처리 업무 흐름도" class="case-image"
+											style="height: 500px;" />
 									</div>
 									<div class="case-block">
 										<strong class="case-label">문제</strong>
@@ -617,9 +646,12 @@
 									<div class="case-block">
 										<strong class="case-label">해결</strong>
 										<ul>
-											<li><code>convert_ndc.php</code> 스크립트를 작성해 레거시 암호화 컬럼을 1만 건 단위로 복호화하고 재정비할 수 있게 구성함</li>
-											<li><code>ENC_B64('KEY1', ...)</code> 기반 UPDATE 쿼리로 계좌번호, 주민번호, 전화번호, 이메일 컬럼을 재암호화하는 절차를 설계함</li>
-											<li>연관 테이블을 묶어 동시 적용 기준을 세우고, 관리자 페이지·환불·정산·회원정보 수정 등 주요 기능 기준으로 검증 포인트를 정의함</li>
+											<li><code>convert_ndc.php</code> 스크립트를 작성해 레거시 암호화 컬럼을 1만 건 단위로 복호화하고 재정비할 수
+												있게 구성함</li>
+											<li><code>ENC_B64('KEY1', ...)</code> 기반 UPDATE 쿼리로 계좌번호, 주민번호, 전화번호, 이메일
+												컬럼을 재암호화하는 절차를 설계함</li>
+											<li>연관 테이블을 묶어 동시 적용 기준을 세우고, 관리자 페이지·환불·정산·회원정보 수정 등 주요 기능 기준으로 검증 포인트를 정의함
+											</li>
 										</ul>
 									</div>
 									<div class="case-block">
@@ -656,7 +688,8 @@
 							<p class="project-date">2019.11 - 2020.01</p>
 							<p class="meta">Java, Spring MVC, Oracle, eXbuilder6, JavaScript</p>
 							<p class="project-summary">건국대학교 학사정보 시스템 재구축 과정에서 국제협력 및 대학원 파트의 UI와 데이터 처리 로직을 개발</p>
-							<p class="achievement">성과 : <strong>기존 기능의 안정적 재구현</strong> 및 <strong>유지보수 가능한 구조로 전환</strong></p>
+							<p class="achievement">성과 : <strong>기존 기능의 안정적 재구현</strong> 및 <strong>유지보수 가능한 구조로
+									전환</strong></p>
 
 							<section class="case-study-group">
 								<article class="case-study">
@@ -673,7 +706,8 @@
 										<ul>
 											<li>eXbuilder6 기반 학사정보 시스템 UI를 개발함</li>
 											<li>JavaScript 기반 CRUD 요청 및 화면 기능을 구현함</li>
-											<li>Spring MVC Controller, Repository, MyBatis SqlSession 기반 데이터 처리 로직을 구현함</li>
+											<li>Spring MVC Controller, Repository, MyBatis SqlSession 기반 데이터 처리 로직을 구현함
+											</li>
 										</ul>
 									</div>
 									<div class="case-block">
